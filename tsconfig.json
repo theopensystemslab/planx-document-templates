@@ -8,15 +8,16 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "outDir": "./dist",
-    "declarationDir": "./types",
     "declaration": true,
-    "jsx": "react-jsx"
+    "declarationDir": "./types",
+    "outDir": "./dist",
+    "jsx": "react"
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

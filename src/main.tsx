@@ -1,15 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import DocumentReview from './DocumentReview'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import DocumentReview from "./DocumentReview";
+import example from "./example.json";
 
-const exampleData = {
-  1: { 'a': "ABC123",
-  'b': 123 },
-  2: ['a', 'b', 'c']
-}
-
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <DocumentReview props={exampleData} />
+    <DocumentReview
+      csv={example.csv}
+      geojson={example.geojson}
+    />
   </React.StrictMode>
 );

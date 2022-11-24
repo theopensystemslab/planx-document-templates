@@ -1,5 +1,12 @@
-/// <reference types="react" />
-import "./style.css";
-declare type Props = any;
-declare const DocumentReview: (props: Props) => JSX.Element;
-export default DocumentReview;
+import * as React from "react";
+type DocumentReviewProps = React.PropsWithChildren<{
+    geojson: object;
+    csv: QuestionAnswer[];
+}>;
+export default function DocumentReview(props: DocumentReviewProps): React.ReactElement<DocumentReviewProps, any>;
+type QuestionAnswer = {
+    question: string;
+    responses: any;
+};
+export declare function checkAnswerProps(props: QuestionAnswer[]): boolean;
+export {};
