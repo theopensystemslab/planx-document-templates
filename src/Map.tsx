@@ -1,5 +1,4 @@
 import * as React from "react";
-import "@opensystemslab/map";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

@@ -1,11 +1,12 @@
 /* eslint @typescript-eslint/no-explicit-any: "off" */
 import * as React from "react";
-import Map from "./Map";
 import Answer from "./Answer";
 import Grid from "@mui/material/Grid";
+import Map from "./Map";
 import { Global, css } from "@emotion/react";
+import { checkAnswerProps } from "./helpers";
 
-type DocumentReviewProps = React.PropsWithChildren<{
+export type DocumentReviewProps = React.PropsWithChildren<{
   geojson: object;
   csv: QuestionAnswer[];
 }>;
@@ -61,19 +62,7 @@ function Styles() {
   );
 }
 
-function MapView(props: { geojson: object }) {
-  return (
-    <React.Fragment>
-      {props.geojson ? (
-        <Map boundary={props.geojson} />
-      ) : (
-        <p>Boundary map not available</p>
-      )}{" "}
-    </React.Fragment>
-  );
-}
-
-type QuestionAnswer = {
+export type QuestionAnswer = {
   question: string;
   responses: any;
 };
@@ -98,13 +87,14 @@ function AnswerView(props: { csv: QuestionAnswer[] }) {
   );
 }
 
-export function checkAnswerProps(props: QuestionAnswer[]): boolean {
+function MapView(props: { geojson: object }) {
   return (
-    props &&
-    props.every((entry) => {
-      return (
-        Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses")
-      );
-    })
+    <React.Fragment>
+      {props.geojson ? (
+        <Map boundary={props.geojson} />
+      ) : (
+        <p>Boundary map not available</p>
+      )}{" "}
+    </React.Fragment>
   );
 }

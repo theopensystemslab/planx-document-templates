@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { checkAnswerProps } from "./DocumentReview";
+import { checkAnswerProps } from "./helpers";
 
 test("checkAnswerProps", () => {
   expect(

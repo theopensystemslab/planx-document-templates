@@ -1,5 +1,4 @@
 /// <reference types="react" />
-import "@opensystemslab/map";
 declare global {
     namespace JSX {
         interface IntrinsicElements {

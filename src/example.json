@@ -8,6 +8,10 @@
       "question": "Property Address",
       "responses": "BUCKINGHAMSHIRE COUNCIL COUNCIL OFFICES QUEEN VICTORIA ROAD HIGH WYCOMBE HP11 1BB"
     },
+    {
+      "question": "Does this demo support Checklists?",
+      "responses": [{ "value": "a" }, { "value": "b" }]
+    },
     { "question": "application_type", "responses": "lawfulness_certificate" },
     {
       "question": "site",

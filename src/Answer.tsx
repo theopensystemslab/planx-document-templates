@@ -15,7 +15,7 @@ export default function Answer(
   const Item = styled.div`
     padding: 1em 0;
     border-top: 1px solid #00000022;
-    page-break-inside: avoid;
+    break-inside: avoid;
   `;
 
   const Title = styled.p`
@@ -47,6 +47,7 @@ function Details(props: { data: any }): React.ReactElement<any, any> {
   const Empty = styled.span`
     color: #00000033;
   `;
+
   const { data } = props;
   if (data === null) {
     return <Empty>[none]</Empty>;
@@ -57,8 +58,11 @@ function Details(props: { data: any }): React.ReactElement<any, any> {
   if (typeof data === "boolean") {
     return <span>{data ? "true" : "false"}</span>;
   }
-  if (typeof data === "string" || typeof data === "number") {
+  if (typeof data === "number") {
     return <span>{data}</span>;
+  }
+  if (typeof data === "string") {
+    return <span>{decodeURI(data)}</span>;
   }
   if (Array.isArray(data)) {
     return List(data);
@@ -71,14 +75,16 @@ function Details(props: { data: any }): React.ReactElement<any, any> {
 }
 
 function List(details: any[]): React.ReactElement<any, any> {
-  const isSingleValueArray =
-    Array.isArray(details) &&
-    details.length === 1 &&
-    Object.hasOwn(details[0], "value"); // eslint-disable-line @typescript-eslint/no-unsafe-argument
-
-  if (isSingleValueArray) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return <Details data={details[0]["value"]} />;
+  if (isListOfNumbersOrStrings(details)) {
+    return <Details data={`[${details.join(", ")}]`} />;
+  }
+  if (isListOfObjectsWithOneKey(details, "value")) {
+    if (details.length === 1) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      return <Details data={details[0]["value"]} />;
+    }
+    // eslint-disable-next-line
+    details = details.map((d) => d["value"]);
   }
 
   return (
@@ -113,5 +119,16 @@ function Tree(details: object): React.ReactElement<any, any> {
           </li>
         ))}
     </ul>
+  );
+}
+
+function isListOfNumbersOrStrings(list: any[]): boolean {
+  return list.every((d) => (typeof d === "number") || (typeof d === "string"));
+}
+
+function isListOfObjectsWithOneKey(list: any[], key: string): boolean {
+  return list.every(
+    // eslint-disable-next-line
+    (d) => typeof d === "object" && Object.keys(d).every((k) => k === key)
   );
 }
