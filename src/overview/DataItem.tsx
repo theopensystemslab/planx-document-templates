@@ -4,14 +4,14 @@ import * as React from "react";
 import prettyTitle from "lodash.startcase";
 import styled from "@emotion/styled";
 
-type AnswerProps = React.PropsWithChildren<{
+type DataItemProps = {
   title: string;
   details: any;
-}>;
+};
 
-export default function Answer(
-  props: AnswerProps
-): React.ReactElement<AnswerProps, any> {
+export default function DataItem(
+  props: DataItemProps
+): React.ReactElement<DataItemProps, any> {
   const Item = styled.div`
     padding: 1em 0;
     border-top: 1px solid #00000022;
@@ -23,11 +23,11 @@ export default function Answer(
     font-weight: bold;
   `;
 
-  const checkAnswerProps = (props: object) => {
+  const checkDataItemProps = (props: object) => {
     return Object.hasOwn(props, "title") && Object.hasOwn(props, "details");
   };
 
-  if (checkAnswerProps(props)) {
+  if (checkDataItemProps(props)) {
     return (
       <Item>
         <Title>

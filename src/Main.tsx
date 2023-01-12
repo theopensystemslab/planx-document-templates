@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import DocumentReview from "./DocumentReview";
+import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
+import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import example from "./example.json";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <DocumentReview
-      csv={example.csv}
-      geojson={example.geojson}
-    />
+    <BoundaryMapDocument geojson={example.geojson} />
+    <hr />
+    <SubmissionOverviewDocument data={example.data} />
   </React.StrictMode>
 );
