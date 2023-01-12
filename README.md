@@ -1,23 +1,8 @@
-# PlanX Document Review
+# PlanX Document Templates
 
-This simple component is to provide a simple visual representation of data from a PlanX submission.
+Source for auto-generated subission templates integrated into PlanX.
 
-This module uses `vite` for development and exports a simple React component.
-
-## Dependencies
-
-This package includes a reference to the `<my-map />` Web Component as defined in a the [OSL map component](https://github.com/theopensystemslab/map). This Web Component is not directly included in this repository and so the caller must ensure that the appropriate scripts are loaded before rendering the component. 
-
-For example, in the `head` of the page, you may want this:
-
-    <script src="https://cdn.jsdelivr.net/npm/@opensystemslab/map"></script>
-
-Alternatively, if server-side rendering, you may want to do something like this:
-
-    renderToPipeableStream(
-      <DocumentReview csv={csv} geojson={geojson} />,
-      { bootstrapScripts: ["https://cdn.jsdelivr.net/npm/@opensystemslab/map"] }
-    );
+This module uses `vite` for development.
 
 ## Running locally
 

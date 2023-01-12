@@ -11,6 +11,7 @@ declare global {
       showNorthArrow: boolean;
       showScale: boolean;
       hideResetControl: boolean;
+      useScaleBarStyle: boolean;
       geojsonData: string;
     }
   }
@@ -22,6 +23,7 @@ export default function Map(props: { boundary: object }) {
       showNorthArrow={true}
       showScale={true}
       hideResetControl={true}
+      useScaleBarStyle={true}
       geojsonData={JSON.stringify(props.boundary)}
     />
   );

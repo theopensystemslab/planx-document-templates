@@ -1,19 +1,31 @@
 /* eslint @typescript-eslint/no-explicit-any: "off" */
 import * as React from "react";
-import Answer from "./Answer";
+import DataItem from "./DataItem";
 import Grid from "@mui/material/Grid";
-import Map from "./Map";
 import { Global, css } from "@emotion/react";
-import { checkAnswerProps } from "./helpers";
+import { validatePlanXExportData } from "./helpers";
+import type { PlanXExportData } from "../types";
 
-export type DocumentReviewProps = React.PropsWithChildren<{
-  geojson: object;
-  csv: QuestionAnswer[];
-}>;
+export function SubmissionOverviewDocument(props: {
+  data: PlanXExportData[];
+}): JSX.Element {
+  return (
+    <html>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>PlanX Submission Overview</title>
+      </head>
+      <body>
+        <SubmissionOverview data={props.data} />
+      </body>
+    </html>
+  );
+}
 
-export default function DocumentReview(
-  props: DocumentReviewProps
-): React.ReactElement<DocumentReviewProps, any> {
+export function SubmissionOverview(props: {
+  data: PlanXExportData[];
+}): JSX.Element {
   return (
     <React.Fragment>
       <Styles />
@@ -30,15 +42,11 @@ export default function DocumentReview(
         }}
       >
         <Grid item xs={12}>
-          <h1>Review Document</h1>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <h2>Boundary</h2>
-          <MapView geojson={props.geojson} />
+          <h1 style={{ textAlign: "center" }}>PlanX Submission Overview</h1>
         </Grid>
         <Grid item xs={12} md={6} sx={{ paddingTop: 0 }}>
           <h2>Data</h2>
-          <AnswerView csv={props.csv} />
+          <DataList data={props.data} />
         </Grid>
       </Grid>
     </React.Fragment>
@@ -62,18 +70,13 @@ function Styles() {
   );
 }
 
-export type QuestionAnswer = {
-  question: string;
-  responses: any;
-};
-
-function AnswerView(props: { csv: QuestionAnswer[] }) {
-  const { csv: answers } = props;
+function DataList(props: { data: PlanXExportData[] }) {
+  const hasValidDataStructure = validatePlanXExportData(props.data);
   return (
     <React.Fragment>
-      {checkAnswerProps(answers) ? (
-        answers.map((entry, index) => (
-          <Answer
+      {hasValidDataStructure ? (
+        props.data.map((entry, index) => (
+          <DataItem
             key={index}
             title={entry.question}
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -82,18 +85,6 @@ function AnswerView(props: { csv: QuestionAnswer[] }) {
         ))
       ) : (
         <p>Data not available</p>
-      )}{" "}
-    </React.Fragment>
-  );
-}
-
-function MapView(props: { geojson: object }) {
-  return (
-    <React.Fragment>
-      {props.geojson ? (
-        <Map boundary={props.geojson} />
-      ) : (
-        <p>Boundary map not available</p>
       )}{" "}
     </React.Fragment>
   );

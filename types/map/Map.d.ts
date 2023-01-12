@@ -8,6 +8,7 @@ declare global {
             showNorthArrow: boolean;
             showScale: boolean;
             hideResetControl: boolean;
+            useScaleBarStyle: boolean;
             geojsonData: string;
         }
     }
