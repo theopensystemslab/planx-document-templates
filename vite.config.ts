@@ -7,7 +7,8 @@ export default defineConfig({
   build: {
     target: "node16",
     lib: {
-      name: "planx-document-templates",
+      fileName: "index",
+      formats: ['es', 'cjs'],
       entry: resolve(__dirname, "src/index.tsx"),
     },
   },
