@@ -11,5 +11,8 @@ export default defineConfig({
       formats: ['es', 'cjs'],
       entry: resolve(__dirname, "src/index.tsx"),
     },
+    ssr: {
+      noExternal: true
+    }
   },
 });
