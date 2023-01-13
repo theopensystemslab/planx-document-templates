@@ -2,13 +2,13 @@
 Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
 const resolvePath = require("lodash.get");
 const server = require("react-dom/server");
-const docx = require("docx");
 const React = require("react");
 const prettyTitle = require("lodash.startcase");
 const styled = require("@emotion/styled");
 const jsxRuntime = require("react/jsx-runtime");
 const Grid = require("@mui/material/Grid");
 const react = require("@emotion/react");
+const docx = require("docx");
 const _interopDefaultLegacy = (e) => e && typeof e === "object" && "default" in e ? e : { default: e };
 function _interopNamespace(e) {
   if (e && e.__esModule)
@@ -34,6 +34,18 @@ const prettyTitle__default = /* @__PURE__ */ _interopDefaultLegacy(prettyTitle);
 const styled__default = /* @__PURE__ */ _interopDefaultLegacy(styled);
 const jsxRuntime__namespace = /* @__PURE__ */ _interopNamespace(jsxRuntime);
 const Grid__default = /* @__PURE__ */ _interopDefaultLegacy(Grid);
+function validatePlanXExportData(data) {
+  return Array.isArray(data) && data.length > 0 && data.every((entry) => {
+    return Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses");
+  });
+}
+function safeDecodeURI(data) {
+  try {
+    return decodeURI(data);
+  } catch (error) {
+    return data;
+  }
+}
 const jsx = jsxRuntime__namespace.jsx;
 const jsxs = jsxRuntime__namespace.jsxs;
 function DataItem(props) {
@@ -91,7 +103,7 @@ function Details(props) {
   }
   if (typeof data === "string") {
     return /* @__PURE__ */ jsx("span", {
-      children: decodeURI(data)
+      children: safeDecodeURI(data)
     });
   }
   if (Array.isArray(data)) {
@@ -144,11 +156,6 @@ function isListOfObjectsWithOneKey(list, key) {
   return list.every(
     (d) => typeof d === "object" && Object.keys(d).every((k) => k === key)
   );
-}
-function validatePlanXExportData(data) {
-  return data && data.every((entry) => {
-    return Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses");
-  });
 }
 function SubmissionOverviewDocument(props) {
   return /* @__PURE__ */ jsxs("html", {
@@ -223,10 +230,16 @@ function Styles$1() {
 function DataList(props) {
   const hasValidDataStructure = validatePlanXExportData(props.data);
   return /* @__PURE__ */ jsxs(React__namespace.Fragment, {
-    children: [hasValidDataStructure ? props.data.map((entry, index) => /* @__PURE__ */ jsx(DataItem, {
-      title: entry.question,
-      details: entry.responses
-    }, index)) : /* @__PURE__ */ jsx("p", {
+    children: [hasValidDataStructure ? props.data.map((item, index) => {
+      const {
+        question,
+        responses
+      } = item;
+      return /* @__PURE__ */ jsx(DataItem, {
+        title: question,
+        details: responses
+      }, index);
+    }) : /* @__PURE__ */ jsx("p", {
       children: "Data not available"
     }), " "]
   });
@@ -276,42 +289,26 @@ function Styles() {
       `
   });
 }
-const LambethLDCETemplate = new docx.Document({
-  background: {
-    color: "C45911"
-  },
-  sections: [
-    {
-      children: [
-        new docx.Paragraph({
-          children: [new docx.TextRun("LDC-E")]
-        })
-      ]
-    }
-  ]
-});
-const LambethLDCPTemplate = new docx.Document({
-  background: {
-    color: "F459A1"
-  },
-  sections: [
-    {
-      children: [
-        new docx.Paragraph({
-          children: [new docx.TextRun("LDC-P")]
-        })
-      ]
-    }
-  ]
-});
+const LDCP = (passport) => {
+  return new docx.Document({
+    sections: [
+      {
+        children: [
+          new docx.Paragraph({
+            children: [new docx.TextRun("LDC-P")]
+          }),
+          new docx.Paragraph({
+            children: [new docx.TextRun(`Name: ${passport.name}`)]
+          })
+        ]
+      }
+    ]
+  });
+};
 const TEMPLATES = {
-  "Lambeth:LDC-P.docx": {
-    template: LambethLDCPTemplate,
-    requirements: ["name.first", "name.last"]
-  },
-  "Lambeth:LDC-E.docx": {
-    template: LambethLDCETemplate,
-    requirements: ["name.first", "name.last"]
+  "LDCP.doc": {
+    template: LDCP,
+    requirements: ["name"]
   }
 };
 function generateHTMLOverviewStream(planXExportData) {
@@ -324,19 +321,29 @@ function generateHTMLMapStream(geojson) {
     geojson
   }));
 }
-function generateDocxTemplateStream(args) {
-  if (!hasRequiredDataForTemplate(args)) {
-    throw new Error(`Template "${args.templateName}" is missing required fields`);
+function generateDocxTemplateStream({
+  templateName,
+  passport
+}) {
+  if (!hasRequiredDataForTemplate({
+    templateName,
+    passport
+  })) {
+    throw new Error(`Template "${templateName}" is missing required fields`);
   }
-  const template = TEMPLATES[args.templateName].template;
-  return docx.Packer.toStream(template);
+  const template = TEMPLATES[templateName].template;
+  const document = template(passport);
+  return docx.Packer.toStream(document);
 }
-function hasRequiredDataForTemplate(args) {
-  const template = TEMPLATES[args.templateName];
+function hasRequiredDataForTemplate({
+  templateName,
+  passport
+}) {
+  const template = TEMPLATES[templateName];
   if (!template)
-    throw new Error(`Template "${args.templateName}" not found`);
+    throw new Error(`Template "${templateName}" not found`);
   for (const path of template.requirements) {
-    if (!resolvePath__default.default(args.passport.data, path)) {
+    if (!resolvePath__default.default(passport.data, path)) {
       return false;
     }
   }

@@ -1,24 +1,20 @@
 import React from "react";
 import resolvePath from "lodash.get";
 import { renderToPipeableStream } from "react-dom/server";
-import { Packer } from "docx";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
-import { LambethLDCETemplate, LambethLDCPTemplate } from "./templates/Lambeth";
-import type { Document as DocxDocument } from "docx";
+import { LDCP } from "./templates/LDCP";
+import { Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
+import type { Document } from "docx";
 
 const TEMPLATES: Record<
   string,
-  { template: DocxDocument; requirements: string[] }
+  { template: (passport: any) => Document; requirements: string[] }
 > = {
-  "Lambeth:LDC-P.docx": {
-    template: LambethLDCPTemplate,
-    requirements: ["name.first", "name.last"],
-  },
-  "Lambeth:LDC-E.docx": {
-    template: LambethLDCETemplate,
-    requirements: ["name.first", "name.last"],
+  "LDCP.doc": {
+    template: LDCP,
+    requirements: ["name"],
   },
 };
 
@@ -32,27 +28,32 @@ export function generateHTMLMapStream(geojson: object) {
   return renderToPipeableStream(<BoundaryMapDocument geojson={geojson} />);
 }
 
-export function generateDocxTemplateStream(args: {
+export function generateDocxTemplateStream({
+  templateName,
+  passport,
+}: {
   templateName: string;
   passport: Passport;
 }) {
-  if (!hasRequiredDataForTemplate(args)) {
-    throw new Error(
-      `Template "${args.templateName}" is missing required fields`
-    );
+  if (!hasRequiredDataForTemplate({ templateName, passport })) {
+    throw new Error(`Template "${templateName}" is missing required fields`);
   }
-  const template = TEMPLATES[args.templateName].template;
-  return Packer.toStream(template);
+  const template = TEMPLATES[templateName].template;
+  const document = template(passport);
+  return Packer.toStream(document);
 }
 
-export function hasRequiredDataForTemplate(args: {
+export function hasRequiredDataForTemplate({
+  templateName,
+  passport,
+}: {
   templateName: string;
   passport: Passport;
 }): boolean {
-  const template = TEMPLATES[args.templateName];
-  if (!template) throw new Error(`Template "${args.templateName}" not found`);
+  const template = TEMPLATES[templateName];
+  if (!template) throw new Error(`Template "${templateName}" not found`);
   for (const path of template.requirements) {
-    if (!resolvePath(args.passport.data, path)) {
+    if (!resolvePath(passport.data, path)) {
       return false;
     }
   }

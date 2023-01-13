@@ -11,3 +11,11 @@ export function validatePlanXExportData(data: PlanXExportData[]): boolean {
     })
   );
 }
+
+export function safeDecodeURI(data: string): string {
+  try {
+    return decodeURI(data)
+  } catch (error) {
+    return data
+  };
+};

@@ -1,12 +1,24 @@
 import resolvePath from "lodash.get";
 import { renderToPipeableStream } from "react-dom/server";
-import { Document, Paragraph, TextRun, Packer } from "docx";
 import * as React from "react";
 import prettyTitle from "lodash.startcase";
 import styled from "@emotion/styled";
 import * as jsxRuntime from "react/jsx-runtime";
 import Grid from "@mui/material/Grid";
 import { Global, css } from "@emotion/react";
+import { Document, Paragraph, TextRun, Packer } from "docx";
+function validatePlanXExportData(data) {
+  return Array.isArray(data) && data.length > 0 && data.every((entry) => {
+    return Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses");
+  });
+}
+function safeDecodeURI(data) {
+  try {
+    return decodeURI(data);
+  } catch (error) {
+    return data;
+  }
+}
 const jsx = jsxRuntime.jsx;
 const jsxs = jsxRuntime.jsxs;
 function DataItem(props) {
@@ -64,7 +76,7 @@ function Details(props) {
   }
   if (typeof data === "string") {
     return /* @__PURE__ */ jsx("span", {
-      children: decodeURI(data)
+      children: safeDecodeURI(data)
     });
   }
   if (Array.isArray(data)) {
@@ -117,11 +129,6 @@ function isListOfObjectsWithOneKey(list, key) {
   return list.every(
     (d) => typeof d === "object" && Object.keys(d).every((k) => k === key)
   );
-}
-function validatePlanXExportData(data) {
-  return data && data.every((entry) => {
-    return Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses");
-  });
 }
 function SubmissionOverviewDocument(props) {
   return /* @__PURE__ */ jsxs("html", {
@@ -196,10 +203,16 @@ function Styles$1() {
 function DataList(props) {
   const hasValidDataStructure = validatePlanXExportData(props.data);
   return /* @__PURE__ */ jsxs(React.Fragment, {
-    children: [hasValidDataStructure ? props.data.map((entry, index) => /* @__PURE__ */ jsx(DataItem, {
-      title: entry.question,
-      details: entry.responses
-    }, index)) : /* @__PURE__ */ jsx("p", {
+    children: [hasValidDataStructure ? props.data.map((item, index) => {
+      const {
+        question,
+        responses
+      } = item;
+      return /* @__PURE__ */ jsx(DataItem, {
+        title: question,
+        details: responses
+      }, index);
+    }) : /* @__PURE__ */ jsx("p", {
       children: "Data not available"
     }), " "]
   });
@@ -249,42 +262,26 @@ function Styles() {
       `
   });
 }
-const LambethLDCETemplate = new Document({
-  background: {
-    color: "C45911"
-  },
-  sections: [
-    {
-      children: [
-        new Paragraph({
-          children: [new TextRun("LDC-E")]
-        })
-      ]
-    }
-  ]
-});
-const LambethLDCPTemplate = new Document({
-  background: {
-    color: "F459A1"
-  },
-  sections: [
-    {
-      children: [
-        new Paragraph({
-          children: [new TextRun("LDC-P")]
-        })
-      ]
-    }
-  ]
-});
+const LDCP = (passport) => {
+  return new Document({
+    sections: [
+      {
+        children: [
+          new Paragraph({
+            children: [new TextRun("LDC-P")]
+          }),
+          new Paragraph({
+            children: [new TextRun(`Name: ${passport.name}`)]
+          })
+        ]
+      }
+    ]
+  });
+};
 const TEMPLATES = {
-  "Lambeth:LDC-P.docx": {
-    template: LambethLDCPTemplate,
-    requirements: ["name.first", "name.last"]
-  },
-  "Lambeth:LDC-E.docx": {
-    template: LambethLDCETemplate,
-    requirements: ["name.first", "name.last"]
+  "LDCP.doc": {
+    template: LDCP,
+    requirements: ["name"]
   }
 };
 function generateHTMLOverviewStream(planXExportData) {
@@ -297,19 +294,29 @@ function generateHTMLMapStream(geojson) {
     geojson
   }));
 }
-function generateDocxTemplateStream(args) {
-  if (!hasRequiredDataForTemplate(args)) {
-    throw new Error(`Template "${args.templateName}" is missing required fields`);
+function generateDocxTemplateStream({
+  templateName,
+  passport
+}) {
+  if (!hasRequiredDataForTemplate({
+    templateName,
+    passport
+  })) {
+    throw new Error(`Template "${templateName}" is missing required fields`);
   }
-  const template = TEMPLATES[args.templateName].template;
-  return Packer.toStream(template);
+  const template = TEMPLATES[templateName].template;
+  const document = template(passport);
+  return Packer.toStream(document);
 }
-function hasRequiredDataForTemplate(args) {
-  const template = TEMPLATES[args.templateName];
+function hasRequiredDataForTemplate({
+  templateName,
+  passport
+}) {
+  const template = TEMPLATES[templateName];
   if (!template)
-    throw new Error(`Template "${args.templateName}" not found`);
+    throw new Error(`Template "${templateName}" not found`);
   for (const path of template.requirements) {
-    if (!resolvePath(args.passport.data, path)) {
+    if (!resolvePath(passport.data, path)) {
       return false;
     }
   }

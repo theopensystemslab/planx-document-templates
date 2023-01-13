@@ -1,6 +1,6 @@
 export interface PlanXExportData {
   question: string;
-  responses: any;
+  responses: unknown;
   metadata?: any;
 }
 

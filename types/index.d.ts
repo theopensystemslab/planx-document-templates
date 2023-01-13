@@ -2,11 +2,11 @@
 import type { Passport, PlanXExportData } from "./types";
 export declare function generateHTMLOverviewStream(planXExportData: PlanXExportData[]): import("react-dom/server").PipeableStream;
 export declare function generateHTMLMapStream(geojson: object): import("react-dom/server").PipeableStream;
-export declare function generateDocxTemplateStream(args: {
+export declare function generateDocxTemplateStream({ templateName, passport, }: {
     templateName: string;
     passport: Passport;
 }): import("stream").Stream;
-export declare function hasRequiredDataForTemplate(args: {
+export declare function hasRequiredDataForTemplate({ templateName, passport, }: {
     templateName: string;
     passport: Passport;
 }): boolean;

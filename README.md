@@ -13,7 +13,7 @@ This module uses `vite` for development.
 Other useful package scripts:
 
   * `pnpm test`: run the test suite
-  * `pnpm lint`: check and fix linting errors
+  * `pnpm check`: check and fix type and linting errors
   * `pnpm ci`: run continuous integration checks
   * `pnpm build`: build the package
 
