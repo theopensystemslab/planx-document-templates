@@ -75,14 +75,10 @@ function DataList(props: { data: PlanXExportData[] }) {
   return (
     <React.Fragment>
       {hasValidDataStructure ? (
-        props.data.map((entry, index) => (
-          <DataItem
-            key={index}
-            title={entry.question}
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            details={entry.responses}
-          />
-        ))
+        props.data.map((item: PlanXExportData, index: number) => {
+          const { question, responses } = item;
+          return <DataItem key={index} title={question} details={responses} />;
+        })
       ) : (
         <p>Data not available</p>
       )}{" "}

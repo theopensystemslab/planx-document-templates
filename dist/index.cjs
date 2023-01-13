@@ -146,7 +146,7 @@ function isListOfObjectsWithOneKey(list, key) {
   );
 }
 function validatePlanXExportData(data) {
-  return data && data.every((entry) => {
+  return Array.isArray(data) && data.length > 0 && data.every((entry) => {
     return Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses");
   });
 }
@@ -223,10 +223,16 @@ function Styles$1() {
 function DataList(props) {
   const hasValidDataStructure = validatePlanXExportData(props.data);
   return /* @__PURE__ */ jsxs(React__namespace.Fragment, {
-    children: [hasValidDataStructure ? props.data.map((entry, index) => /* @__PURE__ */ jsx(DataItem, {
-      title: entry.question,
-      details: entry.responses
-    }, index)) : /* @__PURE__ */ jsx("p", {
+    children: [hasValidDataStructure ? props.data.map((item, index) => {
+      const {
+        question,
+        responses
+      } = item;
+      return /* @__PURE__ */ jsx(DataItem, {
+        title: question,
+        details: responses
+      }, index);
+    }) : /* @__PURE__ */ jsx("p", {
       children: "Data not available"
     }), " "]
   });

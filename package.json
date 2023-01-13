@@ -23,8 +23,8 @@
   "scripts": {
     "dev": "vite",
     "test": "vitest --run --dir src",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "ci": "pnpm lint && pnpm test && pnpm build",
+    "check": "tsc  --emitDeclarationOnly false --noEmit && eslint 'src/**/*.{ts,tsx}'",
+    "ci": "pnpm check && pnpm test && pnpm build",
     "build": "rimraf ./dist ./types && tsc && vite build"
   },
   "dependencies": {
