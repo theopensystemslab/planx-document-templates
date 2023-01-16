@@ -23,7 +23,16 @@ describe("hasRequiredDataForTemplate", () => {
     ).toBe(true);
   });
 
-  test("it returns false when required data is not provided", () => {
+  test("it returns true when no data is required", () => {
+    expect(
+      hasRequiredDataForTemplate({
+        templateName: "Lambeth:LDC-E.docx",
+        passport: { data: {} },
+      })
+    ).toBe(true);
+  });
+
+  test.skip("it returns false when required data is not provided", () => {
     expect(
       hasRequiredDataForTemplate({
         templateName: "Lambeth:LDC-E.docx",
@@ -52,7 +61,7 @@ describe("generateDocxTemplateStream", () => {
     ).toBeTruthy();
   });
 
-  test("it throws when the required data is not provided", () => {
+  test.skip("it throws when the required data is not provided", () => {
     expect(() =>
       generateDocxTemplateStream({
         templateName: "Lambeth:LDC-E.docx",

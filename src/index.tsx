@@ -14,11 +14,11 @@ const TEMPLATES: Record<
 > = {
   "Lambeth:LDC-P.docx": {
     template: LambethLDCPTemplate,
-    requirements: ["name.first", "name.last"],
+    requirements: [],
   },
   "Lambeth:LDC-E.docx": {
     template: LambethLDCETemplate,
-    requirements: ["name.first", "name.last"],
+    requirements: [],
   },
 };
 
