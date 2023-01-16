@@ -12,11 +12,11 @@ const TEMPLATES: Record<
   string,
   { template: DocxDocument; requirements: string[] }
 > = {
-  "Lambeth:LDC-P.docx": {
+  "Lambeth:LDC-P.doc": {
     template: LambethLDCPTemplate,
     requirements: [],
   },
-  "Lambeth:LDC-E.docx": {
+  "Lambeth:LDC-E.doc": {
     template: LambethLDCETemplate,
     requirements: [],
   },

@@ -284,11 +284,11 @@ const LambethLDCPTemplate = new Document({
   ]
 });
 const TEMPLATES = {
-  "Lambeth:LDC-P.docx": {
+  "Lambeth:LDC-P.doc": {
     template: LambethLDCPTemplate,
     requirements: []
   },
-  "Lambeth:LDC-E.docx": {
+  "Lambeth:LDC-E.doc": {
     template: LambethLDCETemplate,
     requirements: []
   }
