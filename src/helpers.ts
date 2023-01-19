@@ -10,3 +10,11 @@ export function checkAnswerProps(props: QuestionAnswer[]): boolean {
     })
   );
 }
+
+export function safeDecodeURI(data: string): string {
+  try {
+    return decodeURI(data)
+  } catch (error) {
+    return data
+  };
+};

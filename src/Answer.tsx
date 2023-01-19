@@ -3,6 +3,7 @@
 import * as React from "react";
 import prettyTitle from "lodash.startcase";
 import styled from "@emotion/styled";
+import { safeDecodeURI } from "./helpers";
 
 type AnswerProps = React.PropsWithChildren<{
   title: string;
@@ -62,7 +63,7 @@ function Details(props: { data: any }): React.ReactElement<any, any> {
     return <span>{data}</span>;
   }
   if (typeof data === "string") {
-    return <span>{decodeURI(data)}</span>;
+    return <span>{safeDecodeURI(data)}</span>;
   }
   if (Array.isArray(data)) {
     return List(data);

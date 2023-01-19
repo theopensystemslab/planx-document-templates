@@ -421,6 +421,27 @@
       "responses": [{ "value": "None of the above apply to me" }]
     },
     {
+      "metadata": {
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 1, Class A.1 (b)"
+          }
+        ],
+        "portal_name": "Rear and side extensions to houses"
+      },
+      "question": "How much of the property is covered by extensions and outbuildings?",
+      "responses": [
+        {
+          "value": "50% or less of the available area around the original house",
+          "metadata": {
+            "flags": [
+              "Planning permission / Permitted development"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "metadata": { "portal_name": "declarations" },
       "question": "I confirm that:",
       "responses": [
