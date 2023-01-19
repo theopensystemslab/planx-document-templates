@@ -1,7 +1,7 @@
 {
   "name": "@opensystemslab/planx-document-review",
   "type": "module",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "OGL-UK-3.0",
   "repository": {
     "type": "git",
