@@ -1,7 +1,6 @@
 {
   "name": "@opensystemslab/planx-document-templates",
   "version": "0.0.0",
-  "type": "module",
   "license": "OGL-UK-3.0",
   "repository": {
     "type": "git",
@@ -12,12 +11,12 @@
     "types"
   ],
   "module": "./dist/index.js",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "types": "./types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
@@ -26,7 +25,7 @@
     "test": "vitest --run --dir src",
     "check": "tsc --emitDeclarationOnly false --noEmit && eslint 'src/**/*.{ts,tsx}'",
     "ci": "pnpm check && pnpm test && pnpm build",
-    "build": "rimraf ./dist ./types && tsc --project tsconfig.json && vite build"
+    "build": "rimraf ./dist ./types && tsc --project tsconfig.json && pnpm generate && vite build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
