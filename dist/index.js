@@ -249,7 +249,6 @@ function Map(props) {
     showNorthArrow: true,
     showScale: true,
     hideResetControl: true,
-    useScaleBarStyle: true,
     geojsonData: JSON.stringify(props.boundary)
   });
 }
