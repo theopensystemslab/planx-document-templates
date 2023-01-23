@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "node16",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "emitDeclarationOnly": false,
+    "outDir": "dist/"
+  },
+  "include": ["src/templates/*", "src/data/*.json"]
+}

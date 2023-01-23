@@ -1,6 +1,5 @@
 {
   "name": "@opensystemslab/planx-document-templates",
-  "type": "module",
   "version": "0.0.0",
   "license": "OGL-UK-3.0",
   "repository": {
@@ -22,10 +21,11 @@
   },
   "scripts": {
     "dev": "vite",
+    "generate": "tsc --project tsconfig.prebuild.json && node ./dist/templates/generateTemplateExamples.js",
     "test": "vitest --run --dir src",
-    "check": "tsc  --emitDeclarationOnly false --noEmit && eslint 'src/**/*.{ts,tsx}'",
+    "check": "tsc --emitDeclarationOnly false --noEmit && eslint 'src/**/*.{ts,tsx}'",
     "ci": "pnpm check && pnpm test && pnpm build",
-    "build": "rimraf ./dist ./types && tsc && vite build"
+    "build": "rimraf ./dist ./types && tsc --project tsconfig.json && pnpm generate && vite build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -45,6 +45,7 @@
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@types/lodash.get": "^4.4.7",
     "@types/lodash.startcase": "^4.4.7",
+    "@types/node": "^18.11.18",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
