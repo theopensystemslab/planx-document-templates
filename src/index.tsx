@@ -4,17 +4,28 @@ import { renderToPipeableStream } from "react-dom/server";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCP } from "./templates/LDCP";
-import { Packer } from "docx";
+import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
-import type { Document } from "docx";
 
 const TEMPLATES: Record<
   string,
-  { template: (passport: any) => Document; requirements: string[] }
+  {
+    template: (passport: { data: unknown }) => Document;
+    requirements: string[];
+  }
 > = {
+  blank: {
+    template: () => new Document({ sections: [] }),
+    requirements: [],
+  },
   "LDCP.doc": {
     template: LDCP,
-    requirements: ["name"],
+    requirements: [
+      "applicant.title",
+      "applicant.name.first",
+      "applicant.name.last",
+      "_address.postcode",
+    ],
   },
 };
 

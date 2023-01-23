@@ -6,19 +6,23 @@ import {
   generateHTMLMapStream,
 } from "./index";
 
-describe.skip("hasRequiredDataForTemplate", () => {
+const passport = {
+  data: {
+    "applicant.title": "XX",
+    "applicant.name.first": "X",
+    "applicant.name.last": "Y",
+    _address: {
+      postcode: "HP20 2QP",
+    },
+  },
+};
+
+describe("hasRequiredDataForTemplate", () => {
   test("it returns true when the template exists and data is valid", () => {
     expect(
       hasRequiredDataForTemplate({
-        templateName: "Lambeth:LDC-E.html",
-        passport: {
-          data: {
-            name: {
-              first: "X",
-              last: "Y",
-            },
-          },
-        },
+        templateName: "LDCP.doc",
+        passport,
       })
     ).toBe(true);
   });
@@ -26,7 +30,7 @@ describe.skip("hasRequiredDataForTemplate", () => {
   test("it returns true when no data is required", () => {
     expect(
       hasRequiredDataForTemplate({
-        templateName: "Lambeth:LDC-E.html",
+        templateName: "blank",
         passport: { data: {} },
       })
     ).toBe(true);
@@ -35,7 +39,7 @@ describe.skip("hasRequiredDataForTemplate", () => {
   test("it returns false when required data is not provided", () => {
     expect(
       hasRequiredDataForTemplate({
-        templateName: "Lambeth:LDC-E.html",
+        templateName: "LDCP.doc",
         passport: { data: {} },
       })
     ).toBe(false);
@@ -45,18 +49,18 @@ describe.skip("hasRequiredDataForTemplate", () => {
     expect(() =>
       hasRequiredDataForTemplate({
         templateName: "blah",
-        passport: { data: { name: { first: "X", last: "Y" } } },
+        passport,
       })
     ).toThrowError('Template "blah" not found');
   });
 });
 
-describe.skip("generateDocxTemplateStream", () => {
+describe("generateDocxTemplateStream", () => {
   test("it creates a readable stream", () => {
     expect(
       generateDocxTemplateStream({
-        templateName: "Lambeth:LDC-E.html",
-        passport: { data: { name: { first: "X", last: "Y" } } },
+        templateName: "LDCP.doc",
+        passport,
       })
     ).toBeTruthy();
   });
@@ -64,17 +68,17 @@ describe.skip("generateDocxTemplateStream", () => {
   test("it throws when the required data is not provided", () => {
     expect(() =>
       generateDocxTemplateStream({
-        templateName: "Lambeth:LDC-E.html",
+        templateName: "LDCP.doc",
         passport: { data: {} },
       })
-    ).toThrowError('Template "Lambeth:LDC-E.html" is missing required fields');
+    ).toThrowError('Template "LDCP.doc" is missing required fields');
   });
 
   test("it throws when the template is not found", () => {
     expect(() =>
       generateDocxTemplateStream({
         templateName: "blah",
-        passport: { data: { name: { first: "X", last: "Y" } } },
+        passport,
       })
     ).toThrowError('Template "blah" not found');
   });

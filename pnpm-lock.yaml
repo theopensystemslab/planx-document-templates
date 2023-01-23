@@ -9,6 +9,7 @@ specifiers:
   '@lit-labs/ssr': ^2.2.3
   '@mui/material': ^5.10.16
   '@rollup/plugin-commonjs': ^23.0.3
+  '@types/lodash': ^4.14.191
   '@types/lodash.get': ^4.4.7
   '@types/lodash.startcase': ^4.4.7
   '@types/node': ^18.11.18
@@ -47,6 +48,7 @@ devDependencies:
   '@babel/core': 7.20.5
   '@babel/plugin-syntax-flow': 7.18.6_@babel+core@7.20.5
   '@babel/plugin-transform-react-jsx': 7.19.0_@babel+core@7.20.5
+  '@types/lodash': 4.14.191
   '@types/lodash.get': 4.4.7
   '@types/lodash.startcase': 4.4.7
   '@types/node': 18.11.18
@@ -1891,17 +1893,17 @@ packages:
   /@types/lodash.get/4.4.7:
     resolution: {integrity: sha512-af34Mj+KdDeuzsJBxc/XeTtOx0SZHZNLd+hdrn+PcKGQs0EG2TJTzQAOTCZTgDJCArahlCzLWSy8c2w59JRz7Q==}
     dependencies:
-      '@types/lodash': 4.14.190
+      '@types/lodash': 4.14.191
     dev: true
 
   /@types/lodash.startcase/4.4.7:
     resolution: {integrity: sha512-6v8FVOcfxdomO1Vammc1Zsah7/4aif/Lx16oQQ0WZmKVGF/Yf5c5m68LqI/ELOhKaKUr8KfnDdKrytdrThoRQw==}
     dependencies:
-      '@types/lodash': 4.14.190
+      '@types/lodash': 4.14.191
     dev: true
 
-  /@types/lodash/4.14.190:
-    resolution: {integrity: sha512-5iJ3FBJBvQHQ8sFhEhJfjUP+G+LalhavTkYyrAYqz5MEJG+erSv0k9KJLb6q7++17Lafk1scaTIFXcMJlwK8Mw==}
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/node/16.18.3:

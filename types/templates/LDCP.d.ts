@@ -1,4 +1,4 @@
 import { Document } from "docx";
 export declare const LDCP: (passport: {
-    name: string;
+    data: unknown;
 }) => Document;

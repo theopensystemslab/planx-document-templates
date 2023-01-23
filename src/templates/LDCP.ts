@@ -1,3 +1,4 @@
+import _get from "lodash.get";
 import {
   Document,
   Table,
@@ -19,7 +20,12 @@ const checkedCheckbox = new Paragraph({
   children: [new SymbolRun("F0FE")],
 });
 
-export const LDCP = (passport: { name: string }) => {
+export const LDCP = (passport: { data: unknown }) => {
+  const get = (path): string => {
+    //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const value: string | undefined = _get(passport.data, path);
+    return value ? `${value}` : "";
+  };
   return new Document({
     creator: "PlanX",
     title: "LDC-P",
@@ -115,9 +121,9 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.title"),
-                      new Paragraph("applicant.name.first"),
-                      new Paragraph("applicant.name.last"),
+                      new Paragraph(get("applicant.title")),
+                      new Paragraph(get("applicant.name.first")),
+                      new Paragraph(get("applicant.name.last")),
                     ],
                   }),
                 ],
@@ -129,16 +135,16 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.address.singleLine"),
-                      new Paragraph("applicant.address.organisation"),
-                      new Paragraph("applicant.address.sao"),
-                      new Paragraph("applicant.address.buildingName"),
-                      new Paragraph("applicant.address.pao"),
-                      new Paragraph("applicant.address.street"),
-                      new Paragraph("applicant.address.locality"),
-                      new Paragraph("applicant.address.town"),
-                      new Paragraph("applicant.address.postcode"),
-                      new Paragraph("applicant.address.country"),
+                      new Paragraph(get("_address.singleLine")),
+                      new Paragraph(get("_address.organisation")),
+                      new Paragraph(get("_address.sao")),
+                      new Paragraph(get("_address.buildingName")),
+                      new Paragraph(get("_address.pao")),
+                      new Paragraph(get("_address.street")),
+                      new Paragraph(get("_address.locality")),
+                      new Paragraph(get("_address.town")),
+                      new Paragraph(get("_address.postcode")),
+                      new Paragraph(get("_address.country")),
                     ],
                   }),
                 ],
@@ -174,9 +180,9 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.agent.name.first"),
-                      new Paragraph("applicant.agent.name.last"),
-                      new Paragraph("applicant.agent.company.name"),
+                      new Paragraph(get("applicant.agent.name.first")),
+                      new Paragraph(get("applicant.agent.name.last")),
+                      new Paragraph(get("applicant.agent.company.name")),
                     ],
                   }),
                 ],
@@ -188,16 +194,20 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.agent.address.singleLine"),
-                      new Paragraph("applicant.agent.address.organisation"),
-                      new Paragraph("applicant.agent.address.sao"),
-                      new Paragraph("applicant.agent.address.buildingName"),
-                      new Paragraph("applicant.agent.address.pao"),
-                      new Paragraph("applicant.agent.address.street"),
-                      new Paragraph("applicant.agent.address.locality"),
-                      new Paragraph("applicant.agent.address.town"),
-                      new Paragraph("applicant.agent.address.postcode"),
-                      new Paragraph("applicant.agent.address.country"),
+                      new Paragraph(get("applicant.agent.address.singleLine")),
+                      new Paragraph(
+                        get("applicant.agent.address.organisation")
+                      ),
+                      new Paragraph(get("applicant.agent.address.sao")),
+                      new Paragraph(
+                        get("applicant.agent.address.buildingName")
+                      ),
+                      new Paragraph(get("applicant.agent.address.pao")),
+                      new Paragraph(get("applicant.agent.address.street")),
+                      new Paragraph(get("applicant.agent.address.locality")),
+                      new Paragraph(get("applicant.agent.address.town")),
+                      new Paragraph(get("applicant.agent.address.postcode")),
+                      new Paragraph(get("applicant.agent.address.country")),
                     ],
                   }),
                 ],
@@ -233,17 +243,16 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("property.address.singleLine"),
-                      new Paragraph("property.address.line1"),
-                      new Paragraph("property.address.line2"),
-                      new Paragraph("property.address.organisation"),
-                      new Paragraph("property.address.sao"),
-                      new Paragraph("property.address.buildingName"),
-                      new Paragraph("property.address.pao"),
-                      new Paragraph("property.address.street"),
-                      new Paragraph("property.address.locality"),
-                      new Paragraph("property.address.town"),
-                      new Paragraph("property.address.postcode"),
+                      new Paragraph(get("property.address.line1")),
+                      new Paragraph(get("property.address.line2")),
+                      new Paragraph(get("property.address.organisation")),
+                      new Paragraph(get("property.address.sao")),
+                      new Paragraph(get("property.address.buildingName")),
+                      new Paragraph(get("property.address.pao")),
+                      new Paragraph(get("property.address.street")),
+                      new Paragraph(get("property.address.locality")),
+                      new Paragraph(get("property.address.town")),
+                      new Paragraph(get("property.address.postcode")),
                     ],
                   }),
                 ],
@@ -273,7 +282,7 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("Yes/No"), // applciation.preApp
+                      new Paragraph("Yes/No"), // application.preAppAdvice
                     ],
                   }),
                 ],
@@ -296,7 +305,9 @@ export const LDCP = (passport: { name: string }) => {
                     children: [new Paragraph("Officer name")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("application.preApp.officer")],
+                    children: [
+                      new Paragraph(get("application.preApp.officer")),
+                    ],
                   }),
                 ],
               }),
@@ -306,7 +317,9 @@ export const LDCP = (passport: { name: string }) => {
                     children: [new Paragraph("Pre-app Reference")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("application.preApp.reference")],
+                    children: [
+                      new Paragraph(get("application.preApp.reference")),
+                    ],
                   }),
                 ],
               }),
@@ -316,7 +329,7 @@ export const LDCP = (passport: { name: string }) => {
                     children: [new Paragraph("Date")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("application.preApp.data ??")],
+                    children: [new Paragraph(get("application.preApp.data"))],
                   }),
                 ],
               }),
@@ -330,7 +343,9 @@ export const LDCP = (passport: { name: string }) => {
                     ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("application.preApp.summary")],
+                    children: [
+                      new Paragraph(get("application.preApp.summary")),
+                    ],
                   }),
                 ],
               }),
@@ -532,19 +547,23 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.declaration.employee"),
-                      new Paragraph("applicant.declaration.employeeFamily"),
+                      new Paragraph(get("applicant.declaration.employee")),
                       new Paragraph(
-                        "applicant.declaration.employeeFamily.name"
+                        get("applicant.declaration.employeeFamily")
                       ),
                       new Paragraph(
-                        "applicant.declaration.employeeFamily.relationship"
+                        get("applicant.declaration.employeeFamily.name")
                       ),
-                      new Paragraph("applicant.declaration.member"),
-                      new Paragraph("applicant.declaration.memberFamily"),
-                      new Paragraph("applicant.declaration.memberFamily.name"),
                       new Paragraph(
-                        "applicant.declaration.memberFamily.relationship"
+                        get("applicant.declaration.employeeFamily.relationship")
+                      ),
+                      new Paragraph(get("applicant.declaration.member")),
+                      new Paragraph(get("applicant.declaration.memberFamily")),
+                      new Paragraph(
+                        get("applicant.declaration.memberFamily.name")
+                      ),
+                      new Paragraph(
+                        get("applicant.declaration.memberFamily.relationship")
                       ),
                     ],
                   }),
@@ -561,19 +580,23 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.declaration.employee"),
-                      new Paragraph("applicant.declaration.employeeFamily"),
+                      new Paragraph(get("applicant.declaration.employee")),
                       new Paragraph(
-                        "applicant.declaration.employeeFamily.name"
+                        get("applicant.declaration.employeeFamily")
                       ),
                       new Paragraph(
-                        "applicant.declaration.employeeFamily.relationship"
+                        get("applicant.declaration.employeeFamily.name")
                       ),
-                      new Paragraph("applicant.declaration.member"),
-                      new Paragraph("applicant.declaration.memberFamily"),
-                      new Paragraph("applicant.declaration.memberFamily.name"),
                       new Paragraph(
-                        "applicant.declaration.memberFamily.relationship"
+                        get("applicant.declaration.employeeFamily.relationship")
+                      ),
+                      new Paragraph(get("applicant.declaration.member")),
+                      new Paragraph(get("applicant.declaration.memberFamily")),
+                      new Paragraph(
+                        get("applicant.declaration.memberFamily.name")
+                      ),
+                      new Paragraph(
+                        get("applicant.declaration.memberFamily.relationship")
                       ),
                     ],
                   }),
@@ -756,7 +779,7 @@ export const LDCP = (passport: { name: string }) => {
                     ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("proposal.description")],
+                    children: [new Paragraph(get("proposal.description"))],
                   }),
                 ],
               }),
@@ -784,7 +807,7 @@ export const LDCP = (passport: { name: string }) => {
                     ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("proposal.description")],
+                    children: [new Paragraph(get("proposal.description"))],
                   }),
                 ],
               }),
@@ -812,7 +835,7 @@ export const LDCP = (passport: { name: string }) => {
                     ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("proposal.started")],
+                    children: [new Paragraph(get("proposal.started"))],
                   }),
                 ],
               }),
@@ -1089,7 +1112,7 @@ export const LDCP = (passport: { name: string }) => {
                     children: [new Paragraph("Signed")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("application.declaration")],
+                    children: [new Paragraph(get("application.declaration"))],
                   }),
                 ],
               }),
@@ -1156,8 +1179,8 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.phone.primary"),
-                      new Paragraph("applicant.phone.secondary"),
+                      new Paragraph(get("applicant.phone.primary")),
+                      new Paragraph(get("applicant.phone.secondary")),
                     ],
                   }),
                 ],
@@ -1168,7 +1191,7 @@ export const LDCP = (passport: { name: string }) => {
                     children: [new Paragraph("Email")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("applicant.email")],
+                    children: [new Paragraph(get("applicant.email"))],
                   }),
                 ],
               }),
@@ -1193,8 +1216,8 @@ export const LDCP = (passport: { name: string }) => {
                   }),
                   new TableCell({
                     children: [
-                      new Paragraph("applicant.agent.phone.primary"),
-                      new Paragraph("applicant.agent.phone.secondary"),
+                      new Paragraph(get("applicant.agent.phone.primary")),
+                      new Paragraph(get("applicant.agent.phone.secondary")),
                     ],
                   }),
                 ],
@@ -1205,7 +1228,7 @@ export const LDCP = (passport: { name: string }) => {
                     children: [new Paragraph("Email")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("applicant.agent.email")],
+                    children: [new Paragraph(get("applicant.agent.email"))],
                   }),
                 ],
               }),
