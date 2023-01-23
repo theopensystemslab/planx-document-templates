@@ -8,7 +8,7 @@ export default defineConfig({
     target: "node16",
     lib: {
       fileName: "index",
-      formats: ['es', 'cjs'],
+      formats: ['cjs'],
       entry: resolve(__dirname, "src/index.tsx"),
     },
     ssr: {
