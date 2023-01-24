@@ -24,7 +24,7 @@ const checkedCheckbox = new Paragraph({
   children: [new SymbolRun("F0FE")],
 });
 
-export const LDCP = (passport: { data: object }) => {
+export const LDCE = (passport: { data: object }) => {
   const get = (path: string): string => {
     return _getString(passport.data, path);
   };
@@ -105,8 +105,8 @@ export const LDCP = (passport: { data: object }) => {
 
   return new Document({
     creator: "PlanX",
-    title: "LDC-P",
-    description: "LDC-P application",
+    title: "LDC-E",
+    description: "LDC-E Application",
     styles: {
       default: {
         heading1: {
@@ -160,7 +160,7 @@ export const LDCP = (passport: { data: object }) => {
             heading: HeadingLevel.HEADING_1,
             children: [
               new TextRun(
-                "Application for a Lawful Development Certificate for a Proposed use or development."
+                "Application for a Lawful Development Certificate for an Existing use or operation or activity including those in breach of a planning condition."
               ),
             ],
           }),
@@ -639,7 +639,9 @@ export const LDCP = (passport: { data: object }) => {
             },
           }),
           new Paragraph({
-            text: "With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member.",
+            children: [
+             new TextRun("With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member."),
+            ],
             spacing: {
               before: 200,
               after: 200,
@@ -730,16 +732,11 @@ export const LDCP = (passport: { data: object }) => {
           // 7
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("7. Grounds for Application")],
+            children: [new TextRun("7. Description of Use, Building Works or Activity")],
           }),
           new Paragraph({
             children: [
-              new TextRun({
-                text: "Information About the Exiting Use(s)",
-                underline: {
-                  type: UnderlineType.SINGLE,
-                },
-              }),
+            new TextRun("Please state for which of these you need a lawful development certificate/building works (you must tick at least one option):")
             ],
             spacing: {
               before: 200,
@@ -751,124 +748,68 @@ export const LDCP = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [
-                      new Paragraph(
-                        "Please explain why you consider the existing or last use of the land is lawful, or why you consider that any existing buildings, which it is proposed to alter, or extend are lawful:"
-                      ),
-                    ],
+                    children: [new Paragraph("An existing use:") ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("Not supplied")],
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new SymbolRun("F071"),
+                          new TextRun("Yes"),
+                        ],
+                      }),
+                    ],
                   }),
                 ],
               }),
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [
-                      new Paragraph(
-                        "Please list the supporting documentary evidence (such as a planning permission) which accompanies this application:"
-                      ),
-                    ],
+                    children: [new Paragraph("Existing building works:") ],
                   }),
                   new TableCell({
-                    children: files().map((filename: string) => {
-                      return new Paragraph(filename);
-                    }),
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new SymbolRun("F071"),
+                          new TextRun("Yes"),
+                        ],
+                      }),
+                    ],
                   }),
                 ],
               }),
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [
-                      new Paragraph(
-                        "If you consider the existing, or last use is within a 'Use Class', state which one:"
-                      ),
-                    ],
+                    children: [new Paragraph("An existing use, building work or activity in breach of a condition") ],
                   }),
-                  new TableCell({
-                    children: [new Paragraph("Not supplied")],
-                  }),
-                ],
-              }),
-            ],
-            margins: {
-              marginUnitType: WidthType.PERCENTAGE,
-              top: 1,
-              bottom: 1,
-              left: 1,
-              right: 1,
-            },
-            width: {
-              size: 100,
-              type: WidthType.PERCENTAGE,
-            },
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "Information About the Proposed Use(s)",
-                underline: {
-                  type: UnderlineType.SINGLE,
-                },
-              }),
-            ],
-            spacing: {
-              before: 200,
-              after: 200,
-            },
-          }),
-          new Table({
-            rows: [
-              new TableRow({
-                children: [
                   new TableCell({
                     children: [
-                      new Paragraph(
-                        "If you consider the proposed use is within a ‘Use Class’, state which one:"
-                      ),
+                      new Paragraph({
+                        children: [
+                          new SymbolRun("F071"),
+                          new TextRun("Yes"),
+                        ],
+                      }),
                     ],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph("Not supplied")],
                   }),
                 ],
               }),
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [
-                      new Paragraph(
-                        "Is the proposed operation or use Temporary or Permanent?"
-                      ),
-                    ],
+                    children: [new Paragraph("Being a use, building works or activity which is still going on at the date of this application.") ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("Temporary/Permanent")],
+                    children: [],
                   }),
                 ],
               }),
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [
-                      new Paragraph("If temporary, please give details:"),
-                    ],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph("Not supplied")],
-                  }),
-                ],
-              }),
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [
-                      new Paragraph(
-                        "Please state why you consider that a Lawful Development Certificate should be granted for this proposal:"
-                      ),
-                    ],
+                    children: [new Paragraph("If Yes to either ‘an existing use’ or ‘an existing use in breach of a condition’ please state which one of the Use Classes the use relates to:") ],
                   }),
                   new TableCell({
                     children: [new Paragraph("Not supplied")],
@@ -892,92 +833,31 @@ export const LDCP = (passport: { data: object }) => {
           // 8
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("8. Description of Proposal")],
+            children: [new TextRun("8. ")],
           }),
-          new Paragraph("Does the proposal consist of, or include:"),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "",
+                underline: {
+                  type: UnderlineType.SINGLE,
+                },
+              }),
+            ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
           new Table({
             rows: [
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [
-                      new Paragraph(
-                        "a. The carrying out of building or other operations? "
-                      ),
-                    ],
+                    children: [new Paragraph("")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("Yes/No")], // based on development type
-                  }),
-                ],
-              }),
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [
-                      new Paragraph(
-                        "If Yes to a, please give detailed description of all such operations (includes the need to describe any proposal to alter or create a new access, layout any new street, construct any associated hard-standings, means of enclosure or means of draining the land/buildings) and indicate on your plans (in the case of a proposed building the plan should indicate the precise siting and exact dimensions):"
-                      ),
-                    ],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph(get("proposal.description"))],
-                  }),
-                ],
-              }),
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [
-                      new Paragraph(
-                        "b. Change of use of the land or building(s)?"
-                      ),
-                    ],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph("Yes/No")], // based on development type
-                  }),
-                ],
-              }),
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [
-                      new Paragraph(
-                        "If Yes to b, please give a full description of the scale and nature of the proposed use, including the processes to be carried out, any machinery to be installed and the hours the proposed use will be carried out:"
-                      ),
-                    ],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph(get("proposal.description"))],
-                  }),
-                ],
-              }),
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [
-                      new Paragraph(
-                        "If Yes to b, please describe fully the existing or the last known use, with the date this use ceased:"
-                      ),
-                    ],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph("Not supplied")],
-                  }),
-                ],
-              }),
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [
-                      new Paragraph(
-                        "If Yes to b, please describe fully the existing or the last known use, with the date this use ceased:"
-                      ),
-                    ],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph(get("proposal.started"))],
+                    children: [new Paragraph("")],
                   }),
                 ],
               }),
@@ -998,9 +878,99 @@ export const LDCP = (passport: { data: object }) => {
           // 9
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
+            children: [new TextRun("9. ")],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "",
+                underline: {
+                  type: UnderlineType.SINGLE,
+                },
+              }),
+            ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("")],
+                  }),
+                ],
+              }),
+            ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
+            },
+          }),
+
+          // 10
+          new Paragraph({
+            heading: HeadingLevel.HEADING_2,
+            children: [new TextRun("10. ")],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "",
+                underline: {
+                  type: UnderlineType.SINGLE,
+                },
+              }),
+            ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("")],
+                  }),
+                ],
+              }),
+            ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
+            },
+          }),
+
+          // 11
+          new Paragraph({
+            heading: HeadingLevel.HEADING_2,
             children: [
               new TextRun(
-                "9. Additional Information Requirements of the Mayor of London"
+                "11. Additional Information Requirements of the Mayor of London"
               ),
             ],
           }),

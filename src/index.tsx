@@ -3,6 +3,7 @@ import { renderToPipeableStream } from "react-dom/server";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCP } from "./templates/LDCP";
+import { LDCE } from "./templates/LDCE";
 import { hasValue } from "./templates/helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
@@ -16,6 +17,10 @@ const TEMPLATES: Record<
 > = {
   blank: {
     template: () => new Document({ sections: [] }),
+    requirements: [],
+  },
+  "LDCE.doc": {
+    template: LDCE,
     requirements: [],
   },
   "LDCP.doc": {

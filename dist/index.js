@@ -319,10 +319,10 @@ function get(data, path, index = -1) {
   }
   return data[key];
 }
-const emptyCheckbox = new docx.Paragraph({
+const emptyCheckbox$1 = new docx.Paragraph({
   children: [new docx.SymbolRun("F071")]
 });
-const checkedCheckbox = new docx.Paragraph({
+const checkedCheckbox$1 = new docx.Paragraph({
   children: [new docx.SymbolRun("F0FE")]
 });
 const LDCP = (passport) => {
@@ -348,7 +348,7 @@ const LDCP = (passport) => {
       get2("applicant.address.town"),
       get2("applicant.address.postcode")
     ];
-    return buildParagraphsFromNonEmptyParts(addressParts);
+    return buildParagraphsFromNonEmptyParts$1(addressParts);
   };
   const siteAddress = () => {
     const addressParts = [
@@ -363,7 +363,7 @@ const LDCP = (passport) => {
       get2("_address.town"),
       get2("_address.postcode")
     ];
-    return buildParagraphsFromNonEmptyParts(addressParts);
+    return buildParagraphsFromNonEmptyParts$1(addressParts);
   };
   const agentAddress = () => {
     const addressParts = [
@@ -377,7 +377,7 @@ const LDCP = (passport) => {
       get2("applicant.agent.address.postcode"),
       get2("applicant.agent.address.country")
     ];
-    return buildParagraphsFromNonEmptyParts(addressParts);
+    return buildParagraphsFromNonEmptyParts$1(addressParts);
   };
   const files = () => {
     const propertySitePlan = passport.data["property.drawing.sitePlan"];
@@ -523,7 +523,7 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("No agent?")]
                   }),
                   new docx.TableCell({
-                    children: [emptyCheckbox]
+                    children: [emptyCheckbox$1]
                   })
                 ]
               }),
@@ -577,7 +577,7 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      get2("applicant.occupier") ? checkedCheckbox : emptyCheckbox
+                      getBoolean$1("applicant.occupier") ? checkedCheckbox$1 : emptyCheckbox$1
                     ]
                   })
                 ]
@@ -1824,6 +1824,1473 @@ const LDCP = (passport) => {
     ]
   });
 };
+function buildParagraphsFromNonEmptyParts$1(parts) {
+  return parts.filter((part) => part !== "").map((part) => {
+    return new docx.Paragraph(part);
+  });
+}
+const emptyCheckbox = new docx.Paragraph({
+  children: [new docx.SymbolRun("F071")]
+});
+const checkedCheckbox = new docx.Paragraph({
+  children: [new docx.SymbolRun("F0FE")]
+});
+const LDCE = (passport) => {
+  const get2 = (path) => {
+    return getString(passport.data, path);
+  };
+  const getBoolean$1 = (path) => {
+    return getBoolean(passport.data, path);
+  };
+  const hasValue$1 = (path) => {
+    return hasValue(passport.data, path);
+  };
+  const applicantAddress = () => {
+    const addressParts = [
+      get2("applicant.address.line1"),
+      get2("applicant.address.line2"),
+      get2("applicant.address.organisation"),
+      get2("applicant.address.sao"),
+      get2("applicant.address.buildingName"),
+      get2("applicant.address.pao"),
+      get2("applicant.address.street"),
+      get2("applicant.address.locality"),
+      get2("applicant.address.town"),
+      get2("applicant.address.postcode")
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+  const siteAddress = () => {
+    const addressParts = [
+      get2("_address.line1"),
+      get2("_address.line2"),
+      get2("_address.organisation"),
+      get2("_address.sao"),
+      get2("_address.buildingName"),
+      get2("_address.pao"),
+      get2("_address.street"),
+      get2("_address.locality"),
+      get2("_address.town"),
+      get2("_address.postcode")
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+  const agentAddress = () => {
+    const addressParts = [
+      get2("applicant.agent.address.organisation"),
+      get2("applicant.agent.address.sao"),
+      get2("applicant.agent.address.buildingName"),
+      get2("applicant.agent.address.pao"),
+      get2("applicant.agent.address.street"),
+      get2("applicant.agent.address.locality"),
+      get2("applicant.agent.address.town"),
+      get2("applicant.agent.address.postcode"),
+      get2("applicant.agent.address.country")
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+  return new docx.Document({
+    creator: "PlanX",
+    title: "LDC-E",
+    description: "LDC-E Application",
+    styles: {
+      default: {
+        heading1: {
+          run: {
+            font: "Arial",
+            size: 28,
+            bold: true,
+            color: "000000"
+          },
+          paragraph: {
+            alignment: docx.AlignmentType.CENTER,
+            spacing: {
+              after: 120
+            }
+          }
+        },
+        heading2: {
+          run: {
+            font: "Arial",
+            size: 24,
+            bold: true,
+            color: "000000"
+          },
+          paragraph: {
+            spacing: {
+              before: 240,
+              after: 120
+            }
+          }
+        },
+        heading3: {
+          run: {
+            font: "Arial",
+            size: 22,
+            bold: true,
+            color: "000000"
+          },
+          paragraph: {
+            spacing: {
+              before: 240,
+              after: 120
+            }
+          }
+        }
+      }
+    },
+    sections: [
+      {
+        children: [
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_1,
+            children: [
+              new docx.TextRun(
+                "Application for a Lawful Development Certificate for an Existing use or operation or activity including those in breach of a planning condition."
+              )
+            ]
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_1,
+            children: [new docx.TextRun("Town and Country Planning Act 1990")]
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_3,
+            children: [
+              new docx.TextRun(
+                "Publication of applications on planning authority websites"
+              )
+            ]
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun(
+                "Information provided on this form and in supporting documents may be published on the authority's planning register and website."
+              )
+            ]
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("1. Applicant Name and Address")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Name")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("applicant.title")),
+                      new docx.Paragraph(get2("applicant.name.first")),
+                      new docx.Paragraph(get2("applicant.name.last"))
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Address")]
+                  }),
+                  new docx.TableCell({
+                    children: applicantAddress()
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("2. Agent Name and Address")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("No agent?")]
+                  }),
+                  new docx.TableCell({
+                    children: [emptyCheckbox]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Agent name")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("applicant.agent.name.first")),
+                      new docx.Paragraph(get2("applicant.agent.name.last")),
+                      new docx.Paragraph(get2("applicant.agent.company.name"))
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Address")]
+                  }),
+                  new docx.TableCell({
+                    children: agentAddress()
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("3. Site Address Details")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Address same as site address?")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      getBoolean$1("applicant.occupier") ? checkedCheckbox : emptyCheckbox
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("If no, address")]
+                  }),
+                  new docx.TableCell({
+                    children: siteAddress()
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("4. Pre-application advice")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Has assistance or prior advice been sought from the local authority about this application?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: hasValue$1("application.preAppAdvice") ? getBoolean$1("application.preAppAdvice") ? [new docx.Paragraph("Yes")] : [new docx.Paragraph("No")] : []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "If yes, please complete the following information about the advice you were given."
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({ children: [] })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Officer name")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("application.preApp.officer"))
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Pre-app Reference")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("application.preApp.reference"))
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Date")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph(get2("application.preApp.data"))]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Details of pre-application advice received?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("application.preApp.summary"))
+                    ]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [
+              new docx.TextRun(
+                "5. Lawful Development Certificate \u2013 Interest in Land"
+              )
+            ]
+          }),
+          new docx.Paragraph("Please state the applicant\u2019s interest in the land"),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Owner")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Yes/No")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Lessee")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Yes/No")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Occupier")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Yes/No")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "If Yes to Lessee or Occupier",
+                underline: {
+                  type: docx.UnderlineType.SINGLE
+                }
+              }),
+              new docx.TextRun(
+                ", please give details of the Owner and state whether they have been informed in writing of this application:"
+              )
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Name")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Address")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Have they been informed in writing of the application"
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Yes/No")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "If No to all of the above",
+                underline: {
+                  type: docx.UnderlineType.SINGLE
+                }
+              }),
+              new docx.TextRun(
+                ", please give name and address of anyone you know who has an interest in the land:"
+              )
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Name")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Address")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Nature of interest in the land")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Have they been informed of the application"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "If they have not been informed of the application please explain why not"
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("6. Authority Employee/Member")]
+          }),
+          new docx.Paragraph({
+            text: "It is an important principle of decision-making that the process is open and transparent. For the purposes of this question, \u201Crelated to\u201D means related, by birth or otherwise, closely enough that a fair-minded and informed observer, having considered the facts, would conclude that there was bias on the part of the decision-maker in the local planning authority",
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun("With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member.")
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Does any of these statements apply to you?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("applicant.declaration.employee")),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.employeeFamily")
+                      ),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.employeeFamily.name")
+                      ),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.employeeFamily.relationship")
+                      ),
+                      new docx.Paragraph(get2("applicant.declaration.member")),
+                      new docx.Paragraph(get2("applicant.declaration.memberFamily")),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.memberFamily.name")
+                      ),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.memberFamily.relationship")
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "If Yes, please provide details of the name, role, and how you are related to them"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("applicant.declaration.employee")),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.employeeFamily")
+                      ),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.employeeFamily.name")
+                      ),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.employeeFamily.relationship")
+                      ),
+                      new docx.Paragraph(get2("applicant.declaration.member")),
+                      new docx.Paragraph(get2("applicant.declaration.memberFamily")),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.memberFamily.name")
+                      ),
+                      new docx.Paragraph(
+                        get2("applicant.declaration.memberFamily.relationship")
+                      )
+                    ]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("7. Description of Use, Building Works or Activity")]
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun("Please state for which of these you need a lawful development certificate/building works (you must tick at least one option):")
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("An existing use:")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.SymbolRun("F071"),
+                          new docx.TextRun("Yes")
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Existing building works:")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.SymbolRun("F071"),
+                          new docx.TextRun("Yes")
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("An existing use, building work or activity in breach of a condition")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.SymbolRun("F071"),
+                          new docx.TextRun("Yes")
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Being a use, building works or activity which is still going on at the date of this application.")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("If Yes to either \u2018an existing use\u2019 or \u2018an existing use in breach of a condition\u2019 please state which one of the Use Classes the use relates to:")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("8. ")]
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "",
+                underline: {
+                  type: docx.UnderlineType.SINGLE
+                }
+              })
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("9. ")]
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "",
+                underline: {
+                  type: docx.UnderlineType.SINGLE
+                }
+              })
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("10. ")]
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "",
+                underline: {
+                  type: docx.UnderlineType.SINGLE
+                }
+              })
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [
+              new docx.TextRun(
+                "11. Additional Information Requirements of the Mayor of London"
+              )
+            ]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Title number unknown?")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Yes/No")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Title number:")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Energy Performance Certificate reference unknown?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("EPC number:")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Gross internal Floor Area to be added (sqm)"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("Number of additional bedrooms proposed")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("Number of additional bathrooms proposed")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "Existing and Proposed Vehicle Parking spaces for the following:",
+                bold: true
+              })
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Existing")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Proposed")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("a. Cars")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("b. Light Good Vehicles / Public Vehicles")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("c. Motorcycles")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("d. Disabled Person Parking")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("e. Cycle spaces")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("f. Bus")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("g. Residential only off-street parking")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("h. Car Club")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("i. Other")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("10. Declaration")]
+          }),
+          new docx.Paragraph({
+            text: "I/We hereby apply for a Lawful Development Certificate as described in this form and the accompanying plans/drawings and additional information. I/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them.",
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Signed")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph(get2("application.declaration"))]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Signed by")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.SymbolRun("F071"),
+                          new docx.TextRun("Applicant")
+                        ]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Agent")]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Date")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph("(date cannot be pre-application submission)"),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "WARNING:",
+                bold: true
+              })
+            ],
+            spacing: {
+              before: 200
+            }
+          }),
+          new docx.Paragraph({
+            text: "The amended section 194 of the 1990 Act provides that it is an offence to furnish false or misleading information or to withhold material information with intent to deceive. Section 193(7) enables the authority to revoke, at any time, a certificate they may have been issued as a result of such false or misleading information.",
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("11. Applicant Contact Details")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Phone")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("applicant.phone.primary")),
+                      new docx.Paragraph(get2("applicant.phone.secondary"))
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Email")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph(get2("applicant.email"))]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("12. Agent Contact Details")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Phone")]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(get2("applicant.agent.phone.primary")),
+                      new docx.Paragraph(get2("applicant.agent.phone.secondary"))
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Email")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph(get2("applicant.agent.email"))]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_2,
+            children: [new docx.TextRun("13. Site Visit")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("Can the site be seen from a:"),
+                      new docx.Paragraph("Public road"),
+                      new docx.Paragraph("Public footpath"),
+                      new docx.Paragraph("Bridleway"),
+                      new docx.Paragraph("Or other public land?")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.SymbolRun("F071"),
+                          new docx.TextRun("Applicant")
+                        ]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Agent")]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Other")]
+                      })
+                    ]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "If Other has been selected",
+                underline: {
+                  type: docx.UnderlineType.SINGLE
+                }
+              }),
+              new docx.TextRun(
+                ", please provide a contact name, telephone number and email address:"
+              )
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("Other contact for site visit."),
+                      new docx.Paragraph("Name")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Phone")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Email")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          })
+        ]
+      }
+    ]
+  });
+};
 function buildParagraphsFromNonEmptyParts(parts) {
   return parts.filter((part) => part !== "").map((part) => {
     return new docx.Paragraph(part);
@@ -1834,6 +3301,10 @@ const TEMPLATES = {
     template: () => new docx.Document({
       sections: []
     }),
+    requirements: []
+  },
+  "LDCE.doc": {
+    template: LDCE,
     requirements: []
   },
   "LDCP.doc": {
