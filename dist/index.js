@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
-const _get = require("lodash.get");
 const server = require("react-dom/server");
 const React = require("react");
 const prettyTitle = require("lodash.startcase");
@@ -28,7 +27,6 @@ function _interopNamespace(e) {
   n.default = e;
   return Object.freeze(n);
 }
-const _get__default = /* @__PURE__ */ _interopDefaultLegacy(_get);
 const React__namespace = /* @__PURE__ */ _interopNamespace(React);
 const prettyTitle__default = /* @__PURE__ */ _interopDefaultLegacy(prettyTitle);
 const styled__default = /* @__PURE__ */ _interopDefaultLegacy(styled);
@@ -288,6 +286,39 @@ function Styles() {
       `
   });
 }
+function hasValue(data, path) {
+  const value = get(data, path) || false;
+  return !!value;
+}
+function getString(data, path) {
+  const value = get(data, path) || "";
+  if (Array.isArray(value)) {
+    return value[0] ? String(value[0]) : "";
+  }
+  return String(value);
+}
+function getBoolean(data, path) {
+  const value = get(data, path);
+  if (Array.isArray(value) && value.length === 1) {
+    return value[0] === true || value[0] === "true";
+  }
+  return value === true || value === "true";
+}
+function get(data, path, index = -1) {
+  const parts = path.split(".");
+  if (index === -1) {
+    index = parts.length;
+  }
+  const key = parts.slice(0, index).join(".");
+  if (!data[key] && index > 0) {
+    return get(data, path, --index);
+  }
+  if (data[key] && parts.slice(index).length > 0) {
+    const newPath = parts.slice(index).join(".");
+    return get(data[key], newPath);
+  }
+  return data[key];
+}
 const emptyCheckbox = new docx.Paragraph({
   children: [new docx.SymbolRun("F071")]
 });
@@ -295,54 +326,67 @@ const checkedCheckbox = new docx.Paragraph({
   children: [new docx.SymbolRun("F0FE")]
 });
 const LDCP = (passport) => {
-  const get = (path) => {
-    const value = _get__default.default(passport.data, path);
-    return value ? `${value}` : "";
+  const get2 = (path) => {
+    return getString(passport.data, path);
+  };
+  const getBoolean$1 = (path) => {
+    return getBoolean(passport.data, path);
+  };
+  const hasValue$1 = (path) => {
+    return hasValue(passport.data, path);
   };
   const applicantAddress = () => {
     const addressParts = [
-      get("applicant.address.line1"),
-      get("applicant.address.line2"),
-      get("applicant.address.organisation"),
-      get("applicant.address.sao"),
-      get("applicant.address.buildingName"),
-      get("applicant.address.pao"),
-      get("applicant.address.street"),
-      get("applicant.address.locality"),
-      get("applicant.address.town"),
-      get("applicant.address.postcode")
+      get2("applicant.address.line1"),
+      get2("applicant.address.line2"),
+      get2("applicant.address.organisation"),
+      get2("applicant.address.sao"),
+      get2("applicant.address.buildingName"),
+      get2("applicant.address.pao"),
+      get2("applicant.address.street"),
+      get2("applicant.address.locality"),
+      get2("applicant.address.town"),
+      get2("applicant.address.postcode")
     ];
     return buildParagraphsFromNonEmptyParts(addressParts);
   };
   const siteAddress = () => {
     const addressParts = [
-      get("_address.line1"),
-      get("_address.line2"),
-      get("_address.organisation"),
-      get("_address.sao"),
-      get("_address.buildingName"),
-      get("_address.pao"),
-      get("_address.street"),
-      get("_address.locality"),
-      get("_address.town"),
-      get("_address.postcode")
+      get2("_address.line1"),
+      get2("_address.line2"),
+      get2("_address.organisation"),
+      get2("_address.sao"),
+      get2("_address.buildingName"),
+      get2("_address.pao"),
+      get2("_address.street"),
+      get2("_address.locality"),
+      get2("_address.town"),
+      get2("_address.postcode")
     ];
     return buildParagraphsFromNonEmptyParts(addressParts);
   };
   const agentAddress = () => {
     const addressParts = [
-      get("applicant.agent.address.singleLine"),
-      get("applicant.agent.address.organisation"),
-      get("applicant.agent.address.sao"),
-      get("applicant.agent.address.buildingName"),
-      get("applicant.agent.address.pao"),
-      get("applicant.agent.address.street"),
-      get("applicant.agent.address.locality"),
-      get("applicant.agent.address.town"),
-      get("applicant.agent.address.postcode"),
-      get("applicant.agent.address.country")
+      get2("applicant.agent.address.organisation"),
+      get2("applicant.agent.address.sao"),
+      get2("applicant.agent.address.buildingName"),
+      get2("applicant.agent.address.pao"),
+      get2("applicant.agent.address.street"),
+      get2("applicant.agent.address.locality"),
+      get2("applicant.agent.address.town"),
+      get2("applicant.agent.address.postcode"),
+      get2("applicant.agent.address.country")
     ];
     return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+  const files = () => {
+    const propertySitePlan = passport.data["property.drawing.sitePlan"];
+    const proposalSitePlan = passport.data["proposal.drawing.sitePlan"];
+    const sitePlan = [].concat(propertySitePlan, proposalSitePlan).filter((item) => item !== void 0);
+    if (sitePlan && Array.isArray(sitePlan)) {
+      return sitePlan.map((item) => String(item["filename"])).filter((item) => item !== void 0);
+    }
+    return [];
   };
   return new docx.Document({
     creator: "PlanX",
@@ -437,9 +481,9 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("applicant.title")),
-                      new docx.Paragraph(get("applicant.name.first")),
-                      new docx.Paragraph(get("applicant.name.last"))
+                      new docx.Paragraph(get2("applicant.title")),
+                      new docx.Paragraph(get2("applicant.name.first")),
+                      new docx.Paragraph(get2("applicant.name.last"))
                     ]
                   })
                 ]
@@ -490,9 +534,9 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("applicant.agent.name.first")),
-                      new docx.Paragraph(get("applicant.agent.name.last")),
-                      new docx.Paragraph(get("applicant.agent.company.name"))
+                      new docx.Paragraph(get2("applicant.agent.name.first")),
+                      new docx.Paragraph(get2("applicant.agent.name.last")),
+                      new docx.Paragraph(get2("applicant.agent.company.name"))
                     ]
                   })
                 ]
@@ -533,7 +577,7 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      get("applicant.occupier") ? checkedCheckbox : emptyCheckbox
+                      get2("applicant.occupier") ? checkedCheckbox : emptyCheckbox
                     ]
                   })
                 ]
@@ -577,9 +621,7 @@ const LDCP = (passport) => {
                     ]
                   }),
                   new docx.TableCell({
-                    children: [
-                      new docx.Paragraph("Yes/No")
-                    ]
+                    children: hasValue$1("application.preAppAdvice") ? getBoolean$1("application.preAppAdvice") ? [new docx.Paragraph("Yes")] : [new docx.Paragraph("No")] : []
                   })
                 ]
               }),
@@ -602,7 +644,7 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("application.preApp.officer"))
+                      new docx.Paragraph(get2("application.preApp.officer"))
                     ]
                   })
                 ]
@@ -614,7 +656,7 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("application.preApp.reference"))
+                      new docx.Paragraph(get2("application.preApp.reference"))
                     ]
                   })
                 ]
@@ -625,7 +667,7 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("Date")]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph(get("application.preApp.data"))]
+                    children: [new docx.Paragraph(get2("application.preApp.data"))]
                   })
                 ]
               }),
@@ -640,7 +682,7 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("application.preApp.summary"))
+                      new docx.Paragraph(get2("application.preApp.summary"))
                     ]
                   })
                 ]
@@ -883,23 +925,23 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("applicant.declaration.employee")),
+                      new docx.Paragraph(get2("applicant.declaration.employee")),
                       new docx.Paragraph(
-                        get("applicant.declaration.employeeFamily")
+                        get2("applicant.declaration.employeeFamily")
                       ),
                       new docx.Paragraph(
-                        get("applicant.declaration.employeeFamily.name")
+                        get2("applicant.declaration.employeeFamily.name")
                       ),
                       new docx.Paragraph(
-                        get("applicant.declaration.employeeFamily.relationship")
+                        get2("applicant.declaration.employeeFamily.relationship")
                       ),
-                      new docx.Paragraph(get("applicant.declaration.member")),
-                      new docx.Paragraph(get("applicant.declaration.memberFamily")),
+                      new docx.Paragraph(get2("applicant.declaration.member")),
+                      new docx.Paragraph(get2("applicant.declaration.memberFamily")),
                       new docx.Paragraph(
-                        get("applicant.declaration.memberFamily.name")
+                        get2("applicant.declaration.memberFamily.name")
                       ),
                       new docx.Paragraph(
-                        get("applicant.declaration.memberFamily.relationship")
+                        get2("applicant.declaration.memberFamily.relationship")
                       )
                     ]
                   })
@@ -916,23 +958,23 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("applicant.declaration.employee")),
+                      new docx.Paragraph(get2("applicant.declaration.employee")),
                       new docx.Paragraph(
-                        get("applicant.declaration.employeeFamily")
+                        get2("applicant.declaration.employeeFamily")
                       ),
                       new docx.Paragraph(
-                        get("applicant.declaration.employeeFamily.name")
+                        get2("applicant.declaration.employeeFamily.name")
                       ),
                       new docx.Paragraph(
-                        get("applicant.declaration.employeeFamily.relationship")
+                        get2("applicant.declaration.employeeFamily.relationship")
                       ),
-                      new docx.Paragraph(get("applicant.declaration.member")),
-                      new docx.Paragraph(get("applicant.declaration.memberFamily")),
+                      new docx.Paragraph(get2("applicant.declaration.member")),
+                      new docx.Paragraph(get2("applicant.declaration.memberFamily")),
                       new docx.Paragraph(
-                        get("applicant.declaration.memberFamily.name")
+                        get2("applicant.declaration.memberFamily.name")
                       ),
                       new docx.Paragraph(
-                        get("applicant.declaration.memberFamily.relationship")
+                        get2("applicant.declaration.memberFamily.relationship")
                       )
                     ]
                   })
@@ -995,7 +1037,9 @@ const LDCP = (passport) => {
                     ]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph("files")]
+                    children: files().map((filename) => {
+                      return new docx.Paragraph(filename);
+                    })
                   })
                 ]
               }),
@@ -1140,7 +1184,7 @@ const LDCP = (passport) => {
                     ]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph(get("proposal.description"))]
+                    children: [new docx.Paragraph(get2("proposal.description"))]
                   })
                 ]
               }),
@@ -1168,7 +1212,7 @@ const LDCP = (passport) => {
                     ]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph(get("proposal.description"))]
+                    children: [new docx.Paragraph(get2("proposal.description"))]
                   })
                 ]
               }),
@@ -1196,7 +1240,7 @@ const LDCP = (passport) => {
                     ]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph(get("proposal.started"))]
+                    children: [new docx.Paragraph(get2("proposal.started"))]
                   })
                 ]
               })
@@ -1498,7 +1542,7 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("Signed")]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph(get("application.declaration"))]
+                    children: [new docx.Paragraph(get2("application.declaration"))]
                   })
                 ]
               }),
@@ -1577,8 +1621,8 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("applicant.phone.primary")),
-                      new docx.Paragraph(get("applicant.phone.secondary"))
+                      new docx.Paragraph(get2("applicant.phone.primary")),
+                      new docx.Paragraph(get2("applicant.phone.secondary"))
                     ]
                   })
                 ]
@@ -1589,7 +1633,7 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("Email")]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph(get("applicant.email"))]
+                    children: [new docx.Paragraph(get2("applicant.email"))]
                   })
                 ]
               })
@@ -1619,8 +1663,8 @@ const LDCP = (passport) => {
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(get("applicant.agent.phone.primary")),
-                      new docx.Paragraph(get("applicant.agent.phone.secondary"))
+                      new docx.Paragraph(get2("applicant.agent.phone.primary")),
+                      new docx.Paragraph(get2("applicant.agent.phone.secondary"))
                     ]
                   })
                 ]
@@ -1631,7 +1675,7 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("Email")]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph(get("applicant.agent.email"))]
+                    children: [new docx.Paragraph(get2("applicant.agent.email"))]
                   })
                 ]
               })
@@ -1829,7 +1873,7 @@ function hasRequiredDataForTemplate({
   if (!template)
     throw new Error(`Template "${templateName}" not found`);
   for (const path of template.requirements) {
-    if (!_get__default.default(passport.data, path)) {
+    if (!hasValue(passport.data, path)) {
       return false;
     }
   }

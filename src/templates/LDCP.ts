@@ -1,4 +1,8 @@
-import _get from "lodash.get";
+import {
+  getString as _getString,
+  getBoolean as _getBoolean,
+  hasValue as _hasValue,
+} from "./helpers";
 import {
   Document,
   Table,
@@ -20,11 +24,15 @@ const checkedCheckbox = new Paragraph({
   children: [new SymbolRun("F0FE")],
 });
 
-export const LDCP = (passport: { data: unknown }) => {
-  const get = (path): string => {
-    //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const value: string | undefined = _get(passport.data, path);
-    return value ? `${value}` : "";
+export const LDCP = (passport: { data: object }) => {
+  const get = (path: string): string => {
+    return _getString(passport.data, path);
+  };
+  const getBoolean = (path: string): boolean => {
+    return _getBoolean(passport.data, path);
+  };
+  const hasValue = (path: string): boolean => {
+    return _hasValue(passport.data, path);
   };
 
   const applicantAddress = () => {
@@ -72,6 +80,27 @@ export const LDCP = (passport: { data: unknown }) => {
       get("applicant.agent.address.country"),
     ];
     return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+
+  // QUESTION: is this the right collection of files?
+  const files = (): string[] => {
+    // eslint-disable-next-line
+    const propertySitePlan = passport.data["property.drawing.sitePlan"];
+    // eslint-disable-next-line
+    const proposalSitePlan = passport.data["proposal.drawing.sitePlan"];
+    const sitePlan = []
+      // eslint-disable-next-line
+      .concat(propertySitePlan, proposalSitePlan)
+      .filter((item) => item !== undefined);
+    if (sitePlan && Array.isArray(sitePlan)) {
+      return (
+        sitePlan
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          .map((item) => String(item["filename"]))
+          .filter((item) => item !== undefined)
+      );
+    }
+    return [];
   };
 
   return new Document({
@@ -317,9 +346,11 @@ export const LDCP = (passport: { data: unknown }) => {
                     ],
                   }),
                   new TableCell({
-                    children: [
-                      new Paragraph("Yes/No"), // application.preAppAdvice
-                    ],
+                    children: hasValue("application.preAppAdvice")
+                      ? getBoolean("application.preAppAdvice")
+                        ? [new Paragraph("Yes")]
+                        : [new Paragraph("No")]
+                      : [],
                   }),
                 ],
               }),
@@ -741,7 +772,9 @@ export const LDCP = (passport: { data: unknown }) => {
                     ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("files")], // all filenames
+                    children: files().map((filename: string) => {
+                      return new Paragraph(filename);
+                    }),
                   }),
                 ],
               }),

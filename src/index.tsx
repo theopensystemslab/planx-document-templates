@@ -1,16 +1,16 @@
 import React from "react";
-import resolvePath from "lodash.get";
 import { renderToPipeableStream } from "react-dom/server";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCP } from "./templates/LDCP";
+import { hasValue } from "./templates/helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
 
 const TEMPLATES: Record<
   string,
   {
-    template: (passport: { data: unknown }) => Document;
+    template: (passport: { data: object }) => Document;
     requirements: string[];
   }
 > = {
@@ -64,7 +64,7 @@ export function hasRequiredDataForTemplate({
   const template = TEMPLATES[templateName];
   if (!template) throw new Error(`Template "${templateName}" not found`);
   for (const path of template.requirements) {
-    if (!resolvePath(passport.data, path)) {
+    if (!hasValue(passport.data, path)) {
       return false;
     }
   }
