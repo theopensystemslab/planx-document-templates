@@ -9,7 +9,6 @@ specifiers:
   '@lit-labs/ssr': ^2.2.3
   '@mui/material': ^5.10.16
   '@rollup/plugin-commonjs': ^23.0.3
-  '@types/lodash': ^4.14.191
   '@types/lodash.get': ^4.4.7
   '@types/lodash.startcase': ^4.4.7
   '@types/node': ^18.11.18
@@ -48,7 +47,6 @@ devDependencies:
   '@babel/core': 7.20.5
   '@babel/plugin-syntax-flow': 7.18.6_@babel+core@7.20.5
   '@babel/plugin-transform-react-jsx': 7.19.0_@babel+core@7.20.5
-  '@types/lodash': 4.14.191
   '@types/lodash.get': 4.4.7
   '@types/lodash.startcase': 4.4.7
   '@types/node': 18.11.18
