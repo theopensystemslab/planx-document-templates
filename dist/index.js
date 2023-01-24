@@ -299,6 +299,51 @@ const LDCP = (passport) => {
     const value = _get__default.default(passport.data, path);
     return value ? `${value}` : "";
   };
+  const applicantAddress = () => {
+    const addressParts = [
+      get("applicant.address.line1"),
+      get("applicant.address.line2"),
+      get("applicant.address.organisation"),
+      get("applicant.address.sao"),
+      get("applicant.address.buildingName"),
+      get("applicant.address.pao"),
+      get("applicant.address.street"),
+      get("applicant.address.locality"),
+      get("applicant.address.town"),
+      get("applicant.address.postcode")
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+  const siteAddress = () => {
+    const addressParts = [
+      get("_address.line1"),
+      get("_address.line2"),
+      get("_address.organisation"),
+      get("_address.sao"),
+      get("_address.buildingName"),
+      get("_address.pao"),
+      get("_address.street"),
+      get("_address.locality"),
+      get("_address.town"),
+      get("_address.postcode")
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+  const agentAddress = () => {
+    const addressParts = [
+      get("applicant.agent.address.singleLine"),
+      get("applicant.agent.address.organisation"),
+      get("applicant.agent.address.sao"),
+      get("applicant.agent.address.buildingName"),
+      get("applicant.agent.address.pao"),
+      get("applicant.agent.address.street"),
+      get("applicant.agent.address.locality"),
+      get("applicant.agent.address.town"),
+      get("applicant.agent.address.postcode"),
+      get("applicant.agent.address.country")
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
   return new docx.Document({
     creator: "PlanX",
     title: "LDC-P",
@@ -405,22 +450,18 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("Address")]
                   }),
                   new docx.TableCell({
-                    children: [
-                      new docx.Paragraph(get("_address.singleLine")),
-                      new docx.Paragraph(get("_address.organisation")),
-                      new docx.Paragraph(get("_address.sao")),
-                      new docx.Paragraph(get("_address.buildingName")),
-                      new docx.Paragraph(get("_address.pao")),
-                      new docx.Paragraph(get("_address.street")),
-                      new docx.Paragraph(get("_address.locality")),
-                      new docx.Paragraph(get("_address.town")),
-                      new docx.Paragraph(get("_address.postcode")),
-                      new docx.Paragraph(get("_address.country"))
-                    ]
+                    children: applicantAddress()
                   })
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -462,26 +503,18 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("Address")]
                   }),
                   new docx.TableCell({
-                    children: [
-                      new docx.Paragraph(get("applicant.agent.address.singleLine")),
-                      new docx.Paragraph(
-                        get("applicant.agent.address.organisation")
-                      ),
-                      new docx.Paragraph(get("applicant.agent.address.sao")),
-                      new docx.Paragraph(
-                        get("applicant.agent.address.buildingName")
-                      ),
-                      new docx.Paragraph(get("applicant.agent.address.pao")),
-                      new docx.Paragraph(get("applicant.agent.address.street")),
-                      new docx.Paragraph(get("applicant.agent.address.locality")),
-                      new docx.Paragraph(get("applicant.agent.address.town")),
-                      new docx.Paragraph(get("applicant.agent.address.postcode")),
-                      new docx.Paragraph(get("applicant.agent.address.country"))
-                    ]
+                    children: agentAddress()
                   })
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -499,7 +532,9 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("Address same as site address?")]
                   }),
                   new docx.TableCell({
-                    children: [checkedCheckbox]
+                    children: [
+                      get("applicant.occupier") ? checkedCheckbox : emptyCheckbox
+                    ]
                   })
                 ]
               }),
@@ -509,22 +544,18 @@ const LDCP = (passport) => {
                     children: [new docx.Paragraph("If no, address")]
                   }),
                   new docx.TableCell({
-                    children: [
-                      new docx.Paragraph(get("property.address.line1")),
-                      new docx.Paragraph(get("property.address.line2")),
-                      new docx.Paragraph(get("property.address.organisation")),
-                      new docx.Paragraph(get("property.address.sao")),
-                      new docx.Paragraph(get("property.address.buildingName")),
-                      new docx.Paragraph(get("property.address.pao")),
-                      new docx.Paragraph(get("property.address.street")),
-                      new docx.Paragraph(get("property.address.locality")),
-                      new docx.Paragraph(get("property.address.town")),
-                      new docx.Paragraph(get("property.address.postcode"))
-                    ]
+                    children: siteAddress()
                   })
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -615,6 +646,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -662,6 +700,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -678,7 +723,11 @@ const LDCP = (passport) => {
               new docx.TextRun(
                 ", please give details of the Owner and state whether they have been informed in writing of this application:"
               )
-            ]
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
           }),
           new docx.Table({
             rows: [
@@ -713,6 +762,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -729,7 +785,11 @@ const LDCP = (passport) => {
               new docx.TextRun(
                 ", please give name and address of anyone you know who has an interest in the land:"
               )
-            ]
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
           }),
           new docx.Table({
             rows: [
@@ -780,6 +840,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -789,12 +856,20 @@ const LDCP = (passport) => {
             heading: docx.HeadingLevel.HEADING_2,
             children: [new docx.TextRun("6. Authority Employee/Member")]
           }),
-          new docx.Paragraph(
-            "It is an important principle of decision-making that the process is open and transparent. For the purposes of this question, \u201Crelated to\u201D means related, by birth or otherwise, closely enough that a fair-minded and informed observer, having considered the facts, would conclude that there was bias on the part of the decision-maker in the local planning authority"
-          ),
-          new docx.Paragraph(
-            "With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member."
-          ),
+          new docx.Paragraph({
+            text: "It is an important principle of decision-making that the process is open and transparent. For the purposes of this question, \u201Crelated to\u201D means related, by birth or otherwise, closely enough that a fair-minded and informed observer, having considered the facts, would conclude that there was bias on the part of the decision-maker in the local planning authority",
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Paragraph({
+            text: "With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member.",
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
           new docx.Table({
             rows: [
               new docx.TableRow({
@@ -864,6 +939,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -881,7 +963,11 @@ const LDCP = (passport) => {
                   type: docx.UnderlineType.SINGLE
                 }
               })
-            ]
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
           }),
           new docx.Table({
             rows: [
@@ -928,6 +1014,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -941,7 +1034,11 @@ const LDCP = (passport) => {
                   type: docx.UnderlineType.SINGLE
                 }
               })
-            ]
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
           }),
           new docx.Table({
             rows: [
@@ -1000,6 +1097,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1097,6 +1201,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1195,6 +1306,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1206,7 +1324,11 @@ const LDCP = (passport) => {
                 text: "Existing and Proposed Vehicle Parking spaces for the following:",
                 bold: true
               })
-            ]
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
           }),
           new docx.Table({
             rows: [
@@ -1345,6 +1467,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1354,9 +1483,13 @@ const LDCP = (passport) => {
             heading: docx.HeadingLevel.HEADING_2,
             children: [new docx.TextRun("10. Declaration")]
           }),
-          new docx.Paragraph(
-            "I/We hereby apply for a Lawful Development Certificate as described in this form and the accompanying plans/drawings and additional information. I/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them."
-          ),
+          new docx.Paragraph({
+            text: "I/We hereby apply for a Lawful Development Certificate as described in this form and the accompanying plans/drawings and additional information. I/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them.",
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
           new docx.Table({
             rows: [
               new docx.TableRow({
@@ -1400,6 +1533,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1412,11 +1552,18 @@ const LDCP = (passport) => {
                 text: "WARNING:",
                 bold: true
               })
-            ]
+            ],
+            spacing: {
+              before: 200
+            }
           }),
-          new docx.Paragraph(
-            "The amended section 194 of the 1990 Act provides that it is an offence to furnish false or misleading information or to withhold material information with intent to deceive. Section 193(7) enables the authority to revoke, at any time, a certificate they may have been issued as a result of such false or misleading information."
-          ),
+          new docx.Paragraph({
+            text: "The amended section 194 of the 1990 Act provides that it is an offence to furnish false or misleading information or to withhold material information with intent to deceive. Section 193(7) enables the authority to revoke, at any time, a certificate they may have been issued as a result of such false or misleading information.",
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
             children: [new docx.TextRun("11. Applicant Contact Details")]
@@ -1447,6 +1594,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1482,6 +1636,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1497,9 +1658,11 @@ const LDCP = (passport) => {
                 children: [
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph(
-                        "Can the site be seen from a: \nPublic road\n Public footpath\n Bridleway \n Or other public land?"
-                      )
+                      new docx.Paragraph("Can the site be seen from a:"),
+                      new docx.Paragraph("Public road"),
+                      new docx.Paragraph("Public footpath"),
+                      new docx.Paragraph("Bridleway"),
+                      new docx.Paragraph("Or other public land?")
                     ]
                   }),
                   new docx.TableCell({
@@ -1512,39 +1675,36 @@ const LDCP = (passport) => {
                   new docx.TableCell({
                     children: [
                       new docx.Paragraph(
-                        " If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?"
+                        "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?"
                       )
                     ]
                   }),
                   new docx.TableCell({
                     children: [
-                      new docx.TableCell({
+                      new docx.Paragraph({
                         children: [
-                          new docx.Paragraph({
-                            children: [
-                              new docx.SymbolRun("F071"),
-                              new docx.TextRun("Applicant")
-                            ]
-                          }),
-                          new docx.Paragraph({
-                            children: [
-                              new docx.SymbolRun("F071"),
-                              new docx.TextRun("Agent")
-                            ]
-                          }),
-                          new docx.Paragraph({
-                            children: [
-                              new docx.SymbolRun("F071"),
-                              new docx.TextRun("Other")
-                            ]
-                          })
+                          new docx.SymbolRun("F071"),
+                          new docx.TextRun("Applicant")
                         ]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Agent")]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Other")]
                       })
                     ]
                   })
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1561,7 +1721,11 @@ const LDCP = (passport) => {
               new docx.TextRun(
                 ", please provide a contact name, telephone number and email address:"
               )
-            ]
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
           }),
           new docx.Table({
             rows: [
@@ -1569,24 +1733,29 @@ const LDCP = (passport) => {
                 children: [
                   new docx.TableCell({
                     children: [
-                      new docx.Paragraph("Other contact for site visit.\nName")
+                      new docx.Paragraph("Other contact for site visit."),
+                      new docx.Paragraph("Name")
                     ]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph("Phone")]
-                  }),
-                  new docx.TableCell({
-                    children: [new docx.Paragraph("Email")]
+                    children: []
                   })
                 ]
               }),
               new docx.TableRow({
                 children: [
                   new docx.TableCell({
-                    children: []
+                    children: [new docx.Paragraph("Phone")]
                   }),
                   new docx.TableCell({
                     children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Email")]
                   }),
                   new docx.TableCell({
                     children: []
@@ -1594,6 +1763,13 @@ const LDCP = (passport) => {
                 ]
               })
             ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
             width: {
               size: 100,
               type: docx.WidthType.PERCENTAGE
@@ -1604,6 +1780,11 @@ const LDCP = (passport) => {
     ]
   });
 };
+function buildParagraphsFromNonEmptyParts(parts) {
+  return parts.filter((part) => part !== "").map((part) => {
+    return new docx.Paragraph(part);
+  });
+}
 const TEMPLATES = {
   blank: {
     template: () => new docx.Document({

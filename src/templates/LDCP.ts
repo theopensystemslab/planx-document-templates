@@ -26,6 +26,54 @@ export const LDCP = (passport: { data: unknown }) => {
     const value: string | undefined = _get(passport.data, path);
     return value ? `${value}` : "";
   };
+
+  const applicantAddress = () => {
+    const addressParts = [
+      get("applicant.address.line1"),
+      get("applicant.address.line2"),
+      get("applicant.address.organisation"),
+      get("applicant.address.sao"),
+      get("applicant.address.buildingName"),
+      get("applicant.address.pao"),
+      get("applicant.address.street"),
+      get("applicant.address.locality"),
+      get("applicant.address.town"),
+      get("applicant.address.postcode"),
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+
+  const siteAddress = () => {
+    const addressParts = [
+      get("_address.line1"),
+      get("_address.line2"),
+      get("_address.organisation"),
+      get("_address.sao"),
+      get("_address.buildingName"),
+      get("_address.pao"),
+      get("_address.street"),
+      get("_address.locality"),
+      get("_address.town"),
+      get("_address.postcode"),
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+
+  const agentAddress = () => {
+    const addressParts = [
+      get("applicant.agent.address.organisation"),
+      get("applicant.agent.address.sao"),
+      get("applicant.agent.address.buildingName"),
+      get("applicant.agent.address.pao"),
+      get("applicant.agent.address.street"),
+      get("applicant.agent.address.locality"),
+      get("applicant.agent.address.town"),
+      get("applicant.agent.address.postcode"),
+      get("applicant.agent.address.country"),
+    ];
+    return buildParagraphsFromNonEmptyParts(addressParts);
+  };
+
   return new Document({
     creator: "PlanX",
     title: "LDC-P",
@@ -134,22 +182,18 @@ export const LDCP = (passport: { data: unknown }) => {
                     children: [new Paragraph("Address")],
                   }),
                   new TableCell({
-                    children: [
-                      new Paragraph(get("_address.singleLine")),
-                      new Paragraph(get("_address.organisation")),
-                      new Paragraph(get("_address.sao")),
-                      new Paragraph(get("_address.buildingName")),
-                      new Paragraph(get("_address.pao")),
-                      new Paragraph(get("_address.street")),
-                      new Paragraph(get("_address.locality")),
-                      new Paragraph(get("_address.town")),
-                      new Paragraph(get("_address.postcode")),
-                      new Paragraph(get("_address.country")),
-                    ],
+                    children: applicantAddress(),
                   }),
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -193,26 +237,18 @@ export const LDCP = (passport: { data: unknown }) => {
                     children: [new Paragraph("Address")],
                   }),
                   new TableCell({
-                    children: [
-                      new Paragraph(get("applicant.agent.address.singleLine")),
-                      new Paragraph(
-                        get("applicant.agent.address.organisation")
-                      ),
-                      new Paragraph(get("applicant.agent.address.sao")),
-                      new Paragraph(
-                        get("applicant.agent.address.buildingName")
-                      ),
-                      new Paragraph(get("applicant.agent.address.pao")),
-                      new Paragraph(get("applicant.agent.address.street")),
-                      new Paragraph(get("applicant.agent.address.locality")),
-                      new Paragraph(get("applicant.agent.address.town")),
-                      new Paragraph(get("applicant.agent.address.postcode")),
-                      new Paragraph(get("applicant.agent.address.country")),
-                    ],
+                    children: agentAddress(),
                   }),
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -232,7 +268,11 @@ export const LDCP = (passport: { data: unknown }) => {
                     children: [new Paragraph("Address same as site address?")],
                   }),
                   new TableCell({
-                    children: [checkedCheckbox], //applicant.occupier
+                    children: [
+                      get("applicant.occupier")
+                        ? checkedCheckbox
+                        : emptyCheckbox,
+                    ],
                   }),
                 ],
               }),
@@ -242,22 +282,18 @@ export const LDCP = (passport: { data: unknown }) => {
                     children: [new Paragraph("If no, address")],
                   }),
                   new TableCell({
-                    children: [
-                      new Paragraph(get("property.address.line1")),
-                      new Paragraph(get("property.address.line2")),
-                      new Paragraph(get("property.address.organisation")),
-                      new Paragraph(get("property.address.sao")),
-                      new Paragraph(get("property.address.buildingName")),
-                      new Paragraph(get("property.address.pao")),
-                      new Paragraph(get("property.address.street")),
-                      new Paragraph(get("property.address.locality")),
-                      new Paragraph(get("property.address.town")),
-                      new Paragraph(get("property.address.postcode")),
-                    ],
+                    children: siteAddress(),
                   }),
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -350,6 +386,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -399,6 +442,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -416,6 +466,10 @@ export const LDCP = (passport: { data: unknown }) => {
                 ", please give details of the Owner and state whether they have been informed in writing of this application:"
               ),
             ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
           }),
           new Table({
             rows: [
@@ -450,6 +504,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -467,6 +528,10 @@ export const LDCP = (passport: { data: unknown }) => {
                 ", please give name and address of anyone you know who has an interest in the land:"
               ),
             ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
           }),
           new Table({
             rows: [
@@ -517,6 +582,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -528,12 +600,20 @@ export const LDCP = (passport: { data: unknown }) => {
             heading: HeadingLevel.HEADING_2,
             children: [new TextRun("6. Authority Employee/Member")],
           }),
-          new Paragraph(
-            "It is an important principle of decision-making that the process is open and transparent. For the purposes of this question, “related to” means related, by birth or otherwise, closely enough that a fair-minded and informed observer, having considered the facts, would conclude that there was bias on the part of the decision-maker in the local planning authority"
-          ),
-          new Paragraph(
-            "With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member."
-          ),
+          new Paragraph({
+            text: "It is an important principle of decision-making that the process is open and transparent. For the purposes of this question, “related to” means related, by birth or otherwise, closely enough that a fair-minded and informed observer, having considered the facts, would conclude that there was bias on the part of the decision-maker in the local planning authority",
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
+          new Paragraph({
+            text: "With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member.",
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
           new Table({
             rows: [
               new TableRow({
@@ -603,6 +683,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -623,6 +710,10 @@ export const LDCP = (passport: { data: unknown }) => {
                 },
               }),
             ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
           }),
           new Table({
             rows: [
@@ -669,6 +760,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -683,6 +781,10 @@ export const LDCP = (passport: { data: unknown }) => {
                 },
               }),
             ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
           }),
           new Table({
             rows: [
@@ -741,6 +843,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -840,6 +949,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -940,6 +1056,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -952,6 +1075,10 @@ export const LDCP = (passport: { data: unknown }) => {
                 bold: true,
               }),
             ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
           }),
           new Table({
             rows: [
@@ -1090,6 +1217,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -1101,9 +1235,13 @@ export const LDCP = (passport: { data: unknown }) => {
             heading: HeadingLevel.HEADING_2,
             children: [new TextRun("10. Declaration")],
           }),
-          new Paragraph(
-            "I/We hereby apply for a Lawful Development Certificate as described in this form and the accompanying plans/drawings and additional information. I/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them."
-          ),
+          new Paragraph({
+            text: "I/We hereby apply for a Lawful Development Certificate as described in this form and the accompanying plans/drawings and additional information. I/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them.",
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
           new Table({
             rows: [
               new TableRow({
@@ -1147,6 +1285,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -1160,10 +1305,17 @@ export const LDCP = (passport: { data: unknown }) => {
                 bold: true,
               }),
             ],
+            spacing: {
+              before: 200,
+            },
           }),
-          new Paragraph(
-            "The amended section 194 of the 1990 Act provides that it is an offence to furnish false or misleading information or to withhold material information with intent to deceive. Section 193(7) enables the authority to revoke, at any time, a certificate they may have been issued as a result of such false or misleading information."
-          ),
+          new Paragraph({
+            text: "The amended section 194 of the 1990 Act provides that it is an offence to furnish false or misleading information or to withhold material information with intent to deceive. Section 193(7) enables the authority to revoke, at any time, a certificate they may have been issued as a result of such false or misleading information.",
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
 
           // 11
           new Paragraph({
@@ -1196,6 +1348,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -1233,6 +1392,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -1250,9 +1416,11 @@ export const LDCP = (passport: { data: unknown }) => {
                 children: [
                   new TableCell({
                     children: [
-                      new Paragraph(
-                        "Can the site be seen from a: \nPublic road\n Public footpath\n Bridleway \n Or other public land?"
-                      ),
+                      new Paragraph("Can the site be seen from a:"),
+                      new Paragraph("Public road"),
+                      new Paragraph("Public footpath"),
+                      new Paragraph("Bridleway"),
+                      new Paragraph("Or other public land?"),
                     ],
                   }),
                   new TableCell({
@@ -1265,39 +1433,36 @@ export const LDCP = (passport: { data: unknown }) => {
                   new TableCell({
                     children: [
                       new Paragraph(
-                        " If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?"
+                        "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?"
                       ),
                     ],
                   }),
                   new TableCell({
                     children: [
-                      new TableCell({
+                      new Paragraph({
                         children: [
-                          new Paragraph({
-                            children: [
-                              new SymbolRun("F071"),
-                              new TextRun("Applicant"),
-                            ],
-                          }),
-                          new Paragraph({
-                            children: [
-                              new SymbolRun("F071"),
-                              new TextRun("Agent"),
-                            ],
-                          }),
-                          new Paragraph({
-                            children: [
-                              new SymbolRun("F071"),
-                              new TextRun("Other"),
-                            ], // applicant.siteContact
-                          }),
+                          new SymbolRun("F071"),
+                          new TextRun("Applicant"),
                         ],
+                      }),
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("Agent")],
+                      }),
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("Other")], // applicant.siteContact
                       }),
                     ],
                   }),
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -1315,6 +1480,10 @@ export const LDCP = (passport: { data: unknown }) => {
                 ", please provide a contact name, telephone number and email address:"
               ),
             ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
           }),
           new Table({
             rows: [
@@ -1322,24 +1491,29 @@ export const LDCP = (passport: { data: unknown }) => {
                 children: [
                   new TableCell({
                     children: [
-                      new Paragraph("Other contact for site visit.\nName"),
+                      new Paragraph("Other contact for site visit."),
+                      new Paragraph("Name"),
                     ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("Phone")],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph("Email")],
+                    children: [],
                   }),
                 ],
               }),
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [],
+                    children: [new Paragraph("Phone")],
                   }),
                   new TableCell({
                     children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Email")],
                   }),
                   new TableCell({
                     children: [],
@@ -1347,6 +1521,13 @@ export const LDCP = (passport: { data: unknown }) => {
                 ],
               }),
             ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
             width: {
               size: 100,
               type: WidthType.PERCENTAGE,
@@ -1357,3 +1538,11 @@ export const LDCP = (passport: { data: unknown }) => {
     ],
   });
 };
+
+function buildParagraphsFromNonEmptyParts(parts: string[]): Paragraph[] {
+  return parts
+    .filter((part) => part !== "")
+    .map((part) => {
+      return new Paragraph(part);
+    });
+}
