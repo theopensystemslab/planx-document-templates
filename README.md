@@ -17,6 +17,10 @@ Other useful package scripts:
   * `pnpm ci`: run continuous integration checks
   * `pnpm build`: build the package
 
+## Publishing
+
+This node package is published via Github. To release a new version, increment the version number in `package.json` and run `pnpm build` before checking in changes (including the `/dist` folder).
+
 ## License
 
 This repository is licensed under the [Open Government License v3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
