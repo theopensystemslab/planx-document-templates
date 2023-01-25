@@ -92,15 +92,12 @@ export const LDCE = (passport: { data: object }) => {
       // eslint-disable-next-line
       .concat(propertySitePlan, proposalSitePlan)
       .filter((item) => item !== undefined);
-    if (sitePlan && Array.isArray(sitePlan)) {
-      return (
-        sitePlan
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          .map((item) => String(item["filename"]))
-          .filter((item) => item !== undefined)
-      );
-    }
-    return [];
+    return (
+      sitePlan
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        .map((item) => String(item["filename"]))
+        .filter((item) => item !== undefined)
+    );
   };
 
   return new Document({
@@ -640,7 +637,9 @@ export const LDCE = (passport: { data: object }) => {
           }),
           new Paragraph({
             children: [
-             new TextRun("With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member."),
+              new TextRun(
+                "With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member."
+              ),
             ],
             spacing: {
               before: 200,
@@ -732,11 +731,15 @@ export const LDCE = (passport: { data: object }) => {
           // 7
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("7. Description of Use, Building Works or Activity")],
+            children: [
+              new TextRun("7. Description of Use, Building Works or Activity"),
+            ],
           }),
           new Paragraph({
             children: [
-            new TextRun("Please state for which of these you need a lawful development certificate/building works (you must tick at least one option):")
+              new TextRun(
+                "Please state for which of these you need a lawful development certificate/building works (you must tick at least one option):"
+              ),
             ],
             spacing: {
               before: 200,
@@ -748,15 +751,12 @@ export const LDCE = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("An existing use:") ],
+                    children: [new Paragraph("An existing use:")],
                   }),
                   new TableCell({
                     children: [
                       new Paragraph({
-                        children: [
-                          new SymbolRun("F071"),
-                          new TextRun("Yes"),
-                        ],
+                        children: [new SymbolRun("F071"), new TextRun("Yes")],
                       }),
                     ],
                   }),
@@ -765,15 +765,12 @@ export const LDCE = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("Existing building works:") ],
+                    children: [new Paragraph("Existing building works:")],
                   }),
                   new TableCell({
                     children: [
                       new Paragraph({
-                        children: [
-                          new SymbolRun("F071"),
-                          new TextRun("Yes"),
-                        ],
+                        children: [new SymbolRun("F071"), new TextRun("Yes")],
                       }),
                     ],
                   }),
@@ -782,15 +779,16 @@ export const LDCE = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("An existing use, building work or activity in breach of a condition") ],
+                    children: [
+                      new Paragraph(
+                        "An existing use, building work or activity in breach of a condition"
+                      ),
+                    ],
                   }),
                   new TableCell({
                     children: [
                       new Paragraph({
-                        children: [
-                          new SymbolRun("F071"),
-                          new TextRun("Yes"),
-                        ],
+                        children: [new SymbolRun("F071"), new TextRun("Yes")],
                       }),
                     ],
                   }),
@@ -799,7 +797,11 @@ export const LDCE = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("Being a use, building works or activity which is still going on at the date of this application.") ],
+                    children: [
+                      new Paragraph(
+                        "Being a use, building works or activity which is still going on at the date of this application."
+                      ),
+                    ],
                   }),
                   new TableCell({
                     children: [],
@@ -809,7 +811,11 @@ export const LDCE = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("If Yes to either ‘an existing use’ or ‘an existing use in breach of a condition’ please state which one of the Use Classes the use relates to:") ],
+                    children: [
+                      new Paragraph(
+                        "If Yes to either ‘an existing use’ or ‘an existing use in breach of a condition’ please state which one of the Use Classes the use relates to:"
+                      ),
+                    ],
                   }),
                   new TableCell({
                     children: [new Paragraph("Not supplied")],
@@ -833,31 +839,25 @@ export const LDCE = (passport: { data: object }) => {
           // 8
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("8. ")],
-          }),
-          new Paragraph({
             children: [
-              new TextRun({
-                text: "",
-                underline: {
-                  type: UnderlineType.SINGLE,
-                },
-              }),
+              new TextRun(
+                "8. Description of Existing Use, Building Works or Activity"
+              ),
             ],
-            spacing: {
-              before: 200,
-              after: 200,
-            },
           }),
           new Table({
             rows: [
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("")],
+                    children: [
+                      new Paragraph(
+                        "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to"
+                      ),
+                    ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("")],
+                    children: [new Paragraph("Not supplied")],
                   }),
                 ],
               }),
@@ -878,15 +878,156 @@ export const LDCE = (passport: { data: object }) => {
           // 9
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("9. ")],
+            children: [
+              new TextRun(
+                "9. Grounds For Application for a Lawful Development Certificate"
+              ),
+            ],
           }),
           new Paragraph({
             children: [
               new TextRun({
-                text: "",
-                underline: {
-                  type: UnderlineType.SINGLE,
-                },
+                text: "Please state under what grounds is the certificate sought (you must tick at least one box):",
+              }),
+            ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
+          new Table({
+            columnWidths: [5, 95],
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [emptyCheckbox],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "The use began more than 10 years before the date of this application."
+                      ),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [emptyCheckbox],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "The use, building works or activity in breach of condition began more than 10 years before the date of this application."
+                      ),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [emptyCheckbox],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "The use began within the last 10 years, as a result of a change of use not requiring planning permission, and there has not been a change of use requiring planning permission in the last 10 years."
+                      ),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [emptyCheckbox],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "The building works (for instance, building or engineering works) were substantially completed more than four years before the date of this application."
+                      ),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [emptyCheckbox],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "The use as a single dwelling house began more than four years before the date of this application."
+                      ),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [emptyCheckbox],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "Other - please specify (this might include claims that the change of use or building work was not development, or that it benefited from planning permission granted under the Act or by the General Permitted Development Order)."
+                      ),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
+            },
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "If the certificate is sought on 'Other' grounds please give details:"
+                      ),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Not supplied")],
+                  }),
+                ],
+              }),
+            ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
+            },
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "If applicable, please give the reference number of any existing planning permission, lawful development certificate or enforcement notice affecting the application site. Include its date and the number of any condition being breached:",
               }),
             ],
             spacing: {
@@ -899,10 +1040,346 @@ export const LDCE = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("")],
+                    children: [new Paragraph("Reference number:")],
                   }),
                   new TableCell({
-                    children: [new Paragraph("")],
+                    children: [new Paragraph("Not supplied")],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Condition number:")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Not supplied")],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph("Date (DD/MM/YYYY):"),
+                      new Paragraph("(must be pre application submission)"),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Not supplied")],
+                  }),
+                ],
+              }),
+            ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
+            },
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "Please state why a Lawful Development Certificate should be granted:",
+              }),
+            ],
+            spacing: {
+              before: 200,
+              after: 200,
+            },
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Not supplied")],
+                  }),
+                ],
+              }),
+            ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
+            },
+          }),
+          new Paragraph({
+            heading: HeadingLevel.HEADING_3,
+            children: [new TextRun("Exisiting Housing")],
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Number of bedrooms",
+                            italics: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                    columnSpan: 5,
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Total",
+                            italics: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Market Housing",
+                            bold: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("1")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("2")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("3")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("4+")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Unknown")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Houses")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Flats & Maisonettes")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Live-work Units")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Cluster Flats")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Sheltered Housing")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Bedsit/Studios")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Unknown")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Total:",
+                            bold: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                    columnSpan: 6,
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Enter if relevant")],
                   }),
                 ],
               }),
@@ -923,20 +1400,423 @@ export const LDCE = (passport: { data: object }) => {
           // 10
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("10. ")],
-          }),
-          new Paragraph({
             children: [
-              new TextRun({
-                text: "",
-                underline: {
-                  type: UnderlineType.SINGLE,
-                },
+              new TextRun(
+                "10. Information In Support of a Lawful Development Certificate"
+              ),
+            ],
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "When was the use or activity begun, or the building work substantially completed?"
+                      ),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph("Not supplied"),
+                      new Paragraph(""),
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Date (DD/MM/YYYY) (must be pre application submission)",
+                            underline: {
+                              type: UnderlineType.SINGLE,
+                            },
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "In the case of an existing use or activity in breach of conditions has there been any interruption:"
+                      ),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("Yes")],
+                      }),
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("No")],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "If Yes, please provide details of the dates, duration and any discontinuance of the development which is the subject of this application. If your application is based on the claim that a use or activity has been ongoing for a period of years, please state exactly when any interruption occurred:"
+                      ),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Not supplied")],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "In the case of an existing use of land, has there been any material change of use of the land since the start of the use for which a certificate is sought?"
+                      ),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("Yes")],
+                      }),
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("No")],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph("If Yes, please provide details:"),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Not supplied")],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph(
+                        "Does the application for a Certificate relate to a residential use where the number of residential units has changed?"
+                      ),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("Yes")],
+                      }),
+                      new Paragraph({
+                        children: [new SymbolRun("F071"), new TextRun("No")],
+                      }),
+                      new Paragraph(""),
+                      new Paragraph("If Yes, complete table below"),
+                    ],
+                  }),
+                ],
               }),
             ],
-            spacing: {
-              before: 200,
-              after: 200,
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
+            },
+          }),
+          new Paragraph({
+            heading: HeadingLevel.HEADING_3,
+            children: [new TextRun("Proposed Housing")],
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Number of bedrooms",
+                            italics: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                    columnSpan: 5,
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Total",
+                            italics: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Market Housing",
+                            bold: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("1")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("2")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("3")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("4+")],
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Unknown")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Houses")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Flats & Maisonettes")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Live-work Units")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Cluster Flats")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Sheltered Housing")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Bedsit/Studios")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [new Paragraph("Unknown")],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                  new TableCell({
+                    children: [],
+                  }),
+                ],
+              }),
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Total:",
+                            bold: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                    columnSpan: 6,
+                  }),
+                  new TableCell({
+                    children: [new Paragraph("Enter if relevant")],
+                  }),
+                ],
+              }),
+            ],
+            margins: {
+              marginUnitType: WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1,
+            },
+            width: {
+              size: 100,
+              type: WidthType.PERCENTAGE,
             },
           }),
           new Table({
@@ -944,10 +1824,23 @@ export const LDCE = (passport: { data: object }) => {
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph("")],
+                    children: [
+                      new Paragraph("Social/ Intermediate/ Key Worker Housing"),
+                    ],
                   }),
                   new TableCell({
-                    children: [new Paragraph("")],
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new SymbolRun("F071"),
+                          new TextRun("None relevant"),
+                        ],
+                      }),
+                      new Paragraph(""),
+                      new Paragraph(
+                        "(If relevant to the application,  set out details in a table like the above)"
+                      ),
+                    ],
                   }),
                 ],
               }),
@@ -1233,10 +2126,10 @@ export const LDCE = (passport: { data: object }) => {
             },
           }),
 
-          // 10
+          // 12
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("10. Declaration")],
+            children: [new TextRun("12. Declaration")],
           }),
           new Paragraph({
             text: "I/We hereby apply for a Lawful Development Certificate as described in this form and the accompanying plans/drawings and additional information. I/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them.",
@@ -1320,10 +2213,10 @@ export const LDCE = (passport: { data: object }) => {
             },
           }),
 
-          // 11
+          // 13
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("11. Applicant Contact Details")],
+            children: [new TextRun("13. Applicant Contact Details")],
           }),
           new Table({
             rows: [
@@ -1364,10 +2257,10 @@ export const LDCE = (passport: { data: object }) => {
             },
           }),
 
-          // 12
+          // 14
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("12. Agent Contact Details")],
+            children: [new TextRun("14. Agent Contact Details")],
           }),
           new Table({
             rows: [
@@ -1408,10 +2301,10 @@ export const LDCE = (passport: { data: object }) => {
             },
           }),
 
-          // 13
+          // 15
           new Paragraph({
             heading: HeadingLevel.HEADING_2,
-            children: [new TextRun("13. Site Visit")],
+            children: [new TextRun("15. Site Visit")],
           }),
           new Table({
             rows: [
