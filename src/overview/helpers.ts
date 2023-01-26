@@ -1,9 +1,10 @@
-import type { QuestionAnswer } from "./DocumentReview";
+import type { PlanXExportData } from "../types";
 
-export function checkAnswerProps(props: QuestionAnswer[]): boolean {
+export function validatePlanXExportData(data: PlanXExportData[]): boolean {
   return (
-    props &&
-    props.every((entry: object) => {
+    Array.isArray(data) &&
+    data.length > 0 &&
+    data.every((entry: object) => {
       return (
         Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses")
       );

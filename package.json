@@ -1,31 +1,31 @@
 {
-  "name": "@opensystemslab/planx-document-review",
-  "type": "module",
-  "version": "1.1.2",
+  "name": "@opensystemslab/planx-document-templates",
+  "version": "0.0.0",
   "license": "OGL-UK-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/theopensystemslab/planx-document-review.git"
+    "url": "https://github.com/theopensystemslab/planx-document-templates.git"
   },
   "files": [
     "dist",
     "types"
   ],
-  "module": "./dist/DocumentReview.js",
-  "main": "./dist/DocumentReview.cjs",
-  "types": "./types/DocumentReview.d.ts",
+  "module": "./dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/DocumentReview.js",
-      "require": "./dist/DocumentReview.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
     "dev": "vite",
+    "generate": "tsc --project tsconfig.prebuild.json && node ./dist/templates/generateTemplateExamples.js",
     "test": "vitest --run --dir src",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "ci": "pnpm lint && pnpm test && pnpm build",
-    "build": "rimraf ./dist ./types && tsc && vite build"
+    "check": "tsc --emitDeclarationOnly false --noEmit && eslint 'src/**/*.{ts,tsx}'",
+    "ci": "pnpm check && pnpm test && pnpm build",
+    "build": "rimraf ./dist ./types && tsc --project tsconfig.json && pnpm generate && vite build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -33,6 +33,7 @@
     "@lit-labs/ssr": "^2.2.3",
     "@mui/material": "^5.10.16",
     "@rollup/plugin-commonjs": "^23.0.3",
+    "docx": "^7.8.2",
     "lodash.startcase": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -42,6 +43,7 @@
     "@babel/plugin-syntax-flow": "^7.18.6",
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@types/lodash.startcase": "^4.4.7",
+    "@types/node": "^18.11.18",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
