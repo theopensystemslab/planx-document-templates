@@ -2408,7 +2408,9 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             children: [
-              new docx.TextRun("With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member.")
+              new docx.TextRun(
+                "With respect to the Authority, I am: (a) a member of staff (b) an elected member (c) related to a member of staff (d) related to an elected member."
+              )
             ],
             spacing: {
               before: 200,
@@ -2498,11 +2500,15 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("7. Description of Use, Building Works or Activity")]
+            children: [
+              new docx.TextRun("7. Description of Use, Building Works or Activity")
+            ]
           }),
           new docx.Paragraph({
             children: [
-              new docx.TextRun("Please state for which of these you need a lawful development certificate/building works (you must tick at least one option):")
+              new docx.TextRun(
+                "Please state for which of these you need a lawful development certificate/building works (you must tick at least one option):"
+              )
             ],
             spacing: {
               before: 200,
@@ -2519,10 +2525,7 @@ const LDCE = (passport) => {
                   new docx.TableCell({
                     children: [
                       new docx.Paragraph({
-                        children: [
-                          new docx.SymbolRun("F071"),
-                          new docx.TextRun("Yes")
-                        ]
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Yes")]
                       })
                     ]
                   })
@@ -2536,10 +2539,7 @@ const LDCE = (passport) => {
                   new docx.TableCell({
                     children: [
                       new docx.Paragraph({
-                        children: [
-                          new docx.SymbolRun("F071"),
-                          new docx.TextRun("Yes")
-                        ]
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Yes")]
                       })
                     ]
                   })
@@ -2548,15 +2548,16 @@ const LDCE = (passport) => {
               new docx.TableRow({
                 children: [
                   new docx.TableCell({
-                    children: [new docx.Paragraph("An existing use, building work or activity in breach of a condition")]
+                    children: [
+                      new docx.Paragraph(
+                        "An existing use, building work or activity in breach of a condition"
+                      )
+                    ]
                   }),
                   new docx.TableCell({
                     children: [
                       new docx.Paragraph({
-                        children: [
-                          new docx.SymbolRun("F071"),
-                          new docx.TextRun("Yes")
-                        ]
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Yes")]
                       })
                     ]
                   })
@@ -2565,7 +2566,11 @@ const LDCE = (passport) => {
               new docx.TableRow({
                 children: [
                   new docx.TableCell({
-                    children: [new docx.Paragraph("Being a use, building works or activity which is still going on at the date of this application.")]
+                    children: [
+                      new docx.Paragraph(
+                        "Being a use, building works or activity which is still going on at the date of this application."
+                      )
+                    ]
                   }),
                   new docx.TableCell({
                     children: []
@@ -2575,7 +2580,11 @@ const LDCE = (passport) => {
               new docx.TableRow({
                 children: [
                   new docx.TableCell({
-                    children: [new docx.Paragraph("If Yes to either \u2018an existing use\u2019 or \u2018an existing use in breach of a condition\u2019 please state which one of the Use Classes the use relates to:")]
+                    children: [
+                      new docx.Paragraph(
+                        "If Yes to either \u2018an existing use\u2019 or \u2018an existing use in breach of a condition\u2019 please state which one of the Use Classes the use relates to:"
+                      )
+                    ]
                   }),
                   new docx.TableCell({
                     children: [new docx.Paragraph("Not supplied")]
@@ -2597,31 +2606,25 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("8. ")]
-          }),
-          new docx.Paragraph({
             children: [
-              new docx.TextRun({
-                text: "",
-                underline: {
-                  type: docx.UnderlineType.SINGLE
-                }
-              })
-            ],
-            spacing: {
-              before: 200,
-              after: 200
-            }
+              new docx.TextRun(
+                "8. Description of Existing Use, Building Works or Activity"
+              )
+            ]
           }),
           new docx.Table({
             rows: [
               new docx.TableRow({
                 children: [
                   new docx.TableCell({
-                    children: [new docx.Paragraph("")]
+                    children: [
+                      new docx.Paragraph(
+                        "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to"
+                      )
+                    ]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph("")]
+                    children: [new docx.Paragraph("Not supplied")]
                   })
                 ]
               })
@@ -2640,15 +2643,156 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("9. ")]
+            children: [
+              new docx.TextRun(
+                "9. Grounds For Application for a Lawful Development Certificate"
+              )
+            ]
           }),
           new docx.Paragraph({
             children: [
               new docx.TextRun({
-                text: "",
-                underline: {
-                  type: docx.UnderlineType.SINGLE
-                }
+                text: "Please state under what grounds is the certificate sought (you must tick at least one box):"
+              })
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            columnWidths: [5, 95],
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [emptyCheckbox]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "The use began more than 10 years before the date of this application."
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [emptyCheckbox]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "The use, building works or activity in breach of condition began more than 10 years before the date of this application."
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [emptyCheckbox]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "The use began within the last 10 years, as a result of a change of use not requiring planning permission, and there has not been a change of use requiring planning permission in the last 10 years."
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [emptyCheckbox]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "The building works (for instance, building or engineering works) were substantially completed more than four years before the date of this application."
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [emptyCheckbox]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "The use as a single dwelling house began more than four years before the date of this application."
+                      )
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [emptyCheckbox]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Other - please specify (this might include claims that the change of use or building work was not development, or that it benefited from planning permission granted under the Act or by the General Permitted Development Order)."
+                      )
+                    ]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "If the certificate is sought on 'Other' grounds please give details:"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "If applicable, please give the reference number of any existing planning permission, lawful development certificate or enforcement notice affecting the application site. Include its date and the number of any condition being breached:"
               })
             ],
             spacing: {
@@ -2661,10 +2805,346 @@ const LDCE = (passport) => {
               new docx.TableRow({
                 children: [
                   new docx.TableCell({
-                    children: [new docx.Paragraph("")]
+                    children: [new docx.Paragraph("Reference number:")]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph("")]
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Condition number:")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("Date (DD/MM/YYYY):"),
+                      new docx.Paragraph("(must be pre application submission)")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            children: [
+              new docx.TextRun({
+                text: "Please state why a Lawful Development Certificate should be granted:"
+              })
+            ],
+            spacing: {
+              before: 200,
+              after: 200
+            }
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_3,
+            children: [new docx.TextRun("Exisiting Housing")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Number of bedrooms",
+                            italics: true
+                          })
+                        ]
+                      })
+                    ],
+                    columnSpan: 5
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Total",
+                            italics: true
+                          })
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Market Housing",
+                            bold: true
+                          })
+                        ]
+                      })
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("1")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("2")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("3")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("4+")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Unknown")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Houses")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Flats & Maisonettes")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Live-work Units")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Cluster Flats")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Sheltered Housing")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Bedsit/Studios")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Unknown")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Total:",
+                            bold: true
+                          })
+                        ]
+                      })
+                    ],
+                    columnSpan: 6
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Enter if relevant")]
                   })
                 ]
               })
@@ -2683,20 +3163,423 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("10. ")]
-          }),
-          new docx.Paragraph({
             children: [
-              new docx.TextRun({
-                text: "",
-                underline: {
-                  type: docx.UnderlineType.SINGLE
-                }
+              new docx.TextRun(
+                "10. Information In Support of a Lawful Development Certificate"
+              )
+            ]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "When was the use or activity begun, or the building work substantially completed?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("Not supplied"),
+                      new docx.Paragraph(""),
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Date (DD/MM/YYYY) (must be pre application submission)",
+                            underline: {
+                              type: docx.UnderlineType.SINGLE
+                            }
+                          })
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "In the case of an existing use or activity in breach of conditions has there been any interruption:"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Yes")]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("No")]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "If Yes, please provide details of the dates, duration and any discontinuance of the development which is the subject of this application. If your application is based on the claim that a use or activity has been ongoing for a period of years, please state exactly when any interruption occurred:"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "In the case of an existing use of land, has there been any material change of use of the land since the start of the use for which a certificate is sought?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Yes")]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("No")]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph("If Yes, please provide details:")
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Not supplied")]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph(
+                        "Does the application for a Certificate relate to a residential use where the number of residential units has changed?"
+                      )
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("Yes")]
+                      }),
+                      new docx.Paragraph({
+                        children: [new docx.SymbolRun("F071"), new docx.TextRun("No")]
+                      }),
+                      new docx.Paragraph(""),
+                      new docx.Paragraph("If Yes, complete table below")
+                    ]
+                  })
+                ]
               })
             ],
-            spacing: {
-              before: 200,
-              after: 200
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
+            }
+          }),
+          new docx.Paragraph({
+            heading: docx.HeadingLevel.HEADING_3,
+            children: [new docx.TextRun("Proposed Housing")]
+          }),
+          new docx.Table({
+            rows: [
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Number of bedrooms",
+                            italics: true
+                          })
+                        ]
+                      })
+                    ],
+                    columnSpan: 5
+                  }),
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Total",
+                            italics: true
+                          })
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Market Housing",
+                            bold: true
+                          })
+                        ]
+                      })
+                    ]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("1")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("2")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("3")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("4+")]
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Unknown")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Houses")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Flats & Maisonettes")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Live-work Units")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Cluster Flats")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Sheltered Housing")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Bedsit/Studios")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Unknown")]
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  }),
+                  new docx.TableCell({
+                    children: []
+                  })
+                ]
+              }),
+              new docx.TableRow({
+                children: [
+                  new docx.TableCell({
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.TextRun({
+                            text: "Total:",
+                            bold: true
+                          })
+                        ]
+                      })
+                    ],
+                    columnSpan: 6
+                  }),
+                  new docx.TableCell({
+                    children: [new docx.Paragraph("Enter if relevant")]
+                  })
+                ]
+              })
+            ],
+            margins: {
+              marginUnitType: docx.WidthType.PERCENTAGE,
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            },
+            width: {
+              size: 100,
+              type: docx.WidthType.PERCENTAGE
             }
           }),
           new docx.Table({
@@ -2704,10 +3587,23 @@ const LDCE = (passport) => {
               new docx.TableRow({
                 children: [
                   new docx.TableCell({
-                    children: [new docx.Paragraph("")]
+                    children: [
+                      new docx.Paragraph("Social/ Intermediate/ Key Worker Housing")
+                    ]
                   }),
                   new docx.TableCell({
-                    children: [new docx.Paragraph("")]
+                    children: [
+                      new docx.Paragraph({
+                        children: [
+                          new docx.SymbolRun("F071"),
+                          new docx.TextRun("None relevant")
+                        ]
+                      }),
+                      new docx.Paragraph(""),
+                      new docx.Paragraph(
+                        "(If relevant to the application,  set out details in a table like the above)"
+                      )
+                    ]
                   })
                 ]
               })
@@ -2992,7 +3888,7 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("10. Declaration")]
+            children: [new docx.TextRun("12. Declaration")]
           }),
           new docx.Paragraph({
             text: "I/We hereby apply for a Lawful Development Certificate as described in this form and the accompanying plans/drawings and additional information. I/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them.",
@@ -3077,7 +3973,7 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("11. Applicant Contact Details")]
+            children: [new docx.TextRun("13. Applicant Contact Details")]
           }),
           new docx.Table({
             rows: [
@@ -3119,7 +4015,7 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("12. Agent Contact Details")]
+            children: [new docx.TextRun("14. Agent Contact Details")]
           }),
           new docx.Table({
             rows: [
@@ -3161,7 +4057,7 @@ const LDCE = (passport) => {
           }),
           new docx.Paragraph({
             heading: docx.HeadingLevel.HEADING_2,
-            children: [new docx.TextRun("13. Site Visit")]
+            children: [new docx.TextRun("15. Site Visit")]
           }),
           new docx.Table({
             rows: [

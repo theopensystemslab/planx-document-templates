@@ -43,7 +43,7 @@
     "property.type": ["commercial.office.workspace"],
     "proposal.time": ["future"],
     "applicant.type": ["individual"],
-    "applicant.email": "majad.ali@buckinghamshire.gov.uk",
+    "applicant.email": "test@buckinghamshire.gov.uk",
     "applicant.title": "Mr",
     "property.region": ["South East"],
     "application.type": ["ldc.proposed"],
