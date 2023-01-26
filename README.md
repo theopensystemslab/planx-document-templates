@@ -19,7 +19,16 @@ Other useful package scripts:
 
 ## Publishing
 
-This node package is published via Github. To release a new version, increment the version number in `package.json` and run `pnpm build` before checking in changes (including the `/dist` folder).
+This node package is published via Github.
+
+To release a new version, increment the version number in `package.json` and run `pnpm build` before checking in changes (including the `/dist` folder).
+
+Pushing a tag to the release commit with the same version number (i.e. `git tag v1.0.0`) also allows consumers to reference a specific version in their `package.json`, like so:
+
+    "dependencies": {
+      "@opensystemslab/planx-document-templates": "git://github.com/theopensystemslab/planx-document-templates.git#v1.0.0",
+      ...
+    }
 
 ## License
 
