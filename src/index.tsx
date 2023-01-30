@@ -4,6 +4,7 @@ import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCP } from "./templates/LDCP";
 import { LDCE } from "./templates/LDCE";
+import { StandardLDCE } from "./templates/StandardLDCE";
 import { hasValue } from "./templates/helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
@@ -17,6 +18,10 @@ const TEMPLATES: Record<
 > = {
   blank: {
     template: () => new Document({ sections: [] }),
+    requirements: [],
+  },
+  "StandardLDCE.doc": {
+    template: StandardLDCE,
     requirements: [],
   },
   "LDCE.doc": {
