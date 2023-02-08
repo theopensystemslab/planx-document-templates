@@ -96,7 +96,7 @@ describe.skip("hasRequiredDataForTemplate", () => {
   test("it returns true when no data is required", () => {
     expect(
       hasRequiredDataForTemplate({
-        templateName: "blank",
+        templateName: "_blank",
         passport: { data: {} },
       })
     ).toBe(true);

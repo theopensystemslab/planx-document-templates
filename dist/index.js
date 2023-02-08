@@ -287,35 +287,43 @@ function Styles() {
   });
 }
 function hasValue(data, path) {
-  const value = get(data, path) || false;
+  const value = get({ data, path }) || false;
   return !!value;
 }
 function getString(data, path) {
-  const value = get(data, path) || "";
+  const value = get({ data, path }) !== void 0 ? get({ data, path }) : "";
   if (Array.isArray(value)) {
     return value[0] ? String(value[0]) : "";
   }
   return String(value);
 }
 function getBoolean(data, path) {
-  const value = get(data, path);
+  const value = get({ data, path });
   if (Array.isArray(value) && value.length === 1) {
     return value[0] === true || value[0] === "true";
   }
   return value === true || value === "true";
 }
-function get(data, path, index = -1) {
+function get({
+  data,
+  path,
+  nullifyValue = false,
+  index = -1
+}) {
   const parts = path.split(".");
   if (index === -1) {
     index = parts.length;
   }
   const key = parts.slice(0, index).join(".");
-  if (!data[key] && index > 0) {
-    return get(data, path, --index);
+  if (data[key] == void 0 && index > 0) {
+    return get({ data, path, nullifyValue, index: index - 1 });
   }
-  if (data[key] && parts.slice(index).length > 0) {
+  if (data[key] !== void 0 && parts.slice(index).length > 0) {
     const newPath = parts.slice(index).join(".");
-    return get(data[key], newPath);
+    return get({ data: data[key], path: newPath, nullifyValue });
+  }
+  if (nullifyValue) {
+    data[key] = null;
   }
   return data[key];
 }
@@ -827,7 +835,7 @@ function LDCETemplate(passport) {
   });
 }
 const TEMPLATES = {
-  blank: {
+  _blank: {
     template: () => new docx.Document({
       sections: []
     }),
@@ -835,6 +843,11 @@ const TEMPLATES = {
   },
   LDCE: {
     template: LDCETemplate,
+    requirements: []
+  },
+  LDCE_redacted: {
+    template: LDCETemplate,
+    redactions: ["applicant.email", "applicant.phone.primary", "applicant.phone.secondary"],
     requirements: []
   }
 };
@@ -852,15 +865,23 @@ function generateDocxTemplateStream({
   templateName,
   passport
 }) {
+  const template = TEMPLATES[templateName];
+  if (!template) {
+    throw new Error(`Template "${templateName}" not found`);
+  }
+  const foundTemplate = template;
   if (!hasRequiredDataForTemplate({
     templateName,
     passport
   })) {
     throw new Error(`Template "${templateName}" is missing required fields`);
   }
-  const template = TEMPLATES[templateName].template;
-  const document = template(passport);
+  const data = applyRedactions(passport, foundTemplate.redactions);
+  const document = foundTemplate.template(data);
   return docx.Packer.toStream(document);
+}
+function applyRedactions(passport, redactions) {
+  return passport;
 }
 function hasRequiredDataForTemplate({
   templateName,

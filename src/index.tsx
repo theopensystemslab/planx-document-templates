@@ -7,20 +7,29 @@ import { hasValue } from "./templates/helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
 
-const TEMPLATES: Record<
-  string,
-  {
-    template: (passport: { data: object }) => Document;
-    requirements: string[];
-  }
-> = {
-  blank: {
+export type Template = {
+  template: (passport: { data: object }) => Document;
+  redactions?: string[] | undefined;
+  requirements: string[];
+};
+
+const TEMPLATES: Record<string, Template> = {
+  _blank: {
     template: () => new Document({ sections: [] }),
     requirements: [],
   },
   LDCE: {
     template: LDCETemplate,
-    requirements: [], // no required fields - insert blanks instead
+    requirements: [], // no required fields
+  },
+  LDCE_redacted: {
+    template: LDCETemplate,
+    redactions: [
+      "applicant.email",
+      "applicant.phone.primary",
+      "applicant.phone.secondary",
+    ],
+    requirements: [], // no required fields
   },
 };
 
@@ -41,11 +50,16 @@ export function generateDocxTemplateStream({
   templateName: string;
   passport: Passport;
 }) {
+  const template: Template | undefined = TEMPLATES[templateName];
+  if (!template) {
+    throw new Error(`Template "${templateName}" not found`);
+  }
+  const foundTemplate: Template = template;
   if (!hasRequiredDataForTemplate({ templateName, passport })) {
     throw new Error(`Template "${templateName}" is missing required fields`);
   }
-  const template = TEMPLATES[templateName].template;
-  const document = template(passport);
+  const data = applyRedactions(passport, foundTemplate.redactions);
+  const document = foundTemplate.template(data);
   return Packer.toStream(document);
 }
 
@@ -56,7 +70,7 @@ export function hasRequiredDataForTemplate({
   templateName: string;
   passport: Passport;
 }): boolean {
-  const template = TEMPLATES[templateName];
+  const template: Template | undefined = TEMPLATES[templateName];
   if (!template) throw new Error(`Template "${templateName}" not found`);
   for (const path of template.requirements) {
     if (!hasValue(passport.data, path)) {

@@ -43,6 +43,8 @@ describe("FormTemplateBuilder", () => {
     };
     const form = buildFormTemplate(data);
     const expected = buildTestTemplate();
-    expect(JSON.stringify(form)).toEqual(JSON.stringify(expected));
+    expect(JSON.stringify(form, null, 2)).toEqual(
+      JSON.stringify(expected, null, 2)
+    );
   });
 });

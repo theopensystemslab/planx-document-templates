@@ -1,7 +1,60 @@
 import { describe, expect, test } from "vitest";
-import { hasValue, getString, getStrings, getBoolean } from "./helpers";
+import {
+  hasValue,
+  getString,
+  getStrings,
+  getBoolean,
+  applyRedactions,
+} from "./helpers";
 
 describe("Passport helper functions", () => {
+  describe("applyRedactions", () => {
+    test("it filters out redacted keys", () => {
+      const data = {
+        data: {
+          a: {
+            "b.c": {
+              d: {
+                "e.f.g": 0,
+                h: 1,
+                i: 2,
+                j: 3,
+              },
+            },
+          },
+        },
+      };
+      const redactions = ["a.b.c.d.e.f.g", "a.b.c.d.i"];
+      const expected = {
+        data: {
+          a: {
+            "b.c": {
+              d: {
+                "e.f.g": null,
+                h: 1,
+                i: null,
+                j: 3,
+              },
+            },
+          },
+        },
+      };
+      expect(applyRedactions(data, redactions)).toEqual(expected);
+    });
+    test("it does nothing for an empty set of redactions", () => {
+      const data = {
+        data: { a: { "b.c": 123 } },
+      };
+      expect(applyRedactions(data, [])).toEqual(data);
+    });
+    test("it does nothing for an undefined set of redactions", () => {
+      const data = {
+        data: { a: { "b.c": 123 } },
+      };
+      expect(applyRedactions(data, undefined)).toEqual(data);
+    });
+  });
+
   describe("hasValue", () => {
     test("it accesses data from a simple object", () => {
       const data = {
@@ -38,9 +91,11 @@ describe("Passport helper functions", () => {
       const data = {
         a: {
           b: "it works",
+          c: "yes it does",
         },
       };
       expect(getString(data, "a.b")).toEqual("it works");
+      expect(getString(data, "a.c")).toEqual("yes it does");
     });
     test("it accesses data from nested keys", () => {
       const data = {
@@ -75,8 +130,9 @@ describe("Passport helper functions", () => {
       expect(getString(data, "a.b.c")).toEqual("");
     });
     test("it handles numbers", () => {
-      const data = { a: 123 };
+      const data = { a: 123, b: 0 };
       expect(getString(data, "a")).toEqual("123");
+      expect(getString(data, "b")).toEqual("0");
     });
   });
 
@@ -114,8 +170,8 @@ describe("Passport helper functions", () => {
       expect(getStrings(data, "a.b.c")).toEqual([]);
     });
     test("it handles numbers", () => {
-      const data = { a: [1, "2", 3] };
-      expect(getStrings(data, "a")).toEqual(["1", "2", "3"]);
+      const data = { a: [1, "2", 0] };
+      expect(getStrings(data, "a")).toEqual(["1", "2", "0"]);
     });
   });
 
