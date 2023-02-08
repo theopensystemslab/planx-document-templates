@@ -321,7 +321,7 @@ function get({
     index = parts.length;
   }
   const key = parts.slice(0, index).join(".");
-  if (data[key] == void 0 && index > 0) {
+  if (data[key] === void 0 && index > 0) {
     return get({ data, path, nullifyValue, index: index - 1 });
   }
   if (data[key] !== void 0 && parts.slice(index).length > 0) {

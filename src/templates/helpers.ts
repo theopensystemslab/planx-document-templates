@@ -58,7 +58,7 @@ function get({
     index = parts.length;
   }
   const key = parts.slice(0, index).join(".");
-  if (data[key] == undefined && index > 0) {
+  if (data[key] === undefined && index > 0) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return get({ data, path, nullifyValue, index: index - 1 });
   }
