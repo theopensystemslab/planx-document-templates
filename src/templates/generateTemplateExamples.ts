@@ -1,9 +1,8 @@
 import { writeFileSync } from "node:fs";
 import { Packer } from "docx";
-import { LDCP } from "./LDCP";
-import { LDCE } from "./LDCE";
-import { StandardLDCE } from "./StandardLDCE";
-import exampleData from "../data/exampleLDC.json";
+import { LDCETemplate } from "./LDCETemplate";
+import { buildTestTemplate } from "./testTemplate";
+import exampleLDCData from "../data/exampleLDC.json";
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
@@ -13,18 +12,10 @@ import exampleData from "../data/exampleLDC.json";
 })();
 
 async function generateTemplateExamples(): Promise<void> {
-  const LDCPDocument = LDCP(exampleData);
-  await Packer.toBuffer(LDCPDocument).then((buffer) => {
-    writeFileSync(`./examples/LDCPExample.docx`, buffer);
-  });
-
-  const LDCEDocument = LDCE(exampleData);
-  await Packer.toBuffer(LDCEDocument).then((buffer) => {
+  await Packer.toBuffer(LDCETemplate(exampleLDCData)).then((buffer) => {
     writeFileSync(`./examples/LDCEExample.docx`, buffer);
   });
-
-  const StandardLDCEDocument = StandardLDCE(exampleData);
-  await Packer.toBuffer(StandardLDCEDocument).then((buffer) => {
-    writeFileSync(`./examples/StandardLDCEExample.docx`, buffer);
+  await Packer.toBuffer(buildTestTemplate()).then((buffer) => {
+    writeFileSync(`./examples/Test.docx`, buffer);
   });
 }

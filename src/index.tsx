@@ -2,9 +2,7 @@ import React from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
-import { LDCP } from "./templates/LDCP";
-import { LDCE } from "./templates/LDCE";
-import { StandardLDCE } from "./templates/StandardLDCE";
+import { LDCETemplate } from "./templates/LDCETemplate";
 import { hasValue } from "./templates/helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
@@ -20,22 +18,9 @@ const TEMPLATES: Record<
     template: () => new Document({ sections: [] }),
     requirements: [],
   },
-  "StandardLDCE.doc": {
-    template: StandardLDCE,
-    requirements: [],
-  },
-  "LDCE.doc": {
-    template: LDCE,
-    requirements: [],
-  },
-  "LDCP.doc": {
-    template: LDCP,
-    requirements: [
-      "applicant.title",
-      "applicant.name.first",
-      "applicant.name.last",
-      "_address.postcode",
-    ],
+  LDCE: {
+    template: LDCETemplate,
+    requirements: [], // no required fields - insert blanks instead
   },
 };
 
