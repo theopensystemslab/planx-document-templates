@@ -98,7 +98,12 @@ export function buildTestTemplate() {
                   new TableCell({
                     children: [
                       new Paragraph({
-                        text: "Did it work as expected?",
+                        children: [
+                          new TextRun({
+                            text: "Did it work as expected?",
+                            bold: true,
+                          }),
+                        ],
                         style: "styled",
                       }),
                     ],
@@ -117,7 +122,15 @@ export function buildTestTemplate() {
                 children: [
                   new TableCell({
                     children: [
-                      new Paragraph({ text: "Are you sure", style: "styled" }),
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Are you sure",
+                            bold: true,
+                          }),
+                        ],
+                        style: "styled",
+                      }),
                     ],
                   }),
                   new TableCell({
@@ -129,8 +142,8 @@ export function buildTestTemplate() {
               }),
             ],
             width: {
-              size: 100,
-              type: WidthType.PERCENTAGE,
+              size: 9040,
+              type: WidthType.DXA,
             },
           }),
           new Paragraph({
@@ -157,7 +170,12 @@ export function buildTestTemplate() {
                   new TableCell({
                     children: [
                       new Paragraph({
-                        text: "Can it handle multiple sections?",
+                        children: [
+                          new TextRun({
+                            text: "Can it handle multiple sections?",
+                            bold: true,
+                          }),
+                        ],
                         style: "styled",
                       }),
                     ],
@@ -174,8 +192,8 @@ export function buildTestTemplate() {
               }),
             ],
             width: {
-              size: 100,
-              type: WidthType.PERCENTAGE,
+              size: 9040,
+              type: WidthType.DXA,
             },
           }),
         ],

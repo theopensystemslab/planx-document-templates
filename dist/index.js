@@ -304,6 +304,12 @@ function getBoolean(data, path) {
   }
   return value === true || value === "true";
 }
+function applyRedactions(data, redactions = []) {
+  redactions.forEach((key) => {
+    get({ data: data.data, path: key, nullifyValue: true });
+  });
+  return data;
+}
 function get({
   data,
   path,
@@ -368,7 +374,12 @@ function buildFormTemplate(data) {
         new docx.TableCell({
           children: [
             new docx.Paragraph({
-              text: field.name,
+              children: [
+                new docx.TextRun({
+                  text: field.name,
+                  bold: true
+                })
+              ],
               style: "styled"
             })
           ]
@@ -406,8 +417,8 @@ function buildFormTemplate(data) {
       new docx.Table({
         rows: formSectionRows,
         width: {
-          size: 100,
-          type: docx.WidthType.PERCENTAGE
+          size: 9040,
+          type: docx.WidthType.DXA
         }
       })
     ];
@@ -879,9 +890,6 @@ function generateDocxTemplateStream({
   const data = applyRedactions(passport, foundTemplate.redactions);
   const document = foundTemplate.template(data);
   return docx.Packer.toStream(document);
-}
-function applyRedactions(passport, redactions) {
-  return passport;
 }
 function hasRequiredDataForTemplate({
   templateName,

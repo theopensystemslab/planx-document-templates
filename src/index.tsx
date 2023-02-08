@@ -3,7 +3,7 @@ import { renderToPipeableStream } from "react-dom/server";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCETemplate } from "./templates/LDCETemplate";
-import { hasValue } from "./templates/helpers";
+import { hasValue, applyRedactions } from "./templates/helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
 

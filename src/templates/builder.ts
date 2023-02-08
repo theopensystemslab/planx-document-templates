@@ -69,7 +69,12 @@ export function buildFormTemplate(data: TemplateData) {
         new TableCell({
           children: [
             new Paragraph({
-              text: field.name,
+              children: [
+                new TextRun({
+                  text: field.name,
+                  bold: true,
+                }),
+              ],
               style: "styled",
             }),
           ],
@@ -108,8 +113,8 @@ export function buildFormTemplate(data: TemplateData) {
       new Table({
         rows: formSectionRows,
         width: {
-          size: 100,
-          type: WidthType.PERCENTAGE,
+          size: 9040,
+          type: WidthType.DXA,
         },
       }),
     ];
