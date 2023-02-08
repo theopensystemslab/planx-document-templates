@@ -92,6 +92,7 @@ export function buildTestTemplate() {
             },
           }),
           new Table({
+            columnWidths: [4520, 4520],
             rows: [
               new TableRow({
                 children: [
@@ -164,6 +165,7 @@ export function buildTestTemplate() {
             },
           }),
           new Table({
+            columnWidths: [4520, 4520],
             rows: [
               new TableRow({
                 children: [

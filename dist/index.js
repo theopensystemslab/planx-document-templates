@@ -415,6 +415,7 @@ function buildFormTemplate(data) {
         }
       }),
       new docx.Table({
+        columnWidths: [4520, 4520],
         rows: formSectionRows,
         width: {
           size: 9040,
@@ -523,7 +524,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Has assistance or prior advice been sought from the local authority about this application?",
-            value: "Yes"
+            value: get2("application.preAppAdvice")
           },
           {
             name: "Officer name",
@@ -568,7 +569,7 @@ function LDCETemplate(passport) {
               get2("applicant.ownership.certificateB.owner1.name"),
               get2("applicant.ownership.certificateB.owner2.name"),
               get2("applicant.ownership.certificateB.multipleOwners")
-            ].filter((value) => value && value !== "").join(", ")
+            ].filter(Boolean).join(", ")
           },
           {
             name: "Address of other owners",
@@ -576,7 +577,7 @@ function LDCETemplate(passport) {
               get2("applicant.ownership.certificateB.owner1.address"),
               get2("applicant.ownership.certificateB.owner2.address"),
               get2("applicant.ownership.certificateB.multipleOwners.address")
-            ].filter((value) => value && value !== "").join(", ")
+            ].filter(Boolean).join(", ")
           }
         ]
       },
@@ -808,7 +809,7 @@ function LDCETemplate(passport) {
             value: [
               get2("applicant.phone.primary"),
               get2("applicant.phone.secondary")
-            ].filter((value) => value && value !== "").join(", ")
+            ].filter(Boolean).join(", ")
           },
           { name: "Email", value: get2("applicant.email") }
         ]
@@ -821,7 +822,7 @@ function LDCETemplate(passport) {
             value: [
               get2("applicant.agent.phone.primary"),
               get2("applicant.agent.phone.secondary")
-            ].filter((value) => value && value !== "").join(", ")
+            ].filter(Boolean).join(", ")
           },
           { name: "Email", value: get2("applicant.agent.email") }
         ]

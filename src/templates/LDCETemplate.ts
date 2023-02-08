@@ -68,7 +68,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Has assistance or prior advice been sought from the local authority about this application?",
-            value: "Yes",
+            value: get("application.preAppAdvice"),
           },
           {
             name: "Officer name",
@@ -114,7 +114,7 @@ export function LDCETemplate(passport: { data: object }) {
               get("applicant.ownership.certificateB.owner2.name"),
               get("applicant.ownership.certificateB.multipleOwners"),
             ]
-              .filter((value) => value && value !== "")
+              .filter(Boolean)
               .join(", "),
           },
           {
@@ -124,7 +124,7 @@ export function LDCETemplate(passport: { data: object }) {
               get("applicant.ownership.certificateB.owner2.address"),
               get("applicant.ownership.certificateB.multipleOwners.address"),
             ]
-              .filter((value) => value && value !== "")
+              .filter(Boolean)
               .join(", "),
           },
         ],
@@ -359,7 +359,7 @@ export function LDCETemplate(passport: { data: object }) {
               get("applicant.phone.primary"),
               get("applicant.phone.secondary"),
             ]
-              .filter((value) => value && value !== "")
+              .filter(Boolean)
               .join(", "),
           },
           { name: "Email", value: get("applicant.email") },
@@ -374,7 +374,7 @@ export function LDCETemplate(passport: { data: object }) {
               get("applicant.agent.phone.primary"),
               get("applicant.agent.phone.secondary"),
             ]
-              .filter((value) => value && value !== "")
+              .filter(Boolean)
               .join(", "),
           },
           { name: "Email", value: get("applicant.agent.email") },

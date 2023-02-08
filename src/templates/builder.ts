@@ -111,6 +111,7 @@ export function buildFormTemplate(data: TemplateData) {
         },
       }),
       new Table({
+        columnWidths: [4520, 4520],
         rows: formSectionRows,
         width: {
           size: 9040,
