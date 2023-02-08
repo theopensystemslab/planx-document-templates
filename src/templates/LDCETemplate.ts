@@ -159,46 +159,242 @@ export function LDCETemplate(passport: { data: object }) {
           },
         ],
       },
-      // TODO...
       {
         title: "8. Description of Existing Use, Building Works or Activity ",
         fields: [
           {
-            name: "",
-            value: get(""),
+            name: "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to",
+            value: "", //TODO
           },
         ],
       },
       {
         title:
           "9. Grounds for Application for a Lawful Development Certificate ",
-        fields: [{ name: "", value: get("") }],
+        fields: [
+          {
+            name: "Please state under what grounds is the certificate sought",
+            value: "", // TODO
+          },
+          {
+            name: "If applicable, please give the reference number of any existing planning permission, lawful development certificate or enforcement notice affecting the application site. Include its date and the number of any condition being breached:",
+            value: "", // TODO
+          },
+          {
+            name: "Please state why a Lawful Development Certificate should be granted",
+            value: "", // TODO
+          },
+        ],
       },
       {
-        title:
-          "10. Information in Support of a Lawful Development Certificate",
-        fields: [{ name: "", value: get("") }],
+        title: "10. Information in Support of a Lawful Development Certificate",
+        fields: [
+          {
+            name: "When was the use or activity begun, or the building work substantially completed?",
+            value: "", // TODO
+          },
+          {
+            name: "In the case of an existing use or activity in breach of conditions has there been any interruption:",
+            value: "Yes/No", // TODO
+          },
+          {
+            name: "If Yes, please provide details of the dates, duration and any discontinuance of the development which is the subject of this application. If your application is based on the claim that a use or activity has been ongoing for a period of years, please state exactly when any interruption occurred:",
+            value: "", // TODO
+          },
+          {
+            name: "In the case of an existing use of land, has there been any material change of use of the land since the start of the use for which a certificate is sought?",
+            value: "", // TODO
+          },
+          {
+            name: "If yes, provide details",
+            value: "", // TODO
+          },
+          {
+            name: "Does the application for a Certificate relate to a residential use where the number of residential units has changed?",
+            value: "Yes/No", // TODO
+          },
+          { name: "New 1 bed homes", value: "" },
+          { name: "New 2 bed homes", value: "" },
+          { name: "New 3 bed homes", value: "" },
+          { name: "New 4+ bed homes", value: "" },
+          { name: "New other / unknown homes", value: "" },
+          { name: "Total new homes of all types", value: "" },
+          { name: "New social rented homes", value: "" },
+          { name: "New intermediate homes", value: "" },
+          { name: "New key worker homes", value: "" },
+          { name: "Existing 1 bed homes", value: "" },
+          { name: "Existing 2 bed homes", value: "" },
+          { name: "Existing 3 bed homes", value: "" },
+          { name: "Existing 4+ bed homes", value: "" },
+          { name: "Existing other / unknown homes", value: "" },
+          { name: "Total existing homes of all types", value: "" },
+          { name: "...", value: "" },
+        ],
       },
       {
-        title:
-          "11. Additional Information Requirements of the Mayor of London",
-        fields: [{ name: "", value: get("") }],
+        title: "11. Additional Information Requirements of the Mayor of London",
+        fields: [
+          {
+            name: "Do you know the title number of the property?",
+            value: "", // TODO
+          },
+          {
+            name: "Title number",
+            value: "", // TODO
+          },
+          {
+            name: "Do you know the Energy Performance Certificate reference of the property?",
+            value: "Yes/No", // TODO
+          },
+          {
+            name: "Energy Performance Certificate reference",
+            value: "", // TODO
+          },
+          {
+            name: "Gross internal floor area to be added (sqm)",
+            value: "", // TODO
+          },
+          {
+            name: "Number of additional bedrooms",
+            value: "", // TODO
+          },
+          {
+            name: "Number of additional bathrooms",
+            value: "", // TODO
+          },
+          {
+            name: "Does the site have any existing vehicle/cycle parking spaces?",
+            value: "Yes/No", // TODO
+          },
+          {
+            name: "Car spaces existing",
+            value: "", // TODO
+          },
+          {
+            name: "Car spaces proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Light goods vehicles / public vehicles existing",
+            value: "", // TODO
+          },
+          {
+            name: "Light goods vehicles / public vehicles proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Motorcycles existing",
+            value: "", // TODO
+          },
+          {
+            name: "Motorcycles proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Disabled parking existing",
+            value: "", // TODO
+          },
+          {
+            name: "Disabled parking proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Cycle spaces existing",
+            value: "", // TODO
+          },
+          {
+            name: "Cycle spaces proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Bus spaces existing",
+            value: "", // TODO
+          },
+          {
+            name: "Bus spaces proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Residential only off-street parking existing",
+            value: "", // TODO
+          },
+          {
+            name: "Residential only off-street parking proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Car club existing",
+            value: "", // TODO
+          },
+          {
+            name: "Car club proposed",
+            value: "", // TODO
+          },
+          {
+            name: "Other existing",
+            value: "", // TODO
+          },
+          {
+            name: "Other proposed",
+            value: "", // TODO
+          },
+        ],
       },
       {
         title: "12. Declaration",
-        fields: [{ name: "", value: get("") }],
+        fields: [
+          {
+            name: "I / We hereby apply for Lawful development: Existing use as described in this form and accompanying plans/drawings and additional information. I / We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine options of the persons giving them. I / We also accept that: Once submitted, this information will be transmitted to the Local Planning Authority and, once validated by them, be made available as part of a public register and on the authority's website; our system will automatically generate and send you emails in regard to the submission of this application.",
+            value: "Yes/No (applicant), Yes / No (agent)", // TODO
+          },
+          { name: "Date", value: new Date().toLocaleDateString("en-GB") },
+        ],
       },
       {
         title: "13. Applicant contact details",
-        fields: [{ name: "", value: get("") }],
+        fields: [
+          {
+            name: "Phone",
+            value: [
+              get("applicant.phone.primary"),
+              get("applicant.phone.secondary"),
+            ]
+              .filter((value) => value && value !== "")
+              .join(", "),
+          },
+          { name: "Email", value: get("applicant.email") },
+        ],
       },
       {
         title: "14. Agent contact details",
-        fields: [{ name: "", value: get("") }],
+        fields: [
+          {
+            name: "Phone",
+            value: [
+              get("applicant.agent.phone.primary"),
+              get("applicant.agent.phone.secondary"),
+            ]
+              .filter((value) => value && value !== "")
+              .join(", "),
+          },
+          { name: "Email", value: get("applicant.agent.email") },
+        ],
       },
       {
         title: "15. Site visit",
-        fields: [{ name: "", value: get("") }],
+        fields: [
+          {
+            name: "Can the site be seen from a: Public road, Public footpath, Bridleway, Or other public land?",
+            value: "Information not provided",
+          },
+          {
+            name: "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?",
+            value: "Applicant / agent / Other",
+          },
+          { name: "Name", value: get("applicant.siteContact.name") },
+          { name: "Phone", value: get("applicant.siteContact.telephone") },
+          { name: "Email", value: get("applicant.siteContact.email") },
+        ],
       },
     ],
   });

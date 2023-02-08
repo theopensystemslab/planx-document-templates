@@ -323,42 +323,80 @@ function buildFormTemplate(data) {
   const heading = [
     new docx.Paragraph({
       heading: docx.HeadingLevel.HEADING_1,
-      children: [new docx.TextRun(data.presets.title)]
+      children: [
+        new docx.TextRun({
+          text: data.presets.title,
+          font: "Arial",
+          bold: true,
+          color: "000000",
+          size: 54
+        })
+      ],
+      alignment: docx.AlignmentType.LEFT,
+      spacing: {
+        after: 120
+      }
     }),
     new docx.Paragraph({
       heading: docx.HeadingLevel.HEADING_2,
-      children: [new docx.TextRun(data.presets.subtitle)]
+      children: [
+        new docx.TextRun({
+          text: data.presets.subtitle,
+          font: "Arial",
+          size: 32,
+          color: "000000"
+        })
+      ],
+      alignment: docx.AlignmentType.LEFT,
+      spacing: {
+        before: 240,
+        after: 120
+      }
     })
   ];
   const fieldBuilder = (field) => {
     return new docx.TableRow({
       children: [
         new docx.TableCell({
-          children: [new docx.Paragraph(field.name)]
+          children: [
+            new docx.Paragraph({
+              text: field.name,
+              style: "styled"
+            })
+          ]
         }),
         new docx.TableCell({
-          children: [new docx.Paragraph(field.value)]
+          children: [
+            new docx.Paragraph({
+              text: field.value,
+              style: "styled"
+            })
+          ]
         })
       ]
     });
   };
   const sectionBuilder = (section) => {
-    const formSectionTitle = new docx.TextRun(section.title);
+    const formSectionTitle = new docx.TextRun({
+      text: section.title,
+      font: "Arial",
+      bold: true,
+      color: "000000",
+      size: 32
+    });
     const formSectionRows = section.fields.map(fieldBuilder);
     const formSection = [
       new docx.Paragraph({
         heading: docx.HeadingLevel.HEADING_2,
-        children: [formSectionTitle]
+        children: [formSectionTitle],
+        alignment: docx.AlignmentType.LEFT,
+        spacing: {
+          before: 480,
+          after: 240
+        }
       }),
       new docx.Table({
         rows: formSectionRows,
-        margins: {
-          marginUnitType: docx.WidthType.PERCENTAGE,
-          top: 1,
-          bottom: 1,
-          left: 1,
-          right: 1
-        },
         width: {
           size: 100,
           type: docx.WidthType.PERCENTAGE
@@ -371,50 +409,28 @@ function buildFormTemplate(data) {
     creator: "PlanX",
     title: data.presets.title,
     styles: {
-      default: {
-        heading1: {
+      paragraphStyles: [
+        {
+          id: "styled",
+          name: "Styled",
+          basedOn: "Text",
+          next: "Text",
+          quickFormat: true,
           run: {
             font: "Arial",
             size: 28,
-            bold: true,
-            color: "000000"
-          },
-          paragraph: {
-            alignment: docx.AlignmentType.CENTER,
-            spacing: {
-              after: 120
-            }
-          }
-        },
-        heading2: {
-          run: {
-            font: "Arial",
-            size: 24,
-            bold: true,
+            italics: false,
+            bold: false,
             color: "000000"
           },
           paragraph: {
             spacing: {
-              before: 240,
-              after: 120
-            }
-          }
-        },
-        heading3: {
-          run: {
-            font: "Arial",
-            size: 22,
-            bold: true,
-            color: "000000"
-          },
-          paragraph: {
-            spacing: {
-              before: 240,
+              before: 120,
               after: 120
             }
           }
         }
-      }
+      ]
     },
     sections: [
       {
@@ -579,38 +595,233 @@ function LDCETemplate(passport) {
         title: "8. Description of Existing Use, Building Works or Activity ",
         fields: [
           {
-            name: "",
-            value: get2("")
+            name: "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to",
+            value: ""
           }
         ]
       },
       {
         title: "9. Grounds for Application for a Lawful Development Certificate ",
-        fields: [{ name: "", value: get2("") }]
+        fields: [
+          {
+            name: "Please state under what grounds is the certificate sought",
+            value: ""
+          },
+          {
+            name: "If applicable, please give the reference number of any existing planning permission, lawful development certificate or enforcement notice affecting the application site. Include its date and the number of any condition being breached:",
+            value: ""
+          },
+          {
+            name: "Please state why a Lawful Development Certificate should be granted",
+            value: ""
+          }
+        ]
       },
       {
         title: "10. Information in Support of a Lawful Development Certificate",
-        fields: [{ name: "", value: get2("") }]
+        fields: [
+          {
+            name: "When was the use or activity begun, or the building work substantially completed?",
+            value: ""
+          },
+          {
+            name: "In the case of an existing use or activity in breach of conditions has there been any interruption:",
+            value: "Yes/No"
+          },
+          {
+            name: "If Yes, please provide details of the dates, duration and any discontinuance of the development which is the subject of this application. If your application is based on the claim that a use or activity has been ongoing for a period of years, please state exactly when any interruption occurred:",
+            value: ""
+          },
+          {
+            name: "In the case of an existing use of land, has there been any material change of use of the land since the start of the use for which a certificate is sought?",
+            value: ""
+          },
+          {
+            name: "If yes, provide details",
+            value: ""
+          },
+          {
+            name: "Does the application for a Certificate relate to a residential use where the number of residential units has changed?",
+            value: "Yes/No"
+          },
+          { name: "New 1 bed homes", value: "" },
+          { name: "New 2 bed homes", value: "" },
+          { name: "New 3 bed homes", value: "" },
+          { name: "New 4+ bed homes", value: "" },
+          { name: "New other / unknown homes", value: "" },
+          { name: "Total new homes of all types", value: "" },
+          { name: "New social rented homes", value: "" },
+          { name: "New intermediate homes", value: "" },
+          { name: "New key worker homes", value: "" },
+          { name: "Existing 1 bed homes", value: "" },
+          { name: "Existing 2 bed homes", value: "" },
+          { name: "Existing 3 bed homes", value: "" },
+          { name: "Existing 4+ bed homes", value: "" },
+          { name: "Existing other / unknown homes", value: "" },
+          { name: "Total existing homes of all types", value: "" },
+          { name: "...", value: "" }
+        ]
       },
       {
         title: "11. Additional Information Requirements of the Mayor of London",
-        fields: [{ name: "", value: get2("") }]
+        fields: [
+          {
+            name: "Do you know the title number of the property?",
+            value: ""
+          },
+          {
+            name: "Title number",
+            value: ""
+          },
+          {
+            name: "Do you know the Energy Performance Certificate reference of the property?",
+            value: "Yes/No"
+          },
+          {
+            name: "Energy Performance Certificate reference",
+            value: ""
+          },
+          {
+            name: "Gross internal floor area to be added (sqm)",
+            value: ""
+          },
+          {
+            name: "Number of additional bedrooms",
+            value: ""
+          },
+          {
+            name: "Number of additional bathrooms",
+            value: ""
+          },
+          {
+            name: "Does the site have any existing vehicle/cycle parking spaces?",
+            value: "Yes/No"
+          },
+          {
+            name: "Car spaces existing",
+            value: ""
+          },
+          {
+            name: "Car spaces proposed",
+            value: ""
+          },
+          {
+            name: "Light goods vehicles / public vehicles existing",
+            value: ""
+          },
+          {
+            name: "Light goods vehicles / public vehicles proposed",
+            value: ""
+          },
+          {
+            name: "Motorcycles existing",
+            value: ""
+          },
+          {
+            name: "Motorcycles proposed",
+            value: ""
+          },
+          {
+            name: "Disabled parking existing",
+            value: ""
+          },
+          {
+            name: "Disabled parking proposed",
+            value: ""
+          },
+          {
+            name: "Cycle spaces existing",
+            value: ""
+          },
+          {
+            name: "Cycle spaces proposed",
+            value: ""
+          },
+          {
+            name: "Bus spaces existing",
+            value: ""
+          },
+          {
+            name: "Bus spaces proposed",
+            value: ""
+          },
+          {
+            name: "Residential only off-street parking existing",
+            value: ""
+          },
+          {
+            name: "Residential only off-street parking proposed",
+            value: ""
+          },
+          {
+            name: "Car club existing",
+            value: ""
+          },
+          {
+            name: "Car club proposed",
+            value: ""
+          },
+          {
+            name: "Other existing",
+            value: ""
+          },
+          {
+            name: "Other proposed",
+            value: ""
+          }
+        ]
       },
       {
         title: "12. Declaration",
-        fields: [{ name: "", value: get2("") }]
+        fields: [
+          {
+            name: "I / We hereby apply for Lawful development: Existing use as described in this form and accompanying plans/drawings and additional information. I / We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine options of the persons giving them. I / We also accept that: Once submitted, this information will be transmitted to the Local Planning Authority and, once validated by them, be made available as part of a public register and on the authority's website; our system will automatically generate and send you emails in regard to the submission of this application.",
+            value: "Yes/No (applicant), Yes / No (agent)"
+          },
+          { name: "Date", value: new Date().toLocaleDateString("en-GB") }
+        ]
       },
       {
         title: "13. Applicant contact details",
-        fields: [{ name: "", value: get2("") }]
+        fields: [
+          {
+            name: "Phone",
+            value: [
+              get2("applicant.phone.primary"),
+              get2("applicant.phone.secondary")
+            ].filter((value) => value && value !== "").join(", ")
+          },
+          { name: "Email", value: get2("applicant.email") }
+        ]
       },
       {
         title: "14. Agent contact details",
-        fields: [{ name: "", value: get2("") }]
+        fields: [
+          {
+            name: "Phone",
+            value: [
+              get2("applicant.agent.phone.primary"),
+              get2("applicant.agent.phone.secondary")
+            ].filter((value) => value && value !== "").join(", ")
+          },
+          { name: "Email", value: get2("applicant.agent.email") }
+        ]
       },
       {
         title: "15. Site visit",
-        fields: [{ name: "", value: get2("") }]
+        fields: [
+          {
+            name: "Can the site be seen from a: Public road, Public footpath, Bridleway, Or other public land?",
+            value: "Information not provided"
+          },
+          {
+            name: "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?",
+            value: "Applicant / agent / Other"
+          },
+          { name: "Name", value: get2("applicant.siteContact.name") },
+          { name: "Phone", value: get2("applicant.siteContact.telephone") },
+          { name: "Email", value: get2("applicant.siteContact.email") }
+        ]
       }
     ]
   });

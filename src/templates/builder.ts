@@ -31,11 +31,35 @@ export function buildFormTemplate(data: TemplateData) {
   const heading = [
     new Paragraph({
       heading: HeadingLevel.HEADING_1,
-      children: [new TextRun(data.presets.title)],
+      children: [
+        new TextRun({
+          text: data.presets.title,
+          font: "Arial",
+          bold: true,
+          color: "000000",
+          size: 54,
+        }),
+      ],
+      alignment: AlignmentType.LEFT,
+      spacing: {
+        after: 120,
+      },
     }),
     new Paragraph({
       heading: HeadingLevel.HEADING_2,
-      children: [new TextRun(data.presets.subtitle)],
+      children: [
+        new TextRun({
+          text: data.presets.subtitle,
+          font: "Arial",
+          size: 32,
+          color: "000000",
+        }),
+      ],
+      alignment: AlignmentType.LEFT,
+      spacing: {
+        before: 240,
+        after: 120,
+      },
     }),
   ];
 
@@ -43,32 +67,46 @@ export function buildFormTemplate(data: TemplateData) {
     return new TableRow({
       children: [
         new TableCell({
-          children: [new Paragraph(field.name)],
+          children: [
+            new Paragraph({
+              text: field.name,
+              style: "styled",
+            }),
+          ],
         }),
         new TableCell({
-          children: [new Paragraph(field.value)],
+          children: [
+            new Paragraph({
+              text: field.value,
+              style: "styled",
+            }),
+          ],
         }),
       ],
     });
   };
 
   const sectionBuilder = (section: TemplateDataSection) => {
-    const formSectionTitle = new TextRun(section.title);
+    const formSectionTitle = new TextRun({
+      text: section.title,
+      font: "Arial",
+      bold: true,
+      color: "000000",
+      size: 32,
+    });
     const formSectionRows = section.fields.map(fieldBuilder);
     const formSection = [
       new Paragraph({
         heading: HeadingLevel.HEADING_2,
         children: [formSectionTitle],
+        alignment: AlignmentType.LEFT,
+        spacing: {
+          before: 480,
+          after: 240,
+        },
       }),
       new Table({
         rows: formSectionRows,
-        margins: {
-          marginUnitType: WidthType.PERCENTAGE,
-          top: 1,
-          bottom: 1,
-          left: 1,
-          right: 1,
-        },
         width: {
           size: 100,
           type: WidthType.PERCENTAGE,
@@ -82,50 +120,28 @@ export function buildFormTemplate(data: TemplateData) {
     creator: "PlanX",
     title: data.presets.title,
     styles: {
-      default: {
-        heading1: {
+      paragraphStyles: [
+        {
+          id: "styled",
+          name: "Styled",
+          basedOn: "Text",
+          next: "Text",
+          quickFormat: true,
           run: {
             font: "Arial",
             size: 28,
-            bold: true,
-            color: "000000",
-          },
-          paragraph: {
-            alignment: AlignmentType.CENTER,
-            spacing: {
-              after: 120,
-            },
-          },
-        },
-        heading2: {
-          run: {
-            font: "Arial",
-            size: 24,
-            bold: true,
+            italics: false,
+            bold: false,
             color: "000000",
           },
           paragraph: {
             spacing: {
-              before: 240,
+              before: 120,
               after: 120,
             },
           },
         },
-        heading3: {
-          run: {
-            font: "Arial",
-            size: 22,
-            bold: true,
-            color: "000000",
-          },
-          paragraph: {
-            spacing: {
-              before: 240,
-              after: 120,
-            },
-          },
-        },
-      },
+      ],
     },
     sections: [
       {
