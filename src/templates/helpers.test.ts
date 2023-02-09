@@ -41,6 +41,42 @@ describe("Passport helper functions", () => {
       };
       expect(applyRedactions(data, redactions)).toEqual(expected);
     });
+    test("it applies redactions to deeply nested objects", () => {
+      const data = {
+        data: {
+          a: {
+            b: {
+              c: {
+                d: "abc",
+              },
+            },
+          },
+          "x.y.z": {
+            list: [1, 2, 3],
+          },
+        },
+      };
+      const expected = {
+        data: {
+          a: {
+            b: null,
+          },
+          "x.y.z": null,
+        },
+      };
+      const redactions = ["a.b", "x.y.z"];
+      expect(applyRedactions(data, redactions)).toEqual(expected);
+    });
+    test("it does nothing when the redacted values are not found", () => {
+      const data = {
+        data: {
+          a: null,
+          "x.y.z": null,
+        },
+      };
+      const redactions = ["a.b", "c.d", "x.y.z"];
+      expect(applyRedactions(data, redactions)).toEqual(data);
+    });
     test("it does nothing for an empty set of redactions", () => {
       const data = {
         data: { a: { "b.c": 123 } },
@@ -129,6 +165,7 @@ describe("Passport helper functions", () => {
       expect(getString(data, "a.b.c")).toEqual("");
       expect(getString(data, "a.d")).toEqual("");
       expect(getString(data, "a.e")).toEqual("");
+      expect(getString(data, "a.e.x.y")).toEqual("");
       expect(getString(data, "a.f")).toEqual("");
     });
     test("it returns an empty string when accessing non-existent values", () => {

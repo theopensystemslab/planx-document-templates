@@ -1,8 +1,9 @@
 /* eslint @typescript-eslint/no-explicit-any: "off" */
 /* eslint @typescript-eslint/no-unsafe-assignment: "off" */
 export function hasValue(data: object, path: string): boolean {
-  const value: any = get({ data, path }) || false;
-  return !!value;
+  const value: any = get({ data, path }) ?? false;
+  if (value === 0) return true;
+  return Boolean(value);
 }
 
 export function getString(data: object, path: string): string {
@@ -30,13 +31,15 @@ export function getBoolean(data: object, path: string): boolean {
 }
 
 export function applyRedactions(
-  data: { data: object },
+  input: { data: object },
   redactions: string[] | undefined = []
 ): { data: object } {
+  const outputData = { ...input.data };
   redactions.forEach((key) => {
-    get({ data: data.data, path: key, nullifyValue: true });
+    if (hasValue(outputData, key))
+      get({ data: outputData, path: key, nullifyValue: true });
   });
-  return data;
+  return { data: outputData };
 }
 
 // recursively find key by name (i.e. data["a.b.c"], data["a.b"], data["a"])
