@@ -2,8 +2,8 @@ export declare function hasValue(data: object, path: string): boolean;
 export declare function getString(data: object, path: string): string;
 export declare function getStrings(data: object, path: string): string[];
 export declare function getBoolean(data: object, path: string): boolean;
-export declare function applyRedactions(data: {
+export declare function applyRedactions(input: {
     data: object;
-}, redactions?: string[] | undefined): {
+}, redactions: string[]): {
     data: object;
 };

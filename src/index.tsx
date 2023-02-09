@@ -50,16 +50,18 @@ export function generateDocxTemplateStream({
   templateName: string;
   passport: Passport;
 }) {
-  const template: Template | undefined = TEMPLATES[templateName];
-  if (!template) {
+  if (!TEMPLATES[templateName]) {
     throw new Error(`Template "${templateName}" not found`);
   }
-  const foundTemplate: Template = template;
   if (!hasRequiredDataForTemplate({ templateName, passport })) {
     throw new Error(`Template "${templateName}" is missing required fields`);
   }
-  const data = applyRedactions(passport, foundTemplate.redactions);
-  const document = foundTemplate.template(data);
+  const { redactions, template } = TEMPLATES[templateName]!;
+  let data = passport;
+  if (redactions && redactions.length) {
+    data = applyRedactions(passport, redactions);
+  }
+  const document: Document = template(data);
   return Packer.toStream(document);
 }
 

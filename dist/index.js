@@ -287,11 +287,13 @@ function Styles() {
   });
 }
 function hasValue(data, path) {
-  const value = get({ data, path }) || false;
-  return !!value;
+  const value = get({ data, path });
+  if (value === 0 || value === false)
+    return true;
+  return Boolean(value);
 }
 function getString(data, path) {
-  const value = get({ data, path }) !== void 0 ? get({ data, path }) : "";
+  const value = get({ data, path }) ?? "";
   if (Array.isArray(value)) {
     return value[0] ? String(value[0]) : "";
   }
@@ -304,11 +306,13 @@ function getBoolean(data, path) {
   }
   return value === true || value === "true";
 }
-function applyRedactions(data, redactions = []) {
+function applyRedactions(input, redactions) {
+  const outputData = { ...input.data };
   redactions.forEach((key) => {
-    get({ data: data.data, path: key, nullifyValue: true });
+    if (hasValue(outputData, key))
+      get({ data: outputData, path: key, nullifyValue: true });
   });
-  return data;
+  return { data: outputData };
 }
 function get({
   data,
@@ -321,10 +325,10 @@ function get({
     index = parts.length;
   }
   const key = parts.slice(0, index).join(".");
-  if (data[key] === void 0 && index > 0) {
+  if (data[key] === void 0 && data[key] !== null && index > 0) {
     return get({ data, path, nullifyValue, index: index - 1 });
   }
-  if (data[key] !== void 0 && parts.slice(index).length > 0) {
+  if (data[key] !== void 0 && data[key] !== null && parts.slice(index).length > 0) {
     const newPath = parts.slice(index).join(".");
     return get({ data: data[key], path: newPath, nullifyValue });
   }
@@ -877,19 +881,24 @@ function generateDocxTemplateStream({
   templateName,
   passport
 }) {
-  const template = TEMPLATES[templateName];
-  if (!template) {
+  if (!TEMPLATES[templateName]) {
     throw new Error(`Template "${templateName}" not found`);
   }
-  const foundTemplate = template;
   if (!hasRequiredDataForTemplate({
     templateName,
     passport
   })) {
     throw new Error(`Template "${templateName}" is missing required fields`);
   }
-  const data = applyRedactions(passport, foundTemplate.redactions);
-  const document = foundTemplate.template(data);
+  const {
+    redactions,
+    template
+  } = TEMPLATES[templateName];
+  let data = passport;
+  if (redactions && redactions.length) {
+    data = applyRedactions(passport, redactions);
+  }
+  const document = template(data);
   return docx.Packer.toStream(document);
 }
 function hasRequiredDataForTemplate({
