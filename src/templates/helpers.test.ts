@@ -117,22 +117,46 @@ describe("Passport helper functions", () => {
       };
       expect(getString(data, "a.b.c")).toEqual("it works");
     });
-    test("it handles empty values", () => {
+    test("it returns an empty string when accessing empty values", () => {
       const data = {
         a: {
           "b.c": "",
+          d: [],
+          e: null,
+          f: undefined,
         },
       };
       expect(getString(data, "a.b.c")).toEqual("");
+      expect(getString(data, "a.d")).toEqual("");
+      expect(getString(data, "a.e")).toEqual("");
+      expect(getString(data, "a.f")).toEqual("");
     });
-    test("it handles missing values", () => {
+    test("it returns an empty string when accessing non-existent values", () => {
+      const data = {
+        a: {
+          b: null,
+        },
+        x: "y",
+      };
+      expect(getString(data, "a.y")).toEqual("");
+      expect(getString(data, "a.b")).toEqual("");
+      expect(getString(data, "a.b.c")).toEqual("");
+      expect(getString(data, "h.i.j")).toEqual("");
+      expect(getString(data, "x.y.z")).toEqual("");
+    });
+    test("it returns an empty string when accessing missing values", () => {
       const data = { a: {} };
       expect(getString(data, "a.b.c")).toEqual("");
     });
-    test("it handles numbers", () => {
+    test("it handles numbers including zero", () => {
       const data = { a: 123, b: 0 };
       expect(getString(data, "a")).toEqual("123");
       expect(getString(data, "b")).toEqual("0");
+    });
+    test("it returns an empty string when the path cannot be parsed", () => {
+      const data = { a: { b: 1 } };
+      expect(getString(data, "a[9].b")).toEqual("");
+      expect(getString(data, "a.*")).toEqual("");
     });
   });
 
