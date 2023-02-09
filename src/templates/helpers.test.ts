@@ -120,6 +120,24 @@ describe("Passport helper functions", () => {
       };
       expect(hasValue(data, "a.b.c")).toEqual(false);
     });
+    test("it returns false when the value is an empty string", () => {
+      const data = {
+        a: {
+          b: "",
+        },
+      };
+      expect(hasValue(data, "a.b")).toEqual(false);
+    });
+    test("it returns true when a falsy value is found", () => {
+      const data = {
+        a: {
+          b: 0,
+          c: false,
+        },
+      };
+      expect(hasValue(data, "a.b")).toEqual(true);
+      expect(hasValue(data, "a.c")).toEqual(true);
+    });
   });
 
   describe("getString", () => {

@@ -1,8 +1,8 @@
 /* eslint @typescript-eslint/no-explicit-any: "off" */
 /* eslint @typescript-eslint/no-unsafe-assignment: "off" */
 export function hasValue(data: object, path: string): boolean {
-  const value: any = get({ data, path }) ?? false;
-  if (value === 0) return true;
+  const value: any = get({ data, path });
+  if (value === 0 || value === false) return true;
   return Boolean(value);
 }
 
