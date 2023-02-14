@@ -306,7 +306,7 @@ function getBoolean(data, path) {
   }
   return value === true || value === "true";
 }
-function applyRedactions(input, redactions) {
+function applyRedactions(input, redactions = []) {
   const outputData = { ...input.data };
   redactions.forEach((key) => {
     if (hasValue(outputData, key))
@@ -915,6 +915,7 @@ function hasRequiredDataForTemplate({
   }
   return true;
 }
+exports.TEMPLATES = TEMPLATES;
 exports.generateDocxTemplateStream = generateDocxTemplateStream;
 exports.generateHTMLMapStream = generateHTMLMapStream;
 exports.generateHTMLOverviewStream = generateHTMLOverviewStream;

@@ -13,7 +13,7 @@ export type Template = {
   requirements: string[];
 };
 
-const TEMPLATES: Record<string, Template> = {
+export const TEMPLATES: Record<string, Template> = {
   _blank: {
     template: () => new Document({ sections: [] }),
     requirements: [],

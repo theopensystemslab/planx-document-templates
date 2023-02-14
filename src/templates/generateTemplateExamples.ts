@@ -1,6 +1,6 @@
-import { writeFileSync } from "node:fs";
+import { createWriteStream, writeFileSync } from "node:fs";
 import { Packer } from "docx";
-import { LDCETemplate } from "./LDCETemplate";
+import { generateDocxTemplateStream, TEMPLATES } from "../";
 import { buildTestTemplate } from "./testTemplate";
 import exampleLDCData from "../data/exampleLDC.json";
 
@@ -12,10 +12,19 @@ import exampleLDCData from "../data/exampleLDC.json";
 })();
 
 async function generateTemplateExamples(): Promise<void> {
-  await Packer.toBuffer(LDCETemplate(exampleLDCData)).then((buffer) => {
-    writeFileSync(`./examples/LDCEExample.docx`, buffer);
-  });
   await Packer.toBuffer(buildTestTemplate()).then((buffer) => {
     writeFileSync(`./examples/Test.docx`, buffer);
+  });
+
+  Object.keys(TEMPLATES).forEach(async (templateName) => {
+    const file = createWriteStream(`./examples/${templateName}.docx`);
+    const docStream = generateDocxTemplateStream({
+      templateName,
+      passport: exampleLDCData,
+    }).pipe(file);
+    await new Promise((resolve, reject) => {
+      docStream.on("error", reject);
+      docStream.on("finish", resolve);
+    });
   });
 }

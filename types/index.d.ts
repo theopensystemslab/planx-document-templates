@@ -8,6 +8,7 @@ export type Template = {
     redactions?: string[] | undefined;
     requirements: string[];
 };
+export declare const TEMPLATES: Record<string, Template>;
 export declare function generateHTMLOverviewStream(planXExportData: PlanXExportData[]): import("react-dom/server").PipeableStream;
 export declare function generateHTMLMapStream(geojson: object): import("react-dom/server").PipeableStream;
 export declare function generateDocxTemplateStream({ templateName, passport, }: {
