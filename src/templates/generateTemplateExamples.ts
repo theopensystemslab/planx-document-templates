@@ -11,20 +11,22 @@ import exampleLDCData from "../data/exampleLDC.json";
     .catch((e) => console.log(e));
 })();
 
-async function generateTemplateExamples(): Promise<void> {
+async function generateTemplateExamples() {
   await Packer.toBuffer(buildTestTemplate()).then((buffer) => {
     writeFileSync(`./examples/Test.docx`, buffer);
   });
 
-  Object.keys(TEMPLATES).forEach(async (templateName) => {
+  const promises: Promise<void>[] = Object.keys(TEMPLATES).map(async (templateName) => {
     const file = createWriteStream(`./examples/${templateName}.docx`);
     const docStream = generateDocxTemplateStream({
       templateName,
       passport: exampleLDCData,
     }).pipe(file);
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       docStream.on("error", reject);
       docStream.on("finish", resolve);
     });
   });
+
+  await Promise.all(promises);
 }
