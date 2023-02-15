@@ -3,14 +3,14 @@ import { renderToPipeableStream } from "react-dom/server";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCETemplate } from "./templates/LDCETemplate";
-import { hasValue, applyRedactions } from "./templates/helpers";
+import { hasValue, getString, applyRedactions } from "./templates/helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
 
 export type Template = {
   template: (passport: { data: object }) => Document;
   redactions?: string[] | undefined;
-  requirements: string[];
+  requirements: { key: string; value: string | undefined }[];
 };
 
 export const TEMPLATES: Record<string, Template> = {
@@ -20,7 +20,7 @@ export const TEMPLATES: Record<string, Template> = {
   },
   LDCE: {
     template: LDCETemplate,
-    requirements: [], // no required fields
+    requirements: [{ key: "application.type", value: "ldc.existing" }],
   },
   LDCE_redacted: {
     template: LDCETemplate,
@@ -29,7 +29,7 @@ export const TEMPLATES: Record<string, Template> = {
       "applicant.phone.primary",
       "applicant.phone.secondary",
     ],
-    requirements: [], // no required fields
+    requirements: [{ key: "application.type", value: "ldc.existing" }],
   },
 };
 
@@ -74,9 +74,12 @@ export function hasRequiredDataForTemplate({
 }): boolean {
   const template: Template | undefined = TEMPLATES[templateName];
   if (!template) throw new Error(`Template "${templateName}" not found`);
-  for (const path of template.requirements) {
-    if (!hasValue(passport.data, path)) {
+  for (const {key, value} of template.requirements) {
+    if (!hasValue(passport.data, key)) {
       return false;
+    }
+    if (value) {
+      return getString(passport.data, key) === value;
     }
   }
   return true;

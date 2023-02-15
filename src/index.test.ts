@@ -8,12 +8,7 @@ import {
 
 const passport = {
   data: {
-    "applicant.title": "XX",
-    "applicant.name.first": "X",
-    "applicant.name.last": "Y",
-    _address: {
-      postcode: "HP20 2QP",
-    },
+    "application.type": "ldc.existing",
   },
 };
 
@@ -27,9 +22,7 @@ describe("generateDocxTemplateStream", () => {
     ).toBeTruthy();
   });
 
-  // TODO
-  // there are currently no templates with required fields so this is skipped for now
-  test.skip("it throws when the required data is not provided", () => {
+  test("it throws when the required data is not provided", () => {
     expect(() =>
       generateDocxTemplateStream({
         templateName: "LDCE",
@@ -83,7 +76,7 @@ describe("generateHTMLOverviewStream", () => {
 });
 
 // there are currently no templates with required fields so this is skipped for now
-describe.skip("hasRequiredDataForTemplate", () => {
+describe("hasRequiredDataForTemplate", () => {
   test("it returns true when the template exists and data is valid", () => {
     expect(
       hasRequiredDataForTemplate({
@@ -100,6 +93,19 @@ describe.skip("hasRequiredDataForTemplate", () => {
         passport: { data: {} },
       })
     ).toBe(true);
+  });
+
+  test("it returns false when required data values do not match", () => {
+    expect(
+      hasRequiredDataForTemplate({
+        templateName: "LDCE",
+        passport: {
+          data: {
+            "application.type": "ldc.proposed",
+          },
+        },
+      })
+    ).toBe(false);
   });
 
   test("it returns false when required data is not provided", () => {
@@ -120,4 +126,3 @@ describe.skip("hasRequiredDataForTemplate", () => {
     ).toThrowError('Template "blah" not found');
   });
 });
-
