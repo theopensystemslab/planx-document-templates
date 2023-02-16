@@ -47,6 +47,9 @@ jobs:
         id: install-packages
         run: pnpm install
 
+      - name: Build
+        run: pnpm build
+
       - name: Run CI Script
         id: pnpm-ci
         run: pnpm ci
