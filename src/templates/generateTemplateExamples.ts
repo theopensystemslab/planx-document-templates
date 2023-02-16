@@ -16,17 +16,22 @@ async function generateTemplateExamples() {
     writeFileSync(`./examples/Test.docx`, buffer);
   });
 
-  const promises: Promise<void>[] = Object.keys(TEMPLATES).map(async (templateName) => {
-    const file = createWriteStream(`./examples/${templateName}.docx`);
-    const docStream = generateDocxTemplateStream({
-      templateName,
-      passport: exampleLDCData,
-    }).pipe(file);
-    return new Promise((resolve, reject) => {
-      docStream.on("error", reject);
-      docStream.on("finish", resolve);
-    });
-  });
+  const promises: Promise<void>[] = Object.keys(TEMPLATES).map(
+    async (templateName) => {
+      const file = createWriteStream(`./examples/${templateName}.docx`);
+      const docStream = generateDocxTemplateStream({
+        templateName,
+        passport: exampleLDCData,
+      }).pipe(file);
+      return new Promise((resolve, reject) => {
+        docStream.on("error", reject);
+        docStream.on("finish", resolve);
+      });
+    }
+  );
 
-  await Promise.all(promises);
+  await Promise.all(promises).catch((e) => {
+    console.log(e);
+    process.exit(1); // fail the build if an example failed to generate
+  });
 }
