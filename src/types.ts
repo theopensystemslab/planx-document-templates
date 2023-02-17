@@ -1,6 +1,6 @@
 export interface PlanXExportData {
   question: string;
-  responses: string | number | ResponseObject[] | Record<any, any> | any;
+  responses: string | number | ResponseObject[] | Record<string, any> | any;
   metadata?: NodeMetadata | string; // Files uniquely have string metadata
 }
 

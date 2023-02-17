@@ -30,7 +30,7 @@ export function prettyQuestion(data: PlanXExportData["question"]): string {
 };
 
 export function prettyResponse(data: PlanXExportData["responses"]): any {
-  if (!Boolean(data)) {
+  if (!data) {
     return "";
   }
   if (typeof data === "string") {
@@ -49,16 +49,16 @@ export function prettyResponse(data: PlanXExportData["responses"]): any {
 };
 
 function getResponseValuesFromList(data: any[]): string {
-  if (data.length === 1) {
-    if (typeof data[0]["value"] === "string") {
-      return safeDecodeURI(data[0]["value"]);
+  if (data?.length === 1) {
+    if (typeof data?.[0]?.["value"] === "string") {
+      return safeDecodeURI(data?.[0]?.["value"]);
     } else {
-      return data[0]["value"];
+      return data?.[0]?.["value"];
     }
   }
-  if (data.length > 1) {
-    const dataValues = data.map(d => d["value"]);
-    return safeDecodeURI(dataValues.filter(Boolean).join("\n"));
+  if (data?.length > 1) {
+    const dataValues = data?.map(d => d?.["value"]);
+    return safeDecodeURI(dataValues?.filter(Boolean)?.join("\n"));
   }
   return "Error displaying list of responses";
 };

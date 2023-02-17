@@ -31,7 +31,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
-      <React.Fragment key={"payReference"}>
+      {payRef && <React.Fragment key={"payReference"}>
         <dt>
           GOV.UK Pay reference
         </dt>
@@ -39,8 +39,8 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           {payRef}
         </dd>
         <dd>{""}</dd>
-      </React.Fragment>
-      <React.Fragment key={"fee"}>
+      </React.Fragment>}
+      {fee && <React.Fragment key={"fee"}>
         <dt>
           Fee paid
         </dt>
@@ -48,7 +48,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           {`£${fee}`}
         </dd>
         <dd>{""}</dd>
-      </React.Fragment>
+      </React.Fragment>}
       <React.Fragment key={"createdDate"}>
         <dt>
           Paid and submitted on
@@ -134,10 +134,10 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
               {prettyQuestion(d.question)}
             </dt>
             <dd>
-              {typeof prettyResponse(d.responses) === "string" && prettyResponse(d.responses).split("\n").length > 1
+              {typeof prettyResponse(d.responses) === "string" && prettyResponse(d.responses)?.split("\n")?.length > 1
                 ? (
                   <ul style={{ lineHeight: "1.5em" }}>
-                    {prettyResponse(d.responses).split("\n").map((response: string, i: number) => (
+                    {prettyResponse(d.responses)?.split("\n")?.map((response: string, i: number) => (
                       <li key={i}>{response}</li>
                     ))}
                   </ul>
@@ -145,7 +145,7 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
                 : prettyResponse(d.responses)
               }
             </dd>
-            <dd style={{ fontStyle: "italic" }}>{Boolean(d.metadata?.auto_answered) ? "Auto-answered" : ""}</dd>
+            <dd style={{ fontStyle: "italic" }}>{typeof d.metadata === "object" && Boolean(d.metadata?.auto_answered) ? "Auto-answered" : ""}</dd>
           </React.Fragment>
         ))}
       </Box>
