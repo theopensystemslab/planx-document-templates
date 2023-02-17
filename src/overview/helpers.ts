@@ -29,7 +29,7 @@ export function prettyQuestion(data: PlanXExportData["question"]): string {
   };
 };
 
-export function prettyResponse(data: PlanXExportData["responses"]): any {
+export function prettyResponse(data: PlanXExportData["responses"]): string | number {
   if (!data) {
     return "";
   }
