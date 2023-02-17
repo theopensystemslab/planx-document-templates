@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
 const server = require("react-dom/server");
-const React = require("react");
-const prettyTitle = require("lodash.startcase");
-const styled = require("@emotion/styled");
 const jsxRuntime = require("react/jsx-runtime");
-const Grid = require("@mui/material/Grid");
 const react = require("@emotion/react");
 const docx = require("docx");
+const Box = require("@mui/material/Box");
+const Grid = require("@mui/material/Grid");
+const prettyTitle = require("lodash.startcase");
+const React = require("react");
 const _interopDefaultLegacy = (e) => e && typeof e === "object" && "default" in e ? e : { default: e };
 function _interopNamespace(e) {
   if (e && e.__esModule)
@@ -27,221 +27,13 @@ function _interopNamespace(e) {
   n.default = e;
   return Object.freeze(n);
 }
-const React__namespace = /* @__PURE__ */ _interopNamespace(React);
-const prettyTitle__default = /* @__PURE__ */ _interopDefaultLegacy(prettyTitle);
-const styled__default = /* @__PURE__ */ _interopDefaultLegacy(styled);
 const jsxRuntime__namespace = /* @__PURE__ */ _interopNamespace(jsxRuntime);
+const Box__default = /* @__PURE__ */ _interopDefaultLegacy(Box);
 const Grid__default = /* @__PURE__ */ _interopDefaultLegacy(Grid);
-function validatePlanXExportData(data) {
-  return Array.isArray(data) && data.length > 0 && data.every((entry) => {
-    return Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses");
-  });
-}
-function safeDecodeURI(data) {
-  try {
-    return decodeURI(data);
-  } catch (error) {
-    return data;
-  }
-}
+const prettyTitle__default = /* @__PURE__ */ _interopDefaultLegacy(prettyTitle);
+const React__namespace = /* @__PURE__ */ _interopNamespace(React);
 const jsx = jsxRuntime__namespace.jsx;
 const jsxs = jsxRuntime__namespace.jsxs;
-function DataItem(props) {
-  const Item = styled__default.default.div`
-    padding: 1em 0;
-    border-top: 1px solid #00000022;
-    break-inside: avoid;
-  `;
-  const Title = styled__default.default.p`
-    margin: 0 0 1em 0;
-    font-weight: bold;
-  `;
-  const checkDataItemProps = (props2) => {
-    return Object.hasOwn(props2, "title") && Object.hasOwn(props2, "details");
-  };
-  if (checkDataItemProps(props)) {
-    return /* @__PURE__ */ jsxs(Item, {
-      children: [/* @__PURE__ */ jsx(Title, {
-        children: prettyTitle__default.default(props.title)
-      }), /* @__PURE__ */ jsx(Details, {
-        data: props.details
-      })]
-    });
-  }
-  return /* @__PURE__ */ jsx("p", {
-    children: "[error]"
-  });
-}
-function Details(props) {
-  const Empty = styled__default.default.span`
-    color: #00000033;
-  `;
-  const {
-    data
-  } = props;
-  if (data === null) {
-    return /* @__PURE__ */ jsx(Empty, {
-      children: "[none]"
-    });
-  }
-  if (data === void 0) {
-    return /* @__PURE__ */ jsx(Empty, {
-      children: "[empty]"
-    });
-  }
-  if (typeof data === "boolean") {
-    return /* @__PURE__ */ jsx("span", {
-      children: data ? "true" : "false"
-    });
-  }
-  if (typeof data === "number") {
-    return /* @__PURE__ */ jsx("span", {
-      children: data
-    });
-  }
-  if (typeof data === "string") {
-    return /* @__PURE__ */ jsx("span", {
-      children: safeDecodeURI(data)
-    });
-  }
-  if (Array.isArray(data)) {
-    return List(data);
-  }
-  if (typeof data === "object") {
-    return Tree(data);
-  }
-  return /* @__PURE__ */ jsx("p", {
-    children: `[error: Unknown detail format for ${typeof data}]`
-  });
-}
-function List(details) {
-  if (isListOfNumbersOrStrings(details)) {
-    return /* @__PURE__ */ jsx(Details, {
-      data: `[${details.join(", ")}]`
-    });
-  }
-  if (isListOfObjectsWithOneKey(details, "value")) {
-    if (details.length === 1) {
-      return /* @__PURE__ */ jsx(Details, {
-        data: details[0]["value"]
-      });
-    }
-    details = details.map((d) => d["value"]);
-  }
-  return /* @__PURE__ */ jsx("ul", {
-    children: details.map((item) => /* @__PURE__ */ jsx("li", {
-      children: /* @__PURE__ */ jsx(Details, {
-        data: item
-      })
-    }, JSON.stringify(item)))
-  });
-}
-function Tree(details) {
-  return /* @__PURE__ */ jsx("ul", {
-    children: Object.keys(details).sort().map((key) => /* @__PURE__ */ jsxs("li", {
-      children: [/* @__PURE__ */ jsx("strong", {
-        children: prettyTitle__default.default(key)
-      }), ": ", /* @__PURE__ */ jsx(Details, {
-        data: details[key]
-      })]
-    }, key))
-  });
-}
-function isListOfNumbersOrStrings(list) {
-  return list.every((d) => typeof d === "number" || typeof d === "string");
-}
-function isListOfObjectsWithOneKey(list, key) {
-  return list.every(
-    (d) => typeof d === "object" && Object.keys(d).every((k) => k === key)
-  );
-}
-function SubmissionOverviewDocument(props) {
-  return /* @__PURE__ */ jsxs("html", {
-    children: [/* @__PURE__ */ jsxs("head", {
-      children: [/* @__PURE__ */ jsx("meta", {
-        charSet: "utf-8"
-      }), /* @__PURE__ */ jsx("meta", {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1"
-      }), /* @__PURE__ */ jsx("title", {
-        children: "PlanX Submission Overview"
-      })]
-    }), /* @__PURE__ */ jsx("body", {
-      children: /* @__PURE__ */ jsx(SubmissionOverview, {
-        data: props.data
-      })
-    })]
-  });
-}
-function SubmissionOverview(props) {
-  return /* @__PURE__ */ jsxs(React__namespace.Fragment, {
-    children: [/* @__PURE__ */ jsx(Styles$1, {}), /* @__PURE__ */ jsxs(Grid__default.default, {
-      container: true,
-      spacing: 2,
-      direction: "row-reverse",
-      sx: {
-        justifyContent: "center",
-        minWidth: "650px",
-        maxWidth: "1400px",
-        padding: "0 1em",
-        margin: "auto"
-      },
-      children: [/* @__PURE__ */ jsx(Grid__default.default, {
-        item: true,
-        xs: 12,
-        children: /* @__PURE__ */ jsx("h1", {
-          style: {
-            textAlign: "center"
-          },
-          children: "PlanX Submission Overview"
-        })
-      }), /* @__PURE__ */ jsxs(Grid__default.default, {
-        item: true,
-        xs: 12,
-        md: 6,
-        sx: {
-          paddingTop: 0
-        },
-        children: [/* @__PURE__ */ jsx("h2", {
-          children: "Data"
-        }), /* @__PURE__ */ jsx(DataList, {
-          data: props.data
-        })]
-      })]
-    })]
-  });
-}
-function Styles$1() {
-  return /* @__PURE__ */ jsx(react.Global, {
-    styles: react.css`
-        @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-        body {
-          font-family: "Inter", arial, sans-serif;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          font-size: 18px;
-          font-size: 1.125rem;
-        }
-      `
-  });
-}
-function DataList(props) {
-  const hasValidDataStructure = validatePlanXExportData(props.data);
-  return /* @__PURE__ */ jsxs(React__namespace.Fragment, {
-    children: [hasValidDataStructure ? props.data.map((item, index) => {
-      const {
-        question,
-        responses
-      } = item;
-      return /* @__PURE__ */ jsx(DataItem, {
-        title: question,
-        details: responses
-      }, index);
-    }) : /* @__PURE__ */ jsx("p", {
-      children: "Data not available"
-    }), " "]
-  });
-}
 function Map(props) {
   return /* @__PURE__ */ jsx("my-map", {
     showNorthArrow: true,
@@ -264,7 +56,7 @@ function BoundaryMapDocument(props) {
         children: "PlanX Submission Boundary"
       })]
     }), /* @__PURE__ */ jsxs("body", {
-      children: [/* @__PURE__ */ jsx(Styles, {}), /* @__PURE__ */ jsx("h1", {
+      children: [/* @__PURE__ */ jsx(Styles$1, {}), /* @__PURE__ */ jsx("h1", {
         children: "Boundary"
       }), /* @__PURE__ */ jsx(Map, {
         boundary: props.geojson
@@ -272,7 +64,7 @@ function BoundaryMapDocument(props) {
     })]
   });
 }
-function Styles() {
+function Styles$1() {
   return /* @__PURE__ */ jsx(react.Global, {
     styles: react.css`
         @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
@@ -850,6 +642,342 @@ function LDCETemplate(passport) {
     ]
   });
 }
+function validatePlanXExportData(data) {
+  return Array.isArray(data) && data.length > 0 && data.every((entry) => {
+    return Object.hasOwn(entry, "question") && Object.hasOwn(entry, "responses");
+  });
+}
+function safeDecodeURI(data) {
+  try {
+    return decodeURI(data);
+  } catch (error) {
+    return data;
+  }
+}
+function prettyQuestion(data) {
+  if (data.includes("?") || data.includes("File") || !data.includes("_") && data.includes(" ")) {
+    return safeDecodeURI(data);
+  } else {
+    return safeDecodeURI(prettyTitle__default.default(data));
+  }
+}
+function prettyResponse(data) {
+  if (!data) {
+    return "";
+  }
+  if (typeof data === "string") {
+    return safeDecodeURI(data.trim());
+  }
+  if (typeof data === "number") {
+    return data;
+  }
+  if (typeof data === "boolean") {
+    return data ? "True" : "False";
+  }
+  if (Array.isArray(data)) {
+    return getResponseValuesFromList(data);
+  }
+  return "Error displaying response";
+}
+function getResponseValuesFromList(data) {
+  var _a, _b, _c, _d;
+  if ((data == null ? void 0 : data.length) === 1) {
+    if (typeof ((_a = data == null ? void 0 : data[0]) == null ? void 0 : _a["value"]) === "string") {
+      return safeDecodeURI((_b = data == null ? void 0 : data[0]) == null ? void 0 : _b["value"]);
+    } else {
+      return (_c = data == null ? void 0 : data[0]) == null ? void 0 : _c["value"];
+    }
+  }
+  if ((data == null ? void 0 : data.length) > 1) {
+    const dataValues = data == null ? void 0 : data.map((d) => d == null ? void 0 : d["value"]);
+    return safeDecodeURI((_d = dataValues == null ? void 0 : dataValues.filter(Boolean)) == null ? void 0 : _d.join("\n"));
+  }
+  return "Error displaying list of responses";
+}
+function getToday() {
+  return new Date().toLocaleDateString("en-GB");
+}
+function Highlights(props) {
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+  const siteAddress = (_a = props.data.find((d) => d.question === "site")) == null ? void 0 : _a.responses;
+  const sessionId = (_b = props.data.find((d) => d.question === "Planning Application Reference")) == null ? void 0 : _b.responses;
+  const payRef = (_d = (_c = props.data.find((d) => d.question === "application.fee.reference.govPay")) == null ? void 0 : _c.responses) == null ? void 0 : _d.payment_id;
+  const fee = (_f = (_e = props.data.find((d) => d.question === "application.fee.reference.govPay")) == null ? void 0 : _e.responses) == null ? void 0 : _f.amount;
+  return /* @__PURE__ */ jsxs(Box__default.default, {
+    component: "dl",
+    sx: {
+      ...gridStyles,
+      border: "none"
+    },
+    children: [/* @__PURE__ */ jsxs(React__namespace.Fragment, {
+      children: [/* @__PURE__ */ jsx("dt", {
+        children: "Property address"
+      }), /* @__PURE__ */ jsx("dd", {
+        children: [(_g = siteAddress == null ? void 0 : siteAddress.address_1) == null ? void 0 : _g.toString(), (_h = siteAddress == null ? void 0 : siteAddress.town) == null ? void 0 : _h.toString(), (_i = siteAddress == null ? void 0 : siteAddress.postcode) == null ? void 0 : _i.toString()].filter(Boolean).join(" ")
+      }), /* @__PURE__ */ jsx("dd", {
+        children: ""
+      })]
+    }, "address"), /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+      children: [/* @__PURE__ */ jsx("dt", {
+        children: "Planning application reference"
+      }), /* @__PURE__ */ jsx("dd", {
+        children: sessionId
+      }), /* @__PURE__ */ jsx("dd", {
+        children: ""
+      })]
+    }, "sessionId"), payRef && /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+      children: [/* @__PURE__ */ jsx("dt", {
+        children: "GOV.UK Pay reference"
+      }), /* @__PURE__ */ jsx("dd", {
+        children: payRef
+      }), /* @__PURE__ */ jsx("dd", {
+        children: ""
+      })]
+    }, "payReference"), fee && /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+      children: [/* @__PURE__ */ jsx("dt", {
+        children: "Fee paid"
+      }), /* @__PURE__ */ jsx("dd", {
+        children: `\xA3${fee}`
+      }), /* @__PURE__ */ jsx("dd", {
+        children: ""
+      })]
+    }, "fee"), /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+      children: [/* @__PURE__ */ jsx("dt", {
+        children: "Paid and submitted on"
+      }), /* @__PURE__ */ jsx("dd", {
+        children: getToday()
+      }), /* @__PURE__ */ jsx("dd", {
+        children: ""
+      })]
+    }, "createdDate")]
+  });
+}
+function Result(props) {
+  var _a, _b;
+  const result = (_a = props.data.find((d) => d.question === "result")) == null ? void 0 : _a.responses;
+  return /* @__PURE__ */ jsxs(Box__default.default, {
+    sx: {
+      borderBottom: 1,
+      borderColor: "divider"
+    },
+    children: [/* @__PURE__ */ jsx("h2", {
+      children: "It looks like"
+    }), /* @__PURE__ */ jsx("span", {
+      style: {
+        fontWeight: 700,
+        padding: ".5em",
+        backgroundColor: "#ffdd00"
+      },
+      children: (_b = result == null ? void 0 : result.heading) == null ? void 0 : _b.toString()
+    }), /* @__PURE__ */ jsx("p", {
+      children: "This pre-assessment is based on the information provided by the applicant."
+    })]
+  });
+}
+function AboutTheProperty(props) {
+  var _a, _b, _c, _d, _e;
+  const siteAddress = (_a = props.data.find((d) => d.question === "site")) == null ? void 0 : _a.responses;
+  return /* @__PURE__ */ jsxs(Box__default.default, {
+    children: [/* @__PURE__ */ jsx("h2", {
+      children: "About the property"
+    }), /* @__PURE__ */ jsxs(Box__default.default, {
+      component: "dl",
+      sx: gridStyles,
+      children: [/* @__PURE__ */ jsxs(React__namespace.Fragment, {
+        children: [/* @__PURE__ */ jsx("dt", {
+          children: "Address"
+        }), /* @__PURE__ */ jsx("dd", {
+          children: [(_b = siteAddress == null ? void 0 : siteAddress.address_1) == null ? void 0 : _b.toString(), (_c = siteAddress == null ? void 0 : siteAddress.town) == null ? void 0 : _c.toString(), (_d = siteAddress == null ? void 0 : siteAddress.postcode) == null ? void 0 : _d.toString()].filter(Boolean).join(" ")
+        }), /* @__PURE__ */ jsx("dd", {
+          children: ""
+        })]
+      }, "address"), /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+        children: [/* @__PURE__ */ jsx("dt", {
+          children: "UPRN"
+        }), /* @__PURE__ */ jsx("dd", {
+          children: (_e = siteAddress == null ? void 0 : siteAddress.uprn) == null ? void 0 : _e.toString()
+        }), /* @__PURE__ */ jsx("dd", {
+          children: ""
+        })]
+      }, "uprn"), /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+        children: [/* @__PURE__ */ jsx("dt", {
+          children: "Coordinate (lng, lat)"
+        }), /* @__PURE__ */ jsxs("dd", {
+          children: [siteAddress == null ? void 0 : siteAddress.longitude, ", ", siteAddress == null ? void 0 : siteAddress.latitude]
+        }), /* @__PURE__ */ jsx("dd", {
+          children: ""
+        })]
+      }, "coordinate")]
+    })]
+  });
+}
+function Boundary(props) {
+  var _a;
+  const boundary = (_a = props.data.find((d) => d.question === "boundary_geojson")) == null ? void 0 : _a.responses;
+  return /* @__PURE__ */ jsxs(Box__default.default, {
+    sx: {
+      borderBottom: 1,
+      borderColor: "divider",
+      width: "100%"
+    },
+    children: [/* @__PURE__ */ jsx("h2", {
+      children: "Boundary"
+    }), /* @__PURE__ */ jsx("pre", {
+      style: {
+        display: "block",
+        whiteSpace: "pre-wrap",
+        padding: ".5em",
+        background: "#f2f2f2",
+        fontSize: ".8em"
+      },
+      children: JSON.stringify(boundary, null, 2)
+    })]
+  });
+}
+function ProposalDetails(props) {
+  return /* @__PURE__ */ jsxs(Box__default.default, {
+    children: [/* @__PURE__ */ jsx("h2", {
+      children: "Proposal details"
+    }), /* @__PURE__ */ jsx(Box__default.default, {
+      component: "dl",
+      sx: gridStyles,
+      children: props.data.map((d, i) => {
+        var _a, _b, _c, _d, _e;
+        return /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+          children: [/* @__PURE__ */ jsx("dt", {
+            children: prettyQuestion(d.question)
+          }), /* @__PURE__ */ jsx("dd", {
+            children: typeof prettyResponse(d.responses) === "string" && ((_b = (_a = prettyResponse(d.responses)) == null ? void 0 : _a.split("\n")) == null ? void 0 : _b.length) > 1 ? /* @__PURE__ */ jsx("ul", {
+              style: {
+                lineHeight: "1.5em"
+              },
+              children: (_d = (_c = prettyResponse(d.responses)) == null ? void 0 : _c.split("\n")) == null ? void 0 : _d.map((response, i2) => /* @__PURE__ */ jsx("li", {
+                children: response
+              }, i2))
+            }) : prettyResponse(d.responses)
+          }), /* @__PURE__ */ jsx("dd", {
+            style: {
+              fontStyle: "italic"
+            },
+            children: typeof d.metadata === "object" && Boolean((_e = d.metadata) == null ? void 0 : _e.auto_answered) ? "Auto-answered" : ""
+          })]
+        }, i);
+      })
+    })]
+  });
+}
+function OverviewDocument(props) {
+  var _a, _b, _c;
+  const applicationType = (_a = props.data.find((d) => d.question === "application_type")) == null ? void 0 : _a.responses;
+  const workStatus = (_b = props.data.find((d) => d.question === "work_status")) == null ? void 0 : _b.responses;
+  const documentTitle = applicationType && typeof applicationType === "string" ? [prettyTitle__default.default(applicationType), prettyTitle__default.default(workStatus)].filter(Boolean).join(" - ") : "PlanX Submission Overview";
+  const boundary = (_c = props.data.find((d) => d.question === "boundary_geojson")) == null ? void 0 : _c.responses;
+  const removeableQuestions = ["Planning Application Reference", "Property Address", "application.fee.reference.govPay", "application_type", "site", "boundary_geojson", "constraints", "work_status", "payment_amount", "payment_reference", "result"];
+  const filteredProposalDetails = props.data.filter((d) => !removeableQuestions.includes(d.question));
+  return /* @__PURE__ */ jsxs("html", {
+    children: [/* @__PURE__ */ jsxs("head", {
+      children: [/* @__PURE__ */ jsx("meta", {
+        charSet: "utf-8"
+      }), /* @__PURE__ */ jsx("meta", {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
+      }), /* @__PURE__ */ jsx("script", {
+        src: "https://cdn.jsdelivr.net/npm/@opensystemslab/map"
+      }), /* @__PURE__ */ jsx("title", {
+        children: documentTitle
+      })]
+    }), /* @__PURE__ */ jsxs("body", {
+      children: [/* @__PURE__ */ jsx(Styles, {}), /* @__PURE__ */ jsxs(Grid__default.default, {
+        container: true,
+        sx: {
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          maxWidth: "1000px",
+          margin: "auto"
+        },
+        children: [/* @__PURE__ */ jsx("h1", {
+          children: documentTitle
+        }), !validatePlanXExportData(props.data) ? /* @__PURE__ */ jsx("p", {
+          children: /* @__PURE__ */ jsx("strong", {
+            children: "Unable to display data."
+          })
+        }) : /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+          children: [boundary && /* @__PURE__ */ jsx(Box__default.default, {
+            sx: {
+              marginBottom: 1
+            },
+            children: /* @__PURE__ */ jsx("my-map", {
+              showNorthArrow: true,
+              showScale: true,
+              hideResetControl: true,
+              geojsonData: JSON.stringify(boundary),
+              id: "boundary-map"
+            })
+          }), /* @__PURE__ */ jsx(Highlights, {
+            data: props.data
+          }), /* @__PURE__ */ jsx(Result, {
+            data: props.data
+          }), /* @__PURE__ */ jsx(AboutTheProperty, {
+            data: props.data
+          }), /* @__PURE__ */ jsx(Box__default.default, {
+            sx: {
+              display: "flex"
+            },
+            children: /* @__PURE__ */ jsx(Boundary, {
+              data: props.data
+            })
+          }), /* @__PURE__ */ jsx(ProposalDetails, {
+            data: filteredProposalDetails
+          })]
+        })]
+      })]
+    })]
+  });
+}
+const gridStyles = {
+  display: "grid",
+  gridTemplateColumns: "1fr 2fr .5fr",
+  gridRowGap: "10px",
+  marginTop: "1em",
+  marginBottom: "1em",
+  "& > *": {
+    borderBottom: 1,
+    borderColor: "divider",
+    paddingBottom: ".5em",
+    paddingTop: ".5em",
+    verticalAlign: "top",
+    margin: 0
+  },
+  "& ul": {
+    listStylePosition: "inside",
+    padding: 0,
+    margin: 0
+  },
+  "& >:nth-child(3n+1)": {
+    fontWeight: 700
+  },
+  "& >:nth-child(3n+2)": {
+    paddingLeft: "10px"
+  },
+  "& >:nth-child(3n+3)": {
+    textAlign: "right"
+  }
+};
+function Styles() {
+  return /* @__PURE__ */ jsx(react.Global, {
+    styles: react.css`
+        @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+        body {
+          font-family: "Inter", arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          font-size: 16px;
+          font-size: 1rem;
+        }
+      `
+  });
+}
 const TEMPLATES = {
   _blank: {
     template: () => new docx.Document({
@@ -859,16 +987,22 @@ const TEMPLATES = {
   },
   LDCE: {
     template: LDCETemplate,
-    requirements: []
+    requirements: [{
+      key: "application.type",
+      value: "ldc.existing"
+    }]
   },
   LDCE_redacted: {
     template: LDCETemplate,
     redactions: ["applicant.email", "applicant.phone.primary", "applicant.phone.secondary"],
-    requirements: []
+    requirements: [{
+      key: "application.type",
+      value: "ldc.existing"
+    }]
   }
 };
 function generateHTMLOverviewStream(planXExportData) {
-  return server.renderToPipeableStream(/* @__PURE__ */ jsx(SubmissionOverviewDocument, {
+  return server.renderToPipeableStream(/* @__PURE__ */ jsx(OverviewDocument, {
     data: planXExportData
   }));
 }
@@ -908,9 +1042,15 @@ function hasRequiredDataForTemplate({
   const template = TEMPLATES[templateName];
   if (!template)
     throw new Error(`Template "${templateName}" not found`);
-  for (const path of template.requirements) {
-    if (!hasValue(passport.data, path)) {
+  for (const {
+    key,
+    value
+  } of template.requirements) {
+    if (!hasValue(passport.data, key)) {
       return false;
+    }
+    if (value) {
+      return getString(passport.data, key) === value;
     }
   }
   return true;

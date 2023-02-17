@@ -1,6 +1,5 @@
 import React from "react";
 import { renderToPipeableStream } from "react-dom/server";
-import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCETemplate } from "./templates/LDCETemplate";
 import { hasValue, getString, applyRedactions } from "./templates/helpers";

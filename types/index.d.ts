@@ -6,7 +6,10 @@ export type Template = {
         data: object;
     }) => Document;
     redactions?: string[] | undefined;
-    requirements: string[];
+    requirements: {
+        key: string;
+        value: string | undefined;
+    }[];
 };
 export declare const TEMPLATES: Record<string, Template>;
 export declare function generateHTMLOverviewStream(planXExportData: PlanXExportData[]): import("react-dom/server").PipeableStream;
