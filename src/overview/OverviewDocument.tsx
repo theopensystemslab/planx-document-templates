@@ -1,12 +1,16 @@
 import { css, Global } from "@emotion/react";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import prettyTitle from "lodash.startcase";
 import * as React from "react";
 import { PlanXExportData } from "../types";
-import { prettyQuestion } from "./helpers";
+import { getToday, prettyQuestion, prettyResponse, validatePlanXExportData } from "./helpers";
 
 function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
   const siteAddress = props.data.find(d => d.question === "site")?.responses;
+  const sessionId = props.data.find(d => d.question === "Planning Application Reference")?.responses;
+  const payRef = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.payment_id;
+  const fee = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.amount;
   return (
     <Box component="dl" sx={{ ...gridStyles, border: "none" }}>
       <React.Fragment key={"address"}>
@@ -23,7 +27,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Planning application reference
         </dt>
         <dd>
-          {"TBD"}
+          {sessionId}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
@@ -32,7 +36,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           GOV.UK Pay reference
         </dt>
         <dd>
-          {"TBD"}
+          {payRef}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
@@ -41,7 +45,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Fee paid
         </dt>
         <dd>
-          {"TBD"}
+          {`£${fee}`}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
@@ -50,7 +54,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Paid and submitted on
         </dt>
         <dd>
-          {"TBD"}
+          {getToday()}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
@@ -63,8 +67,7 @@ function Result(props: { data: PlanXExportData[] }): JSX.Element {
   return (
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
       <h2>It looks like</h2>
-      <p style={{ fontWeight: 700 }}>{result?.heading?.toString()}</p>
-      <p>{result?.description?.toString()}</p>
+      <span style={{ fontWeight: 700, padding: ".5em", backgroundColor: "#ffdd00" }}>{result?.heading?.toString()}</span>
       <p>This pre-assessment is based on the information provided by the applicant.</p>
     </Box>
   );
@@ -73,7 +76,7 @@ function Result(props: { data: PlanXExportData[] }): JSX.Element {
 function AboutTheProperty(props: { data: PlanXExportData[] }): JSX.Element {
   const siteAddress = props.data.find(d => d.question === "site")?.responses;
   return (
-    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <Box>
       <h2>About the property</h2>
       <Box component="dl" sx={gridStyles}>
         <React.Fragment key={"address"}>
@@ -105,19 +108,19 @@ function AboutTheProperty(props: { data: PlanXExportData[] }): JSX.Element {
         </React.Fragment>
       </Box>
     </Box>
-  )
+  );
 }
 
 function Boundary(props: { data: PlanXExportData[] }): JSX.Element {
   const boundary = props.data.find(d => d.question === "boundary_geojson")?.responses;
   return (
-    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
       <h2>Boundary</h2>
       <pre style={{ display: "block", whiteSpace: "pre-wrap", padding: ".5em", background: "#f2f2f2", fontSize: ".8em" }}>
         {JSON.stringify(boundary, null, 2)}
       </pre>
     </Box>
-  )
+  );
 }
 
 function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
@@ -131,7 +134,16 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
               {prettyQuestion(d.question)}
             </dt>
             <dd>
-              {typeof d.responses === "string" ? d.responses : "TBD"}
+              {typeof prettyResponse(d.responses) === "string" && prettyResponse(d.responses).split("\n").length > 1
+                ? (
+                  <ul style={{ lineHeight: "1.5em" }}>
+                    {prettyResponse(d.responses).split("\n").map((response: string, i: number) => (
+                      <li key={i}>{response}</li>
+                    ))}
+                  </ul>
+                )
+                : prettyResponse(d.responses)
+              }
             </dd>
             <dd style={{ fontStyle: "italic" }}>{Boolean(d.metadata?.auto_answered) ? "Auto-answered" : ""}</dd>
           </React.Fragment>
@@ -143,20 +155,26 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
 
 export function OverviewDocument(props: { data: PlanXExportData[] }) {
   // Pluck out some key questions & responses to show in special sections
-  const applicationType: string | undefined | unknown = props.data.find(d => d.question === "application_type")?.responses;
-  const documentTitle: string = applicationType && typeof applicationType === "string" ? prettyTitle(applicationType) : "PlanX Submission Overview";
+  const applicationType: string | undefined = props.data.find(d => d.question === "application_type")?.responses;
+  const workStatus: string | undefined = props.data.find(d => d.question === "work_status")?.responses;
+  const documentTitle: string = applicationType && typeof applicationType === "string" ? [prettyTitle(applicationType), prettyTitle(workStatus)].filter(Boolean).join(" - ") : "PlanX Submission Overview";
+  const boundary: Record<string, any> | undefined = props.data.find(d => d.question === "boundary_geojson")?.responses;
 
-  // Identify questions that we want to hide from the full list of "Proposal details"
-  const removeableQuestions: string[] = [
-    "planning_application_reference",
-    "property_address",
+  // Identify questions that we want to hide from the full list of "Proposal details" if they exist
+  const removeableQuestions: PlanXExportData["question"][] = [
+    "Planning Application Reference",
+    "Property Address",
+    "application.fee.reference.govPay",
     "application_type",
-    "result",
     "site",
     "boundary_geojson",
+    "constraints",
+    "work_status",
     "payment_amount",
     "payment_reference",
+    "result",
   ];
+  const filteredProposalDetails = props.data.filter(d => !removeableQuestions.includes(d.question));
 
   return (
     <html>
@@ -168,12 +186,40 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
       </head>
       <body>
         <Styles />
-        <h1>{documentTitle}</h1>
-        <Highlights data={props.data} />
-        <Result data={props.data} />
-        <AboutTheProperty data={props.data} />
-        <Boundary data={props.data} />
-        <ProposalDetails data={props.data} />
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            maxWidth: "1000px",
+            margin: "auto",
+          }}
+        >
+          <h1>{documentTitle}</h1>
+          {!validatePlanXExportData(props.data) ? <p><strong>Unable to display data.</strong></p> : (
+            <React.Fragment>
+              {boundary && (
+                <Box sx={{ marginBottom: 1 }}>
+                  <my-map
+                    showNorthArrow={true}
+                    showScale={true}
+                    hideResetControl={true}
+                    geojsonData={JSON.stringify(boundary)}
+                    id="boundary-map"
+                  />
+                </Box>
+              )}
+              <Highlights data={props.data} />
+              <Result data={props.data} />
+              <AboutTheProperty data={props.data} />
+              <Box sx={{ display: "flex" }}>
+                <Boundary data={props.data} />
+              </Box>
+              <ProposalDetails data={filteredProposalDetails} />
+            </React.Fragment>
+          )}
+        </Grid>
       </body>
     </html>
   );
@@ -183,7 +229,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
 //   see https://github.com/theopensystemslab/planx-new/blob/main/editor.planx.uk/src/%40planx/components/shared/Preview/SummaryList.tsx
 const gridStyles = {
   display: "grid",
-  gridTemplateColumns: "1fr 2fr 200px",
+  gridTemplateColumns: "1fr 2fr .5fr",
   gridRowGap: "10px",
   marginTop: "1em",
   marginBottom: "1em",

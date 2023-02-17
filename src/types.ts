@@ -1,7 +1,20 @@
 export interface PlanXExportData {
   question: string;
-  responses: unknown;
-  metadata?: any;
+  responses: string | number | ResponseObject[] | Record<any, any> | any;
+  metadata?: NodeMetadata | string; // Files uniquely have string metadata
+}
+
+type ResponseObject = {
+  value: string;
+  metadata?: {
+      flags?: string[];
+  }
+};
+
+type NodeMetadata = {
+  auto_answered?: boolean;
+  portal_name?: string;
+  policy_refs?: Record<string, any>[];
 }
 
 export interface Passport {

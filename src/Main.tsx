@@ -7,7 +7,6 @@ import ReactDOM from "react-dom/client";
 import example from "./data/example2.json";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { OverviewDocument } from "./overview/OverviewDocument";
-import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,17 +48,17 @@ function TemplatesViewer(): JSX.Element {
         <Tabs value={value} onChange={handleChange} aria-label="basic-tabs">
           <Tab label="boundary.html" />
           <Tab label="overview.html" />
-          <Tab label="overview.html (WIP REDESIGN)" />
+          <Tab label="overview.html (with invalid data)" />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         <BoundaryMapDocument geojson={example.geojson} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SubmissionOverviewDocument data={example.data} />
+        <OverviewDocument data={example.data} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <OverviewDocument data={example.data} />
+        <OverviewDocument data={[]} />
       </TabPanel>
     </React.Fragment>
   );
