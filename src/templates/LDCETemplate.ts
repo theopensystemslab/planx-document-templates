@@ -2,12 +2,10 @@ import { getString as _getString, getBoolean as _getBoolean } from "./helpers";
 import { buildFormTemplate } from "./builder";
 
 export function LDCETemplate(passport: { data: object }) {
-  const get = (path: string): string => {
-    return _getString(passport.data, path);
-  };
-  const getBoolean = (path: string): boolean => {
-    return _getBoolean(passport.data, path);
-  };
+  const get = (path: string): string => _getString(passport.data, path);
+
+  const getBoolean = (path: string): boolean =>
+    _getBoolean(passport.data, path);
 
   return buildFormTemplate({
     presets: {
@@ -36,7 +34,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Is there an agent?",
-            value: getBoolean("applicant.agent.exists") ? "Yes" : "No",
+            value: getBoolean("applicant.agent.form") ? "Yes" : "No",
           },
           {
             name: "Agent name",
@@ -55,7 +53,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Is the applicant’s address the same as the site address?",
-            value: get("applicant.address.sameAsSiteAddress"),
+            value: get("applicant.sameAddress.form"),
           },
           {
             name: "Site address",
@@ -68,7 +66,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Has assistance or prior advice been sought from the local authority about this application?",
-            value: get("application.preAppAdvice"),
+            value: get("application.preAppAdvice.form"),
           },
           {
             name: "Officer name",
@@ -80,11 +78,11 @@ export function LDCETemplate(passport: { data: object }) {
           },
           {
             name: "Date",
-            value: get("application.preApp.data"),
+            value: get("application.preApp.date"),
           },
           {
             name: "Details of advice received",
-            value: get("application.preApp.summary"),
+            value: "Not provided",
           },
         ],
       },
@@ -93,26 +91,27 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "What is the applicant’s interest in the land?",
-            value: get("applicant.landInterest"),
+            value: get("applicant.interest.form"),
           },
           {
             name: "If applicant is not the owner, do they know any owners?",
-            value: get("property.owners.notified"),
+            value: get("applicant.interest.ownerKnown.form"),
           },
           {
             name: "Have other owners been informed in writing about the application",
-            value: get("applicant.landInterest.ownerInformed"),
+            value: get("applicant.ownership.noticeGiven.form"),
           },
           {
             name: "If they have not been informed of the application, please explain why not",
-            value: get("property.owners.notificationReason"),
+            value: get("applicant.ownership.noNoticeReason"),
           },
           {
             name: "Names of other owners",
             value: [
-              get("applicant.ownership.certificateB.owner1.name"),
-              get("applicant.ownership.certificateB.owner2.name"),
-              get("applicant.ownership.certificateB.multipleOwners"),
+              get("applicant.ownership.owner1.name"),
+              get("applicant.ownership.owner2.name"),
+              get("applicant.ownership.owner3.name"),
+              get("applicant.ownership.multipleOwners"),
             ]
               .filter(Boolean)
               .join(", "),
@@ -120,9 +119,10 @@ export function LDCETemplate(passport: { data: object }) {
           {
             name: "Address of other owners",
             value: [
-              get("applicant.ownership.certificateB.owner1.address"),
-              get("applicant.ownership.certificateB.owner2.address"),
-              get("applicant.ownership.certificateB.multipleOwners.address"),
+              get("applicant.ownership.owner1.address"),
+              get("applicant.ownership.owner2.address"),
+              get("applicant.ownership.owner3.address"),
+              get("applicant.ownership.multipleOwners.address"),
             ]
               .filter(Boolean)
               .join(", "),
@@ -134,7 +134,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Do any of these statements apply to you?",
-            value: get("application.declaration.connection"),
+            value: get("application.declaration.connection.form"),
           },
           {
             name: "If Yes, please provide details of the name, role, and how you are related to them",
@@ -147,11 +147,11 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Which of these do you need a lawful application certificate for?",
-            value: get("application.basis"),
+            value: get("application.about.form"),
           },
           {
             name: "If Yes to an existing use, please state which of the Use Classes the use relates to",
-            value: get("proposal.use"),
+            value: `Use class ${get("property.useClass")}`,
           },
           {
             name: "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to",
@@ -164,7 +164,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to",
-            value: "", //TODO
+            value: get("proposal.use"),
           },
         ],
       },
@@ -174,15 +174,20 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Please state under what grounds is the certificate sought",
-            value: "", // TODO
+            value: get("application.basisOfLawfulness"),
           },
           {
             name: "If applicable, please give the reference number of any existing planning permission, lawful development certificate or enforcement notice affecting the application site. Include its date and the number of any condition being breached:",
-            value: "", // TODO
+            value: "", // intentionally blank
           },
           {
             name: "Please state why a Lawful Development Certificate should be granted",
-            value: "", // TODO
+            value: [
+              get("application.reason"),
+              get("application.resultOverride.reason"),
+            ]
+              .filter(Boolean)
+              .join(" "),
           },
         ],
       },
@@ -191,28 +196,29 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "When was the use or activity begun, or the building work substantially completed?",
-            value: "", // TODO
+            value: "Information not provided",
           },
           {
             name: "In the case of an existing use or activity in breach of conditions has there been any interruption:",
-            value: "Yes/No", // TODO
+            value: get("proposal.completion.continousUse.form"),
           },
           {
             name: "If Yes, please provide details of the dates, duration and any discontinuance of the development which is the subject of this application. If your application is based on the claim that a use or activity has been ongoing for a period of years, please state exactly when any interruption occurred:",
-            value: "", // TODO
+            value: get("proposal.completion.continousUse.description"),
           },
           {
             name: "In the case of an existing use of land, has there been any material change of use of the land since the start of the use for which a certificate is sought?",
-            value: "", // TODO
+            value: "", // intentionally blank
           },
           {
             name: "If yes, provide details",
-            value: "", // TODO
+            value: "", // intentionally blank
           },
           {
             name: "Does the application for a Certificate relate to a residential use where the number of residential units has changed?",
-            value: "Yes/No", // TODO
+            value: get("proposal.changeNumberOfHomes.form"),
           },
+          // TODO
           { name: "New 1 bed homes", value: "" },
           { name: "New 2 bed homes", value: "" },
           { name: "New 3 bed homes", value: "" },
@@ -236,107 +242,107 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Do you know the title number of the property?",
-            value: "", // TODO
+            value: get("property.titleNumberKnown.form"),
           },
           {
             name: "Title number",
-            value: "", // TODO
+            value: get("property.titleNumber"),
           },
           {
             name: "Do you know the Energy Performance Certificate reference of the property?",
-            value: "Yes/No", // TODO
+            value: get("property.EPCKnown.form"),
           },
           {
             name: "Energy Performance Certificate reference",
-            value: "", // TODO
+            value: get("property.EPC.number"),
           },
           {
             name: "Gross internal floor area to be added (sqm)",
-            value: "", // TODO
+            value: get("proposal.extended.area"),
           },
           {
             name: "Number of additional bedrooms",
-            value: "", // TODO
+            value: get("proposal.newBedrooms.number"),
           },
           {
             name: "Number of additional bathrooms",
-            value: "", // TODO
+            value: get("proposal.newBathrooms.number"),
           },
           {
             name: "Does the site have any existing vehicle/cycle parking spaces?",
-            value: "Yes/No", // TODO
+            value: get("proposal.vehicleParking"),
           },
           {
             name: "Car spaces existing",
-            value: "", // TODO
+            value: get("proposal.cars.number.existing"),
           },
           {
             name: "Car spaces proposed",
-            value: "", // TODO
+            value: get("proposal.cars.number.proposed"),
           },
           {
             name: "Light goods vehicles / public vehicles existing",
-            value: "", // TODO
+            value: get("proposal.vans.number.existing"),
           },
           {
             name: "Light goods vehicles / public vehicles proposed",
-            value: "", // TODO
+            value: get("proposal.vans.number.proposed"),
           },
           {
             name: "Motorcycles existing",
-            value: "", // TODO
+            value: get("proposal.motorcycles.number.existing"),
           },
           {
             name: "Motorcycles proposed",
-            value: "", // TODO
+            value: get("proposal.motorcycles.number.proposed"),
           },
           {
             name: "Disabled parking existing",
-            value: "", // TODO
+            value: get("proposal.cars.disabled.number.existing"),
           },
           {
             name: "Disabled parking proposed",
-            value: "", // TODO
+            value: get("proposal.cars.disabled.number.proposed"),
           },
           {
             name: "Cycle spaces existing",
-            value: "", // TODO
+            value: get("proposal.bicycles.number.existing"),
           },
           {
             name: "Cycle spaces proposed",
-            value: "", // TODO
+            value: get("proposal.bicycles.number.proposed"),
           },
           {
             name: "Bus spaces existing",
-            value: "", // TODO
+            value: get("proposal.buses.number.existing"),
           },
           {
             name: "Bus spaces proposed",
-            value: "", // TODO
+            value: get("proposal.buses.number.proposed"),
           },
           {
             name: "Residential only off-street parking existing",
-            value: "", // TODO
+            value: get("proposal.cars.offStreet.residents.number.existing"),
           },
           {
             name: "Residential only off-street parking proposed",
-            value: "", // TODO
+            value: get("proposal.cars.offStreet.residents.number.proposed"),
           },
           {
             name: "Car club existing",
-            value: "", // TODO
+            value: get("proposal.cars.club.number.existing"),
           },
           {
             name: "Car club proposed",
-            value: "", // TODO
+            value: get("proposal.cars.club.number.proposed"),
           },
           {
             name: "Other existing",
-            value: "", // TODO
+            value: "", // intentionally blank
           },
           {
             name: "Other proposed",
-            value: "", // TODO
+            value: "", // intentionally blank
           },
         ],
       },
@@ -345,7 +351,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "I / We hereby apply for Lawful development: Existing use as described in this form and accompanying plans/drawings and additional information. I / We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine options of the persons giving them. I / We also accept that: Once submitted, this information will be transmitted to the Local Planning Authority and, once validated by them, be made available as part of a public register and on the authority's website; our system will automatically generate and send you emails in regard to the submission of this application.",
-            value: "Yes/No (applicant), Yes / No (agent)", // TODO
+            value: get("application.declaration.accurate.form"),
           },
           { name: "Date", value: new Date().toLocaleDateString("en-GB") },
         ],
@@ -385,11 +391,11 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Can the site be seen from a: Public road, Public footpath, Bridleway, Or other public land?",
-            value: "Information not provided",
+            value: get("proposal.visibleFromPublicRealm"),
           },
           {
             name: "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?",
-            value: "Applicant / agent / Other",
+            value: get("applicant.siteContact"),
           },
           { name: "Name", value: get("applicant.siteContact.name") },
           { name: "Phone", value: get("applicant.siteContact.telephone") },
