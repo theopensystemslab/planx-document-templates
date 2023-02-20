@@ -50,6 +50,16 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Generate Examples
+        run: pnpm generate
+
+      - name: Save examples
+        uses: actions/upload-artifact@v3
+        with:
+          name: example-documents
+          path: examples
+          retention-days: 3
+
       - name: Run CI Script
         id: pnpm-ci
         run: pnpm ci
