@@ -46,7 +46,7 @@
     "applicant.email": "test@buckinghamshire.gov.uk",
     "applicant.title": "Mr",
     "property.region": ["South East"],
-    "application.type": ["ldc.proposed"],
+    "application.type": ["ldc.existing"],
     "proposal.siteArea": 89.06,
     "uniform.isRelated": ["false"],
     "uniform.siteVisit": ["true"],
