@@ -470,7 +470,7 @@ export function LDCETemplate(passport: { data: object }) {
         fields: [
           {
             name: "Can the site be seen from a: Public road, Public footpath, Bridleway, Or other public land?",
-            value: get("proposal.visibleFromPublicRealm"),
+            value: getBoolean("proposal.visibleFromPublicRealm") ? "Yes" : "No",
           },
           {
             name: "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?",
