@@ -14,8 +14,8 @@ interface TabPanelProps {
   value: number;
 }
 
-// TODO: Refactor to fix DOM error `<html> cannot appear as a child of <div>`, 
-//   but works fine for local dev purposes now I think
+// This will throw a DOM error `<html> cannot appear as a child of <div>`, 
+//   but only effects local development environments
 function TabPanel(props: TabPanelProps): JSX.Element {
   const { children, value, index } = props;
 

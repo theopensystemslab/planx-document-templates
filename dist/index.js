@@ -32,6 +32,7 @@ const Box__default = /* @__PURE__ */ _interopDefaultLegacy(Box);
 const Grid__default = /* @__PURE__ */ _interopDefaultLegacy(Grid);
 const prettyTitle__default = /* @__PURE__ */ _interopDefaultLegacy(prettyTitle);
 const React__namespace = /* @__PURE__ */ _interopNamespace(React);
+const Fragment = jsxRuntime__namespace.Fragment;
 const jsx = jsxRuntime__namespace.jsx;
 const jsxs = jsxRuntime__namespace.jsxs;
 function Map(props) {
@@ -256,12 +257,8 @@ function buildFormTemplate(data) {
   });
 }
 function LDCETemplate(passport) {
-  const get2 = (path) => {
-    return getString(passport.data, path);
-  };
-  const getBoolean$1 = (path) => {
-    return getBoolean(passport.data, path);
-  };
+  const get2 = (path) => getString(passport.data, path);
+  const getBoolean$1 = (path) => getBoolean(passport.data, path);
   return buildFormTemplate({
     presets: {
       title: "Application for a Lawful Development Certificate - Existing",
@@ -288,7 +285,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Is there an agent?",
-            value: getBoolean$1("applicant.agent.exists") ? "Yes" : "No"
+            value: getBoolean$1("applicant.agent.form") ? "Yes" : "No"
           },
           {
             name: "Agent name",
@@ -307,7 +304,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Is the applicant\u2019s address the same as the site address?",
-            value: get2("applicant.address.sameAsSiteAddress")
+            value: get2("applicant.sameAddress.form")
           },
           {
             name: "Site address",
@@ -320,7 +317,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Has assistance or prior advice been sought from the local authority about this application?",
-            value: get2("application.preAppAdvice")
+            value: get2("application.preAppAdvice.form")
           },
           {
             name: "Officer name",
@@ -332,11 +329,11 @@ function LDCETemplate(passport) {
           },
           {
             name: "Date",
-            value: get2("application.preApp.data")
+            value: get2("application.preApp.date")
           },
           {
             name: "Details of advice received",
-            value: get2("application.preApp.summary")
+            value: "Not provided"
           }
         ]
       },
@@ -345,34 +342,36 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "What is the applicant\u2019s interest in the land?",
-            value: get2("applicant.landInterest")
+            value: get2("applicant.interest.form")
           },
           {
             name: "If applicant is not the owner, do they know any owners?",
-            value: get2("property.owners.notified")
+            value: get2("applicant.interest.ownerKnown.form")
           },
           {
             name: "Have other owners been informed in writing about the application",
-            value: get2("applicant.landInterest.ownerInformed")
+            value: get2("applicant.ownership.noticeGiven.form")
           },
           {
             name: "If they have not been informed of the application, please explain why not",
-            value: get2("property.owners.notificationReason")
+            value: get2("applicant.ownership.noNoticeReason")
           },
           {
             name: "Names of other owners",
             value: [
-              get2("applicant.ownership.certificateB.owner1.name"),
-              get2("applicant.ownership.certificateB.owner2.name"),
-              get2("applicant.ownership.certificateB.multipleOwners")
+              get2("applicant.ownership.owner1.name"),
+              get2("applicant.ownership.owner2.name"),
+              get2("applicant.ownership.owner3.name"),
+              get2("applicant.ownership.multipleOwners")
             ].filter(Boolean).join(", ")
           },
           {
             name: "Address of other owners",
             value: [
-              get2("applicant.ownership.certificateB.owner1.address"),
-              get2("applicant.ownership.certificateB.owner2.address"),
-              get2("applicant.ownership.certificateB.multipleOwners.address")
+              get2("applicant.ownership.owner1.address"),
+              get2("applicant.ownership.owner2.address"),
+              get2("applicant.ownership.owner3.address"),
+              get2("applicant.ownership.multipleOwners.address")
             ].filter(Boolean).join(", ")
           }
         ]
@@ -382,7 +381,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Do any of these statements apply to you?",
-            value: get2("application.declaration.connection")
+            value: get2("application.declaration.connection.form")
           },
           {
             name: "If Yes, please provide details of the name, role, and how you are related to them",
@@ -395,11 +394,11 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Which of these do you need a lawful application certificate for?",
-            value: get2("application.basis")
+            value: get2("application.about.form")
           },
           {
             name: "If Yes to an existing use, please state which of the Use Classes the use relates to",
-            value: get2("proposal.use")
+            value: `Use class ${get2("property.useClass")}`
           },
           {
             name: "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to",
@@ -412,7 +411,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to",
-            value: ""
+            value: get2("proposal.use")
           }
         ]
       },
@@ -421,7 +420,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Please state under what grounds is the certificate sought",
-            value: ""
+            value: get2("application.basisOfLawfulness")
           },
           {
             name: "If applicable, please give the reference number of any existing planning permission, lawful development certificate or enforcement notice affecting the application site. Include its date and the number of any condition being breached:",
@@ -429,7 +428,10 @@ function LDCETemplate(passport) {
           },
           {
             name: "Please state why a Lawful Development Certificate should be granted",
-            value: ""
+            value: [
+              get2("application.reason"),
+              get2("application.resultOverride.reason")
+            ].filter(Boolean).join(" ")
           }
         ]
       },
@@ -438,15 +440,15 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "When was the use or activity begun, or the building work substantially completed?",
-            value: ""
+            value: "Information not provided"
           },
           {
             name: "In the case of an existing use or activity in breach of conditions has there been any interruption:",
-            value: "Yes/No"
+            value: get2("proposal.completion.continousUse.form")
           },
           {
             name: "If Yes, please provide details of the dates, duration and any discontinuance of the development which is the subject of this application. If your application is based on the claim that a use or activity has been ongoing for a period of years, please state exactly when any interruption occurred:",
-            value: ""
+            value: get2("proposal.completion.continousUse.description")
           },
           {
             name: "In the case of an existing use of land, has there been any material change of use of the land since the start of the use for which a certificate is sought?",
@@ -458,24 +460,88 @@ function LDCETemplate(passport) {
           },
           {
             name: "Does the application for a Certificate relate to a residential use where the number of residential units has changed?",
-            value: "Yes/No"
+            value: get2("proposal.changeNumberOfHomes.form")
           },
-          { name: "New 1 bed homes", value: "" },
-          { name: "New 2 bed homes", value: "" },
-          { name: "New 3 bed homes", value: "" },
-          { name: "New 4+ bed homes", value: "" },
-          { name: "New other / unknown homes", value: "" },
-          { name: "Total new homes of all types", value: "" },
+          { name: "New 1 bed houses", value: "" },
+          { name: "New 2 bed houses", value: "" },
+          { name: "New 3 bed houses", value: "" },
+          { name: "New 4+ bed houses", value: "" },
+          { name: "New houses, beds unknown", value: "" },
+          { name: "Total new houses", value: "" },
+          { name: "New 1 bed flats & maisonettes", value: "" },
+          { name: "New 2 bed flats & maisonettes", value: "" },
+          { name: "New 3 bed flats & maisonettes", value: "" },
+          { name: "New 4+ bed flats & maisonettes", value: "" },
+          { name: "New flats & maisonettes, beds unknown", value: "" },
+          { name: "Total new flats & maisonettes", value: "" },
+          { name: "New 1 bed live-work units", value: "" },
+          { name: "New 2 bed live-work units", value: "" },
+          { name: "New 3 bed live-work units", value: "" },
+          { name: "New 4+ bed live-work units", value: "" },
+          { name: "New live-work units, beds unknown", value: "" },
+          { name: "Total new live-work units", value: "" },
+          { name: "New 1 bed cluster flats", value: "" },
+          { name: "New 2 bed cluster flats", value: "" },
+          { name: "New 3 bed cluster flats", value: "" },
+          { name: "New 4+ bed cluster flats", value: "" },
+          { name: "New cluster flats, beds unknown", value: "" },
+          { name: "Total new cluster flats", value: "" },
+          { name: "New 1 bed sheltered housing units", value: "" },
+          { name: "New 2 bed sheltered housing units", value: "" },
+          { name: "New 3 bed sheltered housing units", value: "" },
+          { name: "New 4+ bed sheltered housing units", value: "" },
+          { name: "New sheltered housing units, beds unknown", value: "" },
+          { name: "Total new sheltered housing units", value: "" },
+          { name: "New 1 bed bedsits / studios", value: "" },
+          { name: "New 2 bed bedsits / studios", value: "" },
+          { name: "New 3 bed bedsits / studios", value: "" },
+          { name: "New 4+ bed bedsits / studios", value: "" },
+          { name: "New bedsits / studios, beds unknown", value: "" },
+          { name: "Total new bedsits / studios", value: "" },
+          { name: "Total new homes", value: "" },
           { name: "New social rented homes", value: "" },
           { name: "New intermediate homes", value: "" },
           { name: "New key worker homes", value: "" },
-          { name: "Existing 1 bed homes", value: "" },
-          { name: "Existing 2 bed homes", value: "" },
-          { name: "Existing 3 bed homes", value: "" },
-          { name: "Existing 4+ bed homes", value: "" },
-          { name: "Existing other / unknown homes", value: "" },
-          { name: "Total existing homes of all types", value: "" },
-          { name: "...", value: "" }
+          { name: "Existing 1 bed houses", value: "" },
+          { name: "Existing 2 bed houses", value: "" },
+          { name: "Existing 3 bed houses", value: "" },
+          { name: "Existing 4+ bed houses", value: "" },
+          { name: "Existing houses, beds unknown", value: "" },
+          { name: "Total existing houses", value: "" },
+          { name: "Existing 1 bed flats & maisonettes", value: "" },
+          { name: "Existing 2 bed flats & maisonettes", value: "" },
+          { name: "Existing 3 bed flats & maisonettes", value: "" },
+          { name: "Existing 4+ bed flats & maisonettes", value: "" },
+          { name: "Existing flats & maisonettes, beds unknown", value: "" },
+          { name: "Total existing flats & maisonettes", value: "" },
+          { name: "Existing 1 bed live-work units", value: "" },
+          { name: "Existing 2 bed live-work units", value: "" },
+          { name: "Existing 3 bed live-work units", value: "" },
+          { name: "Existing 4+ bed live-work units", value: "" },
+          { name: "Existing live-work units, beds unknown", value: "" },
+          { name: "Total existing live-work units", value: "" },
+          { name: "Existing 1 bed cluster flats", value: "" },
+          { name: "Existing 2 bed cluster flats", value: "" },
+          { name: "Existing 3 bed cluster flats", value: "" },
+          { name: "Existing 4+ bed cluster flats", value: "" },
+          { name: "Existing cluster flats, beds unknown", value: "" },
+          { name: "Total existing cluster flats", value: "" },
+          { name: "Existing 1 bed sheltered housing units", value: "" },
+          { name: "Existing 2 bed sheltered housing units", value: "" },
+          { name: "Existing 3 bed sheltered housing units", value: "" },
+          { name: "Existing 4+ bed sheltered housing units", value: "" },
+          { name: "Existing sheltered housing units, beds unknown", value: "" },
+          { name: "Total existing sheltered housing units", value: "" },
+          { name: "Existing 1 bed bedsits / studios", value: "" },
+          { name: "Existing 2 bed bedsits / studios", value: "" },
+          { name: "Existing 3 bed bedsits / studios", value: "" },
+          { name: "Existing 4+ bed bedsits / studios", value: "" },
+          { name: "Existing bedsits / studios, beds unknown", value: "" },
+          { name: "Total existing bedsits / studios", value: "" },
+          { name: "Total existing homes", value: "" },
+          { name: "Existing social rented homes", value: "" },
+          { name: "Existing intermediate homes", value: "" },
+          { name: "Existing key worker homes", value: "" }
         ]
       },
       {
@@ -483,99 +549,99 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Do you know the title number of the property?",
-            value: ""
+            value: get2("property.titleNumberKnown.form")
           },
           {
             name: "Title number",
-            value: ""
+            value: get2("property.titleNumber")
           },
           {
             name: "Do you know the Energy Performance Certificate reference of the property?",
-            value: "Yes/No"
+            value: get2("property.EPCKnown.form")
           },
           {
             name: "Energy Performance Certificate reference",
-            value: ""
+            value: get2("property.EPC.number")
           },
           {
             name: "Gross internal floor area to be added (sqm)",
-            value: ""
+            value: get2("proposal.extended.area")
           },
           {
             name: "Number of additional bedrooms",
-            value: ""
+            value: get2("proposal.newBedrooms.number")
           },
           {
             name: "Number of additional bathrooms",
-            value: ""
+            value: get2("proposal.newBathrooms.number")
           },
           {
             name: "Does the site have any existing vehicle/cycle parking spaces?",
-            value: "Yes/No"
+            value: get2("proposal.vehicleParking")
           },
           {
             name: "Car spaces existing",
-            value: ""
+            value: get2("proposal.cars.number.existing")
           },
           {
             name: "Car spaces proposed",
-            value: ""
+            value: get2("proposal.cars.number.proposed")
           },
           {
             name: "Light goods vehicles / public vehicles existing",
-            value: ""
+            value: get2("proposal.vans.number.existing")
           },
           {
             name: "Light goods vehicles / public vehicles proposed",
-            value: ""
+            value: get2("proposal.vans.number.proposed")
           },
           {
             name: "Motorcycles existing",
-            value: ""
+            value: get2("proposal.motorcycles.number.existing")
           },
           {
             name: "Motorcycles proposed",
-            value: ""
+            value: get2("proposal.motorcycles.number.proposed")
           },
           {
             name: "Disabled parking existing",
-            value: ""
+            value: get2("proposal.cars.disabled.number.existing")
           },
           {
             name: "Disabled parking proposed",
-            value: ""
+            value: get2("proposal.cars.disabled.number.proposed")
           },
           {
             name: "Cycle spaces existing",
-            value: ""
+            value: get2("proposal.bicycles.number.existing")
           },
           {
             name: "Cycle spaces proposed",
-            value: ""
+            value: get2("proposal.bicycles.number.proposed")
           },
           {
             name: "Bus spaces existing",
-            value: ""
+            value: get2("proposal.buses.number.existing")
           },
           {
             name: "Bus spaces proposed",
-            value: ""
+            value: get2("proposal.buses.number.proposed")
           },
           {
             name: "Residential only off-street parking existing",
-            value: ""
+            value: get2("proposal.cars.offStreet.residents.number.existing")
           },
           {
             name: "Residential only off-street parking proposed",
-            value: ""
+            value: get2("proposal.cars.offStreet.residents.number.proposed")
           },
           {
             name: "Car club existing",
-            value: ""
+            value: get2("proposal.cars.club.number.existing")
           },
           {
             name: "Car club proposed",
-            value: ""
+            value: get2("proposal.cars.club.number.proposed")
           },
           {
             name: "Other existing",
@@ -592,7 +658,7 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "I / We hereby apply for Lawful development: Existing use as described in this form and accompanying plans/drawings and additional information. I / We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine options of the persons giving them. I / We also accept that: Once submitted, this information will be transmitted to the Local Planning Authority and, once validated by them, be made available as part of a public register and on the authority's website; our system will automatically generate and send you emails in regard to the submission of this application.",
-            value: "Yes/No (applicant), Yes / No (agent)"
+            value: get2("application.declaration.accurate.form")
           },
           { name: "Date", value: new Date().toLocaleDateString("en-GB") }
         ]
@@ -628,11 +694,11 @@ function LDCETemplate(passport) {
         fields: [
           {
             name: "Can the site be seen from a: Public road, Public footpath, Bridleway, Or other public land?",
-            value: "Information not provided"
+            value: getBoolean$1("proposal.visibleFromPublicRealm") ? "Yes" : "No"
           },
           {
             name: "If the planning authority needs to make an appointment to carry out a site visit, whom should they contact?",
-            value: "Applicant / agent / Other"
+            value: get2("applicant.siteContact")
           },
           { name: "Name", value: get2("applicant.siteContact.name") },
           { name: "Phone", value: get2("applicant.siteContact.telephone") },
@@ -655,7 +721,10 @@ function safeDecodeURI(data) {
   }
 }
 function prettyQuestion(data) {
-  if (data.includes("?") || data.includes("File") || !data.includes("_") && data.includes(" ")) {
+  const isPhrasedAsQuestion = data.includes("?");
+  const isFileUpload = data.includes("File");
+  const isCustomLabeledKey = !data.includes("_") && data.includes(" ");
+  if (isPhrasedAsQuestion || isFileUpload || isCustomLabeledKey) {
     return safeDecodeURI(data);
   } else {
     return safeDecodeURI(prettyTitle__default.default(data));
@@ -701,8 +770,8 @@ function Highlights(props) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i;
   const siteAddress = (_a = props.data.find((d) => d.question === "site")) == null ? void 0 : _a.responses;
   const sessionId = (_b = props.data.find((d) => d.question === "Planning Application Reference")) == null ? void 0 : _b.responses;
-  const payRef = (_d = (_c = props.data.find((d) => d.question === "application.fee.reference.govPay")) == null ? void 0 : _c.responses) == null ? void 0 : _d.payment_id;
-  const fee = (_f = (_e = props.data.find((d) => d.question === "application.fee.reference.govPay")) == null ? void 0 : _e.responses) == null ? void 0 : _f.amount;
+  const payRef = (_d = (_c = props.data.find((d) => d.question === "application.fee.reference.govPay")) == null ? void 0 : _c.responses) == null ? void 0 : _d["payment_id"];
+  const fee = (_f = (_e = props.data.find((d) => d.question === "application.fee.reference.govPay")) == null ? void 0 : _e.responses) == null ? void 0 : _f["amount"];
   return /* @__PURE__ */ jsxs(Box__default.default, {
     component: "dl",
     sx: {
@@ -713,7 +782,7 @@ function Highlights(props) {
       children: [/* @__PURE__ */ jsx("dt", {
         children: "Property address"
       }), /* @__PURE__ */ jsx("dd", {
-        children: [(_g = siteAddress == null ? void 0 : siteAddress.address_1) == null ? void 0 : _g.toString(), (_h = siteAddress == null ? void 0 : siteAddress.town) == null ? void 0 : _h.toString(), (_i = siteAddress == null ? void 0 : siteAddress.postcode) == null ? void 0 : _i.toString()].filter(Boolean).join(" ")
+        children: [(_g = siteAddress == null ? void 0 : siteAddress["address_1"]) == null ? void 0 : _g.toString(), (_h = siteAddress == null ? void 0 : siteAddress["town"]) == null ? void 0 : _h.toString(), (_i = siteAddress == null ? void 0 : siteAddress["postcode"]) == null ? void 0 : _i.toString()].filter(Boolean).join(" ")
       }), /* @__PURE__ */ jsx("dd", {
         children: ""
       })]
@@ -721,7 +790,7 @@ function Highlights(props) {
       children: [/* @__PURE__ */ jsx("dt", {
         children: "Planning application reference"
       }), /* @__PURE__ */ jsx("dd", {
-        children: sessionId
+        children: typeof sessionId === "string" && sessionId
       }), /* @__PURE__ */ jsx("dd", {
         children: ""
       })]
@@ -768,7 +837,7 @@ function Result(props) {
         padding: ".5em",
         backgroundColor: "#ffdd00"
       },
-      children: (_b = result == null ? void 0 : result.heading) == null ? void 0 : _b.toString()
+      children: (_b = result == null ? void 0 : result["heading"]) == null ? void 0 : _b.toString()
     }), /* @__PURE__ */ jsx("p", {
       children: "This pre-assessment is based on the information provided by the applicant."
     })]
@@ -787,7 +856,7 @@ function AboutTheProperty(props) {
         children: [/* @__PURE__ */ jsx("dt", {
           children: "Address"
         }), /* @__PURE__ */ jsx("dd", {
-          children: [(_b = siteAddress == null ? void 0 : siteAddress.address_1) == null ? void 0 : _b.toString(), (_c = siteAddress == null ? void 0 : siteAddress.town) == null ? void 0 : _c.toString(), (_d = siteAddress == null ? void 0 : siteAddress.postcode) == null ? void 0 : _d.toString()].filter(Boolean).join(" ")
+          children: [(_b = siteAddress == null ? void 0 : siteAddress["address_1"]) == null ? void 0 : _b.toString(), (_c = siteAddress == null ? void 0 : siteAddress["town"]) == null ? void 0 : _c.toString(), (_d = siteAddress == null ? void 0 : siteAddress["postcode"]) == null ? void 0 : _d.toString()].filter(Boolean).join(" ")
         }), /* @__PURE__ */ jsx("dd", {
           children: ""
         })]
@@ -795,7 +864,7 @@ function AboutTheProperty(props) {
         children: [/* @__PURE__ */ jsx("dt", {
           children: "UPRN"
         }), /* @__PURE__ */ jsx("dd", {
-          children: (_e = siteAddress == null ? void 0 : siteAddress.uprn) == null ? void 0 : _e.toString()
+          children: (_e = siteAddress == null ? void 0 : siteAddress["uprn"]) == null ? void 0 : _e.toString()
         }), /* @__PURE__ */ jsx("dd", {
           children: ""
         })]
@@ -803,7 +872,7 @@ function AboutTheProperty(props) {
         children: [/* @__PURE__ */ jsx("dt", {
           children: "Coordinate (lng, lat)"
         }), /* @__PURE__ */ jsxs("dd", {
-          children: [siteAddress == null ? void 0 : siteAddress.longitude, ", ", siteAddress == null ? void 0 : siteAddress.latitude]
+          children: [siteAddress == null ? void 0 : siteAddress["longitude"], ", ", siteAddress == null ? void 0 : siteAddress["latitude"]]
         }), /* @__PURE__ */ jsx("dd", {
           children: ""
         })]
@@ -842,16 +911,16 @@ function ProposalDetails(props) {
       component: "dl",
       sx: gridStyles,
       children: props.data.map((d, i) => {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         return /* @__PURE__ */ jsxs(React__namespace.Fragment, {
           children: [/* @__PURE__ */ jsx("dt", {
             children: prettyQuestion(d.question)
           }), /* @__PURE__ */ jsx("dd", {
-            children: typeof prettyResponse(d.responses) === "string" && ((_b = (_a = prettyResponse(d.responses)) == null ? void 0 : _a.split("\n")) == null ? void 0 : _b.length) > 1 ? /* @__PURE__ */ jsx("ul", {
+            children: typeof prettyResponse(d.responses) === "string" && ((_c = (_b = (_a = prettyResponse(d.responses)) == null ? void 0 : _a.toString()) == null ? void 0 : _b.split("\n")) == null ? void 0 : _c.length) > 1 ? /* @__PURE__ */ jsx("ul", {
               style: {
                 lineHeight: "1.5em"
               },
-              children: (_d = (_c = prettyResponse(d.responses)) == null ? void 0 : _c.split("\n")) == null ? void 0 : _d.map((response, i2) => /* @__PURE__ */ jsx("li", {
+              children: (_f = (_e = (_d = prettyResponse(d.responses)) == null ? void 0 : _d.toString()) == null ? void 0 : _e.split("\n")) == null ? void 0 : _f.map((response, i2) => /* @__PURE__ */ jsx("li", {
                 children: response
               }, i2))
             }) : prettyResponse(d.responses)
@@ -859,7 +928,7 @@ function ProposalDetails(props) {
             style: {
               fontStyle: "italic"
             },
-            children: typeof d.metadata === "object" && Boolean((_e = d.metadata) == null ? void 0 : _e.auto_answered) ? "Auto-answered" : ""
+            children: typeof d.metadata === "object" && Boolean((_g = d.metadata) == null ? void 0 : _g.auto_answered) ? "Auto-answered" : ""
           })]
         }, i);
       })
@@ -870,7 +939,7 @@ function OverviewDocument(props) {
   var _a, _b, _c;
   const applicationType = (_a = props.data.find((d) => d.question === "application_type")) == null ? void 0 : _a.responses;
   const workStatus = (_b = props.data.find((d) => d.question === "work_status")) == null ? void 0 : _b.responses;
-  const documentTitle = applicationType && typeof applicationType === "string" ? [prettyTitle__default.default(applicationType), prettyTitle__default.default(workStatus)].filter(Boolean).join(" - ") : "PlanX Submission Overview";
+  const documentTitle = applicationType && typeof applicationType === "string" && typeof workStatus === "string" ? [prettyTitle__default.default(applicationType), prettyTitle__default.default(workStatus)].filter(Boolean).join(" - ") : "PlanX Submission Overview";
   const boundary = (_c = props.data.find((d) => d.question === "boundary_geojson")) == null ? void 0 : _c.responses;
   const removeableQuestions = ["Planning Application Reference", "Property Address", "application.fee.reference.govPay", "application_type", "site", "boundary_geojson", "constraints", "work_status", "payment_amount", "payment_reference", "result"];
   const filteredProposalDetails = props.data.filter((d) => !removeableQuestions.includes(d.question));
@@ -884,7 +953,7 @@ function OverviewDocument(props) {
       }), /* @__PURE__ */ jsx("script", {
         src: "https://cdn.jsdelivr.net/npm/@opensystemslab/map"
       }), /* @__PURE__ */ jsx("title", {
-        children: documentTitle
+        children: typeof documentTitle === "string" && documentTitle
       })]
     }), /* @__PURE__ */ jsxs("body", {
       children: [/* @__PURE__ */ jsx(Styles, {}), /* @__PURE__ */ jsxs(Grid__default.default, {
@@ -897,12 +966,12 @@ function OverviewDocument(props) {
           margin: "auto"
         },
         children: [/* @__PURE__ */ jsx("h1", {
-          children: documentTitle
+          children: typeof documentTitle === "string" && documentTitle
         }), !validatePlanXExportData(props.data) ? /* @__PURE__ */ jsx("p", {
           children: /* @__PURE__ */ jsx("strong", {
             children: "Unable to display data."
           })
-        }) : /* @__PURE__ */ jsxs(React__namespace.Fragment, {
+        }) : /* @__PURE__ */ jsxs(Fragment, {
           children: [boundary && /* @__PURE__ */ jsx(Box__default.default, {
             sx: {
               marginBottom: 1

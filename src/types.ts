@@ -1,22 +1,18 @@
 export interface PlanXExportData {
   question: string;
-  responses: string | number | ResponseObject[] | Record<string, any> | any;
-  metadata?: NodeMetadata | string; // Files uniquely have string metadata
+  responses: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  metadata?: any;
 }
 
-type ResponseObject = {
+export interface Passport {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Record<string, any>;
+}
+
+export interface ResponseObject {
   value: string;
   metadata?: {
       flags?: string[];
   }
 };
-
-type NodeMetadata = {
-  auto_answered?: boolean;
-  portal_name?: string;
-  policy_refs?: Record<string, any>[];
-}
-
-export interface Passport {
-  data: Record<string, any>;
-}

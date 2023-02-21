@@ -9,8 +9,8 @@ import { getToday, prettyQuestion, prettyResponse, validatePlanXExportData } fro
 function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
   const siteAddress = props.data.find(d => d.question === "site")?.responses;
   const sessionId = props.data.find(d => d.question === "Planning Application Reference")?.responses;
-  const payRef = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.payment_id;
-  const fee = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.amount;
+  const payRef = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.["payment_id"];
+  const fee = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.["amount"];
   return (
     <Box component="dl" sx={{ ...gridStyles, border: "none" }}>
       <React.Fragment key={"address"}>
@@ -18,7 +18,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Property address
         </dt>
         <dd>
-          {[siteAddress?.address_1?.toString(), siteAddress?.town?.toString(), siteAddress?.postcode?.toString()].filter(Boolean).join(" ")}
+          {[siteAddress?.["address_1"]?.toString(), siteAddress?.["town"]?.toString(), siteAddress?.["postcode"]?.toString()].filter(Boolean).join(" ")}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
@@ -27,7 +27,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Planning application reference
         </dt>
         <dd>
-          {sessionId}
+          {typeof sessionId === "string" && sessionId}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
@@ -67,7 +67,7 @@ function Result(props: { data: PlanXExportData[] }): JSX.Element {
   return (
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
       <h2>It looks like</h2>
-      <span style={{ fontWeight: 700, padding: ".5em", backgroundColor: "#ffdd00" }}>{result?.heading?.toString()}</span>
+      <span style={{ fontWeight: 700, padding: ".5em", backgroundColor: "#ffdd00" }}>{result?.["heading"]?.toString()}</span>
       <p>This pre-assessment is based on the information provided by the applicant.</p>
     </Box>
   );
@@ -84,7 +84,7 @@ function AboutTheProperty(props: { data: PlanXExportData[] }): JSX.Element {
             Address
           </dt>
           <dd>
-            {[siteAddress?.address_1?.toString(), siteAddress?.town?.toString(), siteAddress?.postcode?.toString()].filter(Boolean).join(" ")}
+            {[siteAddress?.["address_1"]?.toString(), siteAddress?.["town"]?.toString(), siteAddress?.["postcode"]?.toString()].filter(Boolean).join(" ")}
           </dd>
           <dd>{""}</dd>
         </React.Fragment>
@@ -93,7 +93,7 @@ function AboutTheProperty(props: { data: PlanXExportData[] }): JSX.Element {
             UPRN
           </dt>
           <dd>
-            {siteAddress?.uprn?.toString()}
+            {siteAddress?.["uprn"]?.toString()}
           </dd>
           <dd>{""}</dd>
         </React.Fragment>
@@ -102,7 +102,7 @@ function AboutTheProperty(props: { data: PlanXExportData[] }): JSX.Element {
             Coordinate (lng, lat)
           </dt>
           <dd>
-            {siteAddress?.longitude}, {siteAddress?.latitude}
+            {siteAddress?.["longitude"]}, {siteAddress?.["latitude"]}
           </dd>
           <dd>{""}</dd>
         </React.Fragment>
@@ -134,10 +134,10 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
               {prettyQuestion(d.question)}
             </dt>
             <dd>
-              {typeof prettyResponse(d.responses) === "string" && prettyResponse(d.responses)?.split("\n")?.length > 1
+              {typeof prettyResponse(d.responses) === "string" && prettyResponse(d.responses)?.toString()?.split("\n")?.length > 1
                 ? (
                   <ul style={{ lineHeight: "1.5em" }}>
-                    {prettyResponse(d.responses)?.split("\n")?.map((response: string, i: number) => (
+                    {prettyResponse(d.responses)?.toString()?.split("\n")?.map((response: string, i: number) => (
                       <li key={i}>{response}</li>
                     ))}
                   </ul>
@@ -155,10 +155,10 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
 
 export function OverviewDocument(props: { data: PlanXExportData[] }) {
   // Pluck out some key questions & responses to show in special sections
-  const applicationType: string | undefined = props.data.find(d => d.question === "application_type")?.responses;
-  const workStatus: string | undefined = props.data.find(d => d.question === "work_status")?.responses;
-  const documentTitle: string = applicationType && typeof applicationType === "string" ? [prettyTitle(applicationType), prettyTitle(workStatus)].filter(Boolean).join(" - ") : "PlanX Submission Overview";
-  const boundary: Record<string, any> | undefined = props.data.find(d => d.question === "boundary_geojson")?.responses;
+  const applicationType: unknown = props.data.find(d => d.question === "application_type")?.responses;
+  const workStatus: unknown = props.data.find(d => d.question === "work_status")?.responses;
+  const documentTitle: unknown = applicationType && typeof applicationType === "string" && typeof workStatus === "string" ? [prettyTitle(applicationType), prettyTitle(workStatus)].filter(Boolean).join(" - ") : "PlanX Submission Overview";
+  const boundary: unknown = props.data.find(d => d.question === "boundary_geojson")?.responses;
 
   // Identify questions that we want to hide from the full list of "Proposal details" if they exist
   const removeableQuestions: PlanXExportData["question"][] = [
@@ -182,7 +182,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script src="https://cdn.jsdelivr.net/npm/@opensystemslab/map"></script>
-        <title>{documentTitle}</title>
+        <title>{typeof documentTitle === "string" && documentTitle}</title>
       </head>
       <body>
         <Styles />
@@ -196,9 +196,9 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
             margin: "auto",
           }}
         >
-          <h1>{documentTitle}</h1>
+          <h1>{typeof documentTitle === "string" && documentTitle}</h1>
           {!validatePlanXExportData(props.data) ? <p><strong>Unable to display data.</strong></p> : (
-            <React.Fragment>
+            <>
               {boundary && (
                 <Box sx={{ marginBottom: 1 }}>
                   <my-map
@@ -217,7 +217,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
                 <Boundary data={props.data} />
               </Box>
               <ProposalDetails data={filteredProposalDetails} />
-            </React.Fragment>
+            </>
           )}
         </Grid>
       </body>

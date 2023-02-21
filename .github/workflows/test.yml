@@ -47,6 +47,18 @@ jobs:
         id: install-packages
         run: pnpm install
 
-      - name: Run CI Script
-        id: pnpm-ci
-        run: pnpm ci
+      - name: Run code checks
+        run: pnpm check
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build & generate examples
+        run: pnpm generate
+
+      - name: Save examples
+        uses: actions/upload-artifact@v3
+        with:
+          name: example-documents
+          path: examples
+          retention-days: 3

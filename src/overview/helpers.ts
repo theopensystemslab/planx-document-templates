@@ -1,5 +1,5 @@
 import prettyTitle from "lodash.startcase";
-import type { PlanXExportData } from "../types";
+import type { PlanXExportData, ResponseObject } from "../types";
 
 export function validatePlanXExportData(data: PlanXExportData[]): boolean {
   return (
@@ -22,7 +22,11 @@ export function safeDecodeURI(data: string): string {
 };
 
 export function prettyQuestion(data: PlanXExportData["question"]): string {
-  if (data.includes("?") || data.includes("File") || (!data.includes("_") && data.includes(" "))) {
+  const isPhrasedAsQuestion = data.includes("?");
+  const isFileUpload = data.includes("File");
+  const isCustomLabeledKey = !data.includes("_") && data.includes(" ");
+
+  if (isPhrasedAsQuestion || isFileUpload || isCustomLabeledKey) {
     return safeDecodeURI(data);
   } else {
     return safeDecodeURI(prettyTitle(data));
@@ -48,7 +52,7 @@ export function prettyResponse(data: PlanXExportData["responses"]): string | num
   return "Error displaying response";
 };
 
-function getResponseValuesFromList(data: any[]): string {
+function getResponseValuesFromList(data: ResponseObject[]): string {
   if (data?.length === 1) {
     if (typeof data?.[0]?.["value"] === "string") {
       return safeDecodeURI(data?.[0]?.["value"]);
