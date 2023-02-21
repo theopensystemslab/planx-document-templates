@@ -47,10 +47,13 @@ jobs:
         id: install-packages
         run: pnpm install
 
-      - name: Build
-        run: pnpm build
+      - name: Run code checks
+        run: pnpm check
 
-      - name: Generate Examples
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build & generate examples
         run: pnpm generate
 
       - name: Save examples
@@ -59,7 +62,3 @@ jobs:
           name: example-documents
           path: examples
           retention-days: 3
-
-      - name: Run CI Script
-        id: pnpm-ci
-        run: pnpm ci
