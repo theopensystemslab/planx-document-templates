@@ -47,7 +47,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Fee paid
         </dt>
         <dd>
-          {typeof fee === "string" && `£${fee}`}
+          {typeof fee === "number" && `£${fee}`}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>}
