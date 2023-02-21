@@ -47,6 +47,7 @@ export function prettyResponse(data: PlanXExportData["responses"]): string {
     return data ? "True" : "False";
   } 
   if (Array.isArray(data)) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return getResponseValuesFromList(data);
   }
   return "Error displaying response";

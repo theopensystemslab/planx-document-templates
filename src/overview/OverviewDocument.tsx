@@ -9,7 +9,9 @@ import { getToday, prettyQuestion, prettyResponse, validatePlanXExportData } fro
 function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
   const siteAddress = props.data.find(d => d.question === "site")?.responses;
   const sessionId = props.data.find(d => d.question === "Planning Application Reference")?.responses;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const payRef = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.["payment_id"];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const fee = props.data.find(d => d.question === "application.fee.reference.govPay")?.responses?.["amount"];
   return (
     <Box component="dl" sx={{ ...gridStyles, border: "none" }}>
@@ -45,7 +47,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Fee paid
         </dt>
         <dd>
-          {`£${fee}`}
+          {typeof fee === "string" && `£${fee}`}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>}
@@ -145,7 +147,8 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
                 : prettyResponse(d.responses)
               }
             </dd>
-            <dd style={{ fontStyle: "italic" }}>{typeof d.metadata === "object" && Boolean(d.metadata?.auto_answered) ? "Auto-answered" : ""}</dd>
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
+            <dd style={{ fontStyle: "italic" }}>{typeof d.metadata === "object" && Boolean(d.metadata?.["auto_answered"]) ? "Auto-answered" : ""}</dd>
           </React.Fragment>
         ))}
       </Box>
