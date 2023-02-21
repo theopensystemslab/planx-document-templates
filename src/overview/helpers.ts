@@ -33,7 +33,7 @@ export function prettyQuestion(data: PlanXExportData["question"]): string {
   };
 };
 
-export function prettyResponse(data: PlanXExportData["responses"]): string | number {
+export function prettyResponse(data: PlanXExportData["responses"]): string {
   if (!data) {
     return "";
   }
@@ -41,7 +41,7 @@ export function prettyResponse(data: PlanXExportData["responses"]): string | num
     return safeDecodeURI(data.trim());
   }
   if (typeof data === "number") {
-    return data;
+    return data.toString();
   }
   if (typeof data === "boolean") {
     return data ? "True" : "False";

@@ -18,7 +18,7 @@ function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
           Property address
         </dt>
         <dd>
-          {[siteAddress?.["address_1"]?.toString(), siteAddress?.["town"]?.toString(), siteAddress?.["postcode"]?.toString()].filter(Boolean).join(" ")}
+          {[siteAddress?.["address_1"], siteAddress?.["town"], siteAddress?.["postcode"]].filter(Boolean).join(" ")}
         </dd>
         <dd>{""}</dd>
       </React.Fragment>
@@ -67,7 +67,7 @@ function Result(props: { data: PlanXExportData[] }): JSX.Element {
   return (
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
       <h2>It looks like</h2>
-      <span style={{ fontWeight: 700, padding: ".5em", backgroundColor: "#ffdd00" }}>{result?.["heading"]?.toString()}</span>
+      <span style={{ fontWeight: 700, padding: ".5em", backgroundColor: "#ffdd00" }}>{result?.["heading"]}</span>
       <p>This pre-assessment is based on the information provided by the applicant.</p>
     </Box>
   );
@@ -84,7 +84,7 @@ function AboutTheProperty(props: { data: PlanXExportData[] }): JSX.Element {
             Address
           </dt>
           <dd>
-            {[siteAddress?.["address_1"]?.toString(), siteAddress?.["town"]?.toString(), siteAddress?.["postcode"]?.toString()].filter(Boolean).join(" ")}
+            {[siteAddress?.["address_1"], siteAddress?.["town"], siteAddress?.["postcode"]].filter(Boolean).join(" ")}
           </dd>
           <dd>{""}</dd>
         </React.Fragment>
@@ -93,7 +93,7 @@ function AboutTheProperty(props: { data: PlanXExportData[] }): JSX.Element {
             UPRN
           </dt>
           <dd>
-            {siteAddress?.["uprn"]?.toString()}
+            {siteAddress?.["uprn"]}
           </dd>
           <dd>{""}</dd>
         </React.Fragment>
@@ -134,10 +134,10 @@ function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
               {prettyQuestion(d.question)}
             </dt>
             <dd>
-              {typeof prettyResponse(d.responses) === "string" && prettyResponse(d.responses)?.toString()?.split("\n")?.length > 1
+              {prettyResponse(d.responses)?.split("\n")?.length > 1
                 ? (
                   <ul style={{ lineHeight: "1.5em" }}>
-                    {prettyResponse(d.responses)?.toString()?.split("\n")?.map((response: string, i: number) => (
+                    {prettyResponse(d.responses)?.split("\n")?.map((response: string, i: number) => (
                       <li key={i}>{response}</li>
                     ))}
                   </ul>

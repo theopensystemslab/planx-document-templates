@@ -111,7 +111,7 @@ describe("prettyResponse", () => {
     ])).toEqual("Replace window with window\nReplace door with door"));
 
   test("It handles number responses", () => 
-    expect(prettyResponse(10300)).toEqual(10300));
+    expect(prettyResponse(10300)).toEqual("10300"));
 
   test("It handles plain text responses", () => 
     expect(prettyResponse("applicant@test.com")).toEqual("applicant@test.com"));
