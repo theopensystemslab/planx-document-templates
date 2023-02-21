@@ -2,6 +2,7 @@ import React from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
+import { LDCPTemplate } from "./templates/LDCPTemplate";
 import { LDCETemplate } from "./templates/LDCETemplate";
 import { hasValue, getString, applyRedactions } from "./helpers";
 import { Document, Packer } from "docx";
@@ -30,6 +31,19 @@ export const TEMPLATES: Record<string, Template> = {
       "applicant.phone.secondary",
     ],
     requirements: [{ key: "application.type", value: "ldc.existing" }],
+  },
+  LDCP: {
+    template: LDCPTemplate,
+    requirements: [{ key: "application.type", value: "ldc.proposed" }],
+  },
+  LDCP_redacted: {
+    template: LDCPTemplate,
+    redactions: [
+      "applicant.email",
+      "applicant.phone.primary",
+      "applicant.phone.secondary",
+    ],
+    requirements: [{ key: "application.type", value: "ldc.proposed" }],
   },
 };
 
@@ -74,7 +88,7 @@ export function hasRequiredDataForTemplate({
 }): boolean {
   const template: Template | undefined = TEMPLATES[templateName];
   if (!template) throw new Error(`Template "${templateName}" not found`);
-  for (const {key, value} of template.requirements) {
+  for (const { key, value } of template.requirements) {
     if (!hasValue(passport.data, key)) {
       return false;
     }
