@@ -9,10 +9,3 @@ export interface Passport {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>;
 }
-
-export interface ResponseObject {
-  value: string;
-  metadata?: {
-      flags?: string[];
-  }
-};
