@@ -12,7 +12,6 @@ declare global {
       showScale: boolean;
       hideResetControl: boolean;
       geojsonData: string;
-      id?: string;
     }
   }
 }
