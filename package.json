@@ -24,7 +24,7 @@
     "generate": "tsc --project tsconfig.prebuild.json && node ./dist/templates/generateTemplateExamples.js && pnpm build",
     "test": "vitest --run --dir src",
     "check": "tsc --emitDeclarationOnly false --noEmit && eslint 'src/**/*.{ts,tsx}'",
-    "build": "rimraf ./dist ./types && tsc --project tsconfig.json && vite build && cp index.html dist/index.html",
+    "build": "rimraf ./dist ./types && tsc --project tsconfig.json && vite build && sed 's/src=\".*\"/src=\"index.js\"/' index.html > dist/index.html",
     "prepare": "pnpm i -D rimraf vite && pnpm run build"
   },
   "dependencies": {
