@@ -20,7 +20,7 @@
     "declarationDir": "./types"
   },
   "include": [
-    "src"
+    "src/index.tsx"
   ],
   "exclude": [
     "src/**/*.test.ts",
