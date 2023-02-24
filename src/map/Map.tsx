@@ -13,6 +13,7 @@ declare global {
       hideResetControl: boolean;
       geojsonData: string;
       id?: string;
+      showPrint?: boolean;
     }
   }
 }

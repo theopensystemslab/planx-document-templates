@@ -210,6 +210,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
                     hideResetControl={true}
                     geojsonData={JSON.stringify(boundary)}
                     id="boundary-map"
+                    showPrint={true}
                   />
                 </Box>
               )}
