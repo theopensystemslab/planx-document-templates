@@ -21,9 +21,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "generate": "tsc --project tsconfig.prebuild.json && node ./dist/templates/generateTemplateExamples.js && pnpm build",
+    "generate": "tsc --project tsconfig.prebuild.json && node ./prebuild/scripts/generateTemplateExamples.js",
     "test": "vitest --run --dir src",
-    "check": "tsc --emitDeclarationOnly false --noEmit && eslint 'src/**/*.{ts,tsx}'",
+    "check": "tsc --project tsconfig.check.json && eslint 'src/**/*.{ts,tsx}'",
     "build": "rimraf ./dist ./types && tsc --project tsconfig.json && vite build",
     "prepare": "pnpm i -D rimraf vite && pnpm run build"
   },

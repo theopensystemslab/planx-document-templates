@@ -5,8 +5,13 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "emitDeclarationOnly": false,
-    "outDir": "dist/"
+    "declaration": false, 
+    "outDir": "prebuild",
+    "rootDir": "."
   },
-  "include": ["src/templates/*", "src/data/*.json"]
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
+  ],
+  "include": ["src", "data", "scripts"]
 }

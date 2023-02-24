@@ -3,24 +3,30 @@ import { validatePlanXExportData, safeDecodeURI, prettyQuestion, prettyResponse 
 
 describe("validatePlanXExportData", () => {
   test("null", () => {
+    //@ts-ignore
     expect(validatePlanXExportData(null)).toBe(false);
   });
   test("undefined", () => {
+    //@ts-ignore
     expect(validatePlanXExportData(undefined)).toBe(false);
   });
   test("object", () => {
+    //@ts-ignore
     expect(validatePlanXExportData({})).toBe(false);
   });
   test("empty", () => {
+    //@ts-ignore
     expect(validatePlanXExportData([])).toBe(false);
   });
   test("empty object", () => {
+    //@ts-ignore
     expect(validatePlanXExportData([{}])).toBe(false);
   });
   test("invalid", () => {
     expect(
       validatePlanXExportData([
         {
+          //@ts-ignore
           q: "really?",
           a: "no",
         },
@@ -31,6 +37,7 @@ describe("validatePlanXExportData", () => {
     expect(
       validatePlanXExportData([
         {
+          //@ts-ignore
           q: "really?",
           a: "no",
         },

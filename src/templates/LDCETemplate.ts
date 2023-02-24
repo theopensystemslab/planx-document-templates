@@ -1,4 +1,4 @@
-import { getString as _getString, getBoolean as _getBoolean } from "./helpers";
+import { getString as _getString, getBoolean as _getBoolean } from "../helpers";
 import { buildFormTemplate } from "./builder";
 
 export function LDCETemplate(passport: { data: object }) {

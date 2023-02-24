@@ -2,7 +2,7 @@ import React from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCETemplate } from "./templates/LDCETemplate";
-import { hasValue, getString, applyRedactions } from "./templates/helpers";
+import { hasValue, getString, applyRedactions } from "./helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
 import { OverviewDocument } from "./overview/OverviewDocument";
