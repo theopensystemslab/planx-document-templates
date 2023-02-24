@@ -186,6 +186,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script src="https://cdn.jsdelivr.net/npm/@opensystemslab/map@0.7.2"></script>
         <title>{typeof documentTitle === "string" && documentTitle}</title>
+        <link rel="stylesheet" href="https://cdn.rawgit.com/Viglino/ol-ext/master/dist/ol-ext.min.css" />
       </head>
       <body>
         <Styles />
