@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 
-import example from "./data/example2.json";
+import example from "./data/example.json";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { OverviewDocument } from "./overview/OverviewDocument";
 
