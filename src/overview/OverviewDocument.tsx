@@ -184,7 +184,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script src="https://cdn.jsdelivr.net/npm/@opensystemslab/map"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@opensystemslab/map@0.7.2"></script>
         <title>{typeof documentTitle === "string" && documentTitle}</title>
       </head>
       <body>
