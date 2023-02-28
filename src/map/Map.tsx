@@ -14,6 +14,7 @@ declare global {
       geojsonData: string;
       id?: string;
       showPrint?: boolean;
+      useScalebarStyle?: boolean;
     }
   }
 }

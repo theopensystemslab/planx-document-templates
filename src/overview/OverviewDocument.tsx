@@ -187,6 +187,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
         <script src="https://cdn.jsdelivr.net/npm/@opensystemslab/map@0.7.2"></script>
         <title>{typeof documentTitle === "string" && documentTitle}</title>
         <link rel="stylesheet" href="https://cdn.rawgit.com/Viglino/ol-ext/master/dist/ol-ext.min.css" />
+        <script type="text/javascript" src="https://cdn.rawgit.com/Viglino/ol-ext/master/dist/ol-ext.min.js"></script>
       </head>
       <body>
         <Styles />
@@ -208,6 +209,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
                   <my-map
                     showNorthArrow={true}
                     showScale={true}
+                    useScalebarStyle={true}
                     hideResetControl={true}
                     geojsonData={JSON.stringify(boundary)}
                     id="boundary-map"
