@@ -12,7 +12,8 @@ import {
   TEMPLATES,
 } from "../src";
 import { buildTestTemplate } from "../src/templates/testTemplate";
-import exampleLDCData from "../data/exampleLDC.json";
+import exampleLDCEData from "../data/exampleLDCE.json";
+import exampleLDCPData from "../data/exampleLDCP.json";
 import exampleData from "../data/example.json";
 
 (async () => {
@@ -25,7 +26,6 @@ import exampleData from "../data/example.json";
     console.log(e);
   }
 })();
-
 
 async function setUpExampleDir() {
   if (!existsSync("./examples")) {
@@ -56,17 +56,26 @@ async function generateTemplateExamples() {
     writeFileSync(`./examples/Test.docx`, buffer);
   });
 
+  // setup test data
+  const examples: Record<string, { data: any }> = {
+    LDCE: exampleLDCEData as { data: any },
+    LDCE_redacted: exampleLDCEData as { data: any },
+    LDCP: exampleLDCPData as { data: any },
+    LDCP_redacted: exampleLDCPData as { data: any },
+  };
+
   // build templates
-  const promises: Promise<void>[] = Object.keys(TEMPLATES).map(
+  const promises: Promise<void>[] = Object.keys(examples).map(
     async (templateName) => {
       const file = createWriteStream(`./examples/${templateName}.docx`);
       const docStream = generateDocxTemplateStream({
         templateName,
-        passport: exampleLDCData,
+        passport: examples[templateName],
       }).pipe(file);
       return resolveStream(docStream);
     }
   );
+
   await waitForAllOrExit(promises);
 }
 

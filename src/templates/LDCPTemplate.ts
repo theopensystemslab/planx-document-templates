@@ -9,7 +9,7 @@ export function LDCPTemplate(passport: { data: object }) {
 
   return buildFormTemplate({
     presets: {
-      title: "Application for a Lawful Development Certificate - Existing",
+      title: "Application for a Lawful Development Certificate - Proposed",
       subtitle:
         "Town and Country Planning Act 1990: Section 191 as amended by section 10 of the Planning and Compensation Act 1991. Town and Country Planning (Development Management Procedure) (England) Order 2015",
     },
@@ -162,7 +162,30 @@ export function LDCPTemplate(passport: { data: object }) {
       {
         title: "8. Description of Proposal",
         fields: [
-          // TODO
+          {
+            name: "a) Does the proposal consist of or include the carrying out of building or other operations?",
+            value: "", // intentionally blank
+          },
+          {
+            name: "If Yes to a, please give detailed description of all such operations (includes the need to describe any proposal to alter or create a new access, layout any new street, construct any associated hard-standings, means of enclosure or means of draining the land/buildings) and indicate on your plans (in the case of a proposed building the plan should indicate the precise siting and exact dimensions):", 
+            value: "", // intentionally blank
+          },
+          {
+            name: "b) Does the proposal consist of or include change to use of the land or building(s)?",
+            value: "", // intentionally blank
+          },
+          {
+            name: "If Yes to b, please give a full description of the scale and nature of the proposed use, including the processes to be carried out, any machinery to be installed and the hours the proposed use will be carried out:",
+            value: "", // intentionally blank
+          },
+          {
+            name: "If Yes to b, please describe fully the existing or the last known use, with the date this use ceased:",
+            value: "", // intentionally blank
+          },
+          {
+            name: "Has the proposal been started?",
+            value: "", // intentionally blank
+          }
         ],
       },
       {
