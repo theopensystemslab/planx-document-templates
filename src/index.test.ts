@@ -106,6 +106,16 @@ describe("hasRequiredDataForTemplate", () => {
         },
       })
     ).toBe(false);
+    expect(
+      hasRequiredDataForTemplate({
+        templateName: "LDCP",
+        passport: {
+          data: {
+            "application.type": "ldc.existing",
+          },
+        },
+      })
+    ).toBe(false);
   });
 
   test("it returns false when required data is not provided", () => {
