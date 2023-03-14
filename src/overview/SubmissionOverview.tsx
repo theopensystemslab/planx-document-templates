@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import { Global, css } from "@emotion/react";
 import { validatePlanXExportData } from "./helpers";
 import type { PlanXExportData } from "../types";
+import groupBy from "lodash.groupby";
 
 export function SubmissionOverviewDocument(props: {
   data: PlanXExportData[];
@@ -26,6 +27,8 @@ export function SubmissionOverviewDocument(props: {
 export function SubmissionOverview(props: {
   data: PlanXExportData[];
 }): JSX.Element {
+  const hasSections = props.data.some(response => response.metadata?.section_name);
+
   return (
     <React.Fragment>
       <Styles />
@@ -45,8 +48,11 @@ export function SubmissionOverview(props: {
           <h1 style={{ textAlign: "center" }}>PlanX Submission Overview</h1>
         </Grid>
         <Grid item xs={12} md={6} sx={{ paddingTop: 0 }}>
-          <h2>Data</h2>
-          <DataList data={props.data} />
+          {hasSections ? <SectionList data={props.data} /> : <>
+            <h2>Data</h2>
+            <DataList data={props.data} />
+          </>
+          }
         </Grid>
       </Grid>
     </React.Fragment>
@@ -67,6 +73,22 @@ function Styles() {
         }
       `}
     />
+  );
+}
+
+function SectionList(props: { data: PlanXExportData[] }) {
+  const sections = groupBy(props.data, "metadata.section_name")
+  return (
+    <>
+      {
+        Object.entries(sections).map(([title, data]) => (
+          <section key={title}>
+            <h2>{title}</h2>
+            <DataList data={data} />
+          </section>
+        ))
+      }
+    </>
   );
 }
 

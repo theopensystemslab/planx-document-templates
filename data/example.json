@@ -498,22 +498,18 @@
       "responses": [{ "value": "Yes" }]
     },
     {
-      "metadata": "",
       "question": "File upload: Existing, Plan",
       "responses": "WhatsApp%20Image%202022-07-01%20at%2011.18.03%20AM%20%281%29.jpeg"
     },
     {
-      "metadata": "",
       "question": "File upload: Proposed, Plan",
       "responses": "WhatsApp%20Image%202022-07-01%20at%2011.18.03%20AM%20%281%29.jpeg"
     },
     {
-      "metadata": "",
       "question": "File upload: Existing, Elevation",
       "responses": "WhatsApp%20Image%202022-07-01%20at%2011.18.03%20AM%20%281%29.jpeg"
     },
     {
-      "metadata": "",
       "question": "File upload: Proposed, Elevation",
       "responses": "WhatsApp%20Image%202022-07-01%20at%2011.18.03%20AM%20%281%29.jpeg"
     }
