@@ -69,7 +69,7 @@ describe("generateHTMLOverviewStream", () => {
   test("it creates a readable stream", () => {
     expect(
       generateHTMLOverviewStream([
-        { question: "?", responses: { value: "yes" }, metadata: { q: "a" } },
+        { question: "?", responses: { value: "yes" }, metadata: { section_name: "First section" } },
       ])
     ).toBeTruthy();
   });

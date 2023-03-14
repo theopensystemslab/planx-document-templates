@@ -1,8 +1,16 @@
 export interface PlanXExportData {
   question: string;
   responses: unknown;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  metadata?: any;
+  metadata?: {
+    portal_name?: string;
+    section_name?: string;
+    policy_refs?: PolicyRefs[];
+    flags?: string[];
+  };
+}
+
+export interface PolicyRefs {
+  text: string;
 }
 
 export interface Passport {
