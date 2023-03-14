@@ -3,8 +3,7 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-
-import example from "./data/example.json";
+import example from "../data/exampleWithSections.json";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { OverviewDocument } from "./overview/OverviewDocument";
 

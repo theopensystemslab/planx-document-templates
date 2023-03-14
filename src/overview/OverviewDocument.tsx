@@ -5,6 +5,7 @@ import prettyTitle from "lodash.startcase";
 import * as React from "react";
 import { PlanXExportData } from "../types";
 import { getToday, prettyQuestion, prettyResponse, validatePlanXExportData } from "./helpers";
+import groupBy from "lodash.groupby";
 
 function Highlights(props: { data: PlanXExportData[] }): JSX.Element {
   const siteAddress = props.data.find(d => d.question === "site")?.responses;
@@ -126,33 +127,76 @@ function Boundary(props: { data: PlanXExportData[] }): JSX.Element {
 }
 
 function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
+  const hasSections = props.data.some(response => response.metadata?.section_name);
   return (
     <Box>
-      <h2>Proposal details</h2>
-      <Box component="dl" sx={gridStyles}>
-        {props.data.map((d, i) => (
-          <React.Fragment key={i}>
-            <dt>
-              {prettyQuestion(d.question)}
-            </dt>
-            <dd>
-              {prettyResponse(d.responses)?.split("\n")?.length > 1
-                ? (
-                  <ul style={{ lineHeight: "1.5em" }}>
-                    {prettyResponse(d.responses)?.split("\n")?.map((response: string, i: number) => (
-                      <li key={i}>{response}</li>
-                    ))}
-                  </ul>
-                )
-                : prettyResponse(d.responses)
-              }
-            </dd>
-            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
-            <dd style={{ fontStyle: "italic" }}>{typeof d.metadata === "object" && Boolean(d.metadata?.["auto_answered"]) ? "Auto-answered" : ""}</dd>
-          </React.Fragment>
-        ))}
-      </Box>
+      { hasSections ? 
+        <SectionList data={props.data} /> : 
+        <>
+          <h2>Proposal details</h2>
+          <Box component="dl" sx={gridStyles}>
+            {props.data.map((item, index) => (
+              <DataItem key={index} data={item} />
+            ))}
+          </Box>
+        </>
+      }
     </Box>
+  );
+}
+
+function SectionList(props: { data: PlanXExportData[] }) {
+  const sections: Record<string, PlanXExportData[]> = groupBy(props.data, "metadata.section_name")
+  return (
+    <>
+      {
+        Object.entries(sections).map(([title, data]) => (
+          <section key={title}>
+            <h2>{title}</h2>
+            <DataList data={data} />
+          </section>
+        ))
+      }
+    </>
+  );
+}
+
+function DataList(props: { data: PlanXExportData[] }) {
+  const hasValidDataStructure = validatePlanXExportData(props.data);
+  return (
+    <React.Fragment>
+      {hasValidDataStructure ? (
+        props.data.map((item: PlanXExportData, index: number) => (
+          <DataItem key={index} data={item} />
+        ))
+      ) : (
+        <p>Data not available</p>
+      )}{" "}
+    </React.Fragment>
+  );
+}
+
+function DataItem(props: { data: PlanXExportData }) {
+  return (
+    <React.Fragment>
+      <dt>
+        {prettyQuestion(props.data.question)}
+      </dt>
+      <dd>
+        {prettyResponse(props.data.responses)?.split("\n")?.length > 1
+          ? (
+            <ul style={{ lineHeight: "1.5em" }}>
+              {prettyResponse(props.data.responses)?.split("\n")?.map((response: string, i: number) => (
+                <li key={i}>{response}</li>
+              ))}
+            </ul>
+          )
+          : prettyResponse(props.data.responses)
+        }
+      </dd>
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
+      <dd style={{ fontStyle: "italic" }}>{typeof props.data.metadata === "object" && Boolean(props.data.metadata?.["auto_answered"]) ? "Auto-answered" : ""}</dd>
+    </React.Fragment>
   );
 }
 
