@@ -126,21 +126,15 @@ function Boundary(props: { data: PlanXExportData[] }): JSX.Element {
   );
 }
 
-function ProposalDetails(props: { data: PlanXExportData[] }): JSX.Element {
-  const hasSections = props.data.some(response => response.metadata?.section_name);
+function ProposalDetails(props: { data: PlanXExportData[], title?: string }): JSX.Element {
   return (
     <Box>
-      { hasSections ? 
-        <SectionList data={props.data} /> : 
-        <>
-          <h2>Proposal details</h2>
-          <Box component="dl" sx={gridStyles}>
-            {props.data.map((item, index) => (
-              <DataItem key={index} data={item} />
-            ))}
-          </Box>
-        </>
-      }
+      <h2>{props.title || "Proposal details"}</h2>
+      <Box component="dl" sx={gridStyles}>
+        {props.data.map((item, index) => (
+          <DataItem key={index} data={item} />
+        ))}
+      </Box>
     </Box>
   );
 }
@@ -150,29 +144,11 @@ function SectionList(props: { data: PlanXExportData[] }) {
   return (
     <>
       {
-        Object.entries(sections).map(([title, data]) => (
-          <section key={title}>
-            <h2>{title}</h2>
-            <DataList data={data} />
-          </section>
+        Object.entries(sections).map(([title, data], index) => (
+          data.length && <ProposalDetails data={data} title={title} key={index}/> 
         ))
       }
     </>
-  );
-}
-
-function DataList(props: { data: PlanXExportData[] }) {
-  const hasValidDataStructure = validatePlanXExportData(props.data);
-  return (
-    <React.Fragment>
-      {hasValidDataStructure ? (
-        props.data.map((item: PlanXExportData, index: number) => (
-          <DataItem key={index} data={item} />
-        ))
-      ) : (
-        <p>Data not available</p>
-      )}{" "}
-    </React.Fragment>
   );
 }
 
@@ -222,6 +198,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
     "result",
   ];
   const filteredProposalDetails = props.data.filter(d => !removeableQuestions.includes(d.question));
+  const hasSections = props.data.some(response => response.metadata?.section_name);
 
   return (
     <html>
@@ -267,7 +244,10 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
               <Box sx={{ display: "flex" }}>
                 <Boundary data={props.data} />
               </Box>
-              <ProposalDetails data={filteredProposalDetails} />
+              { hasSections ?
+                <SectionList data={filteredProposalDetails}/> :
+                <ProposalDetails data={filteredProposalDetails}/>
+              }
             </>
           )}
         </Grid>
