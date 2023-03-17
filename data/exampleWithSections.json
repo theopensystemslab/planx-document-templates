@@ -1,6 +1,59 @@
 {
   "data": [
     {
+      "question": "Planning Application Reference",
+      "responses": "fcdaabb2-1feb-47cb-94fa-f9d5148b2efb"
+    },
+    {
+      "question": "result",
+      "responses": {
+        "flag": "Planning permission / Not development",
+        "heading": "Not development",
+        "description": "It looks like the proposed changes may not fall within the legal definition of ‘development’, and therefore would not require planning permission."
+      }
+    },
+    {
+      "question": "site",
+      "responses": {
+        "town": "HIGH WYCOMBE",
+        "uprn": "200000797602",
+        "latitude": 51.6274191,
+        "postcode": "HP11 1BB",
+        "address_1": "BUCKINGHAMSHIRE COUNCIL, COUNCIL OFFICES, QUEEN VICTORIA ROAD",
+        "longitude": -0.7489513
+      }
+    },
+    {
+      "question": "boundary_geojson",
+      "responses": {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -0.7491888117037445,
+                51.62746573090956
+              ],
+              [
+                -0.7487475045017631,
+                51.627460469121615
+              ],
+              [
+                -0.7490133156060904,
+                51.627360716173484
+              ],
+              [
+                -0.7491888117037445,
+                51.62746573090956
+              ]
+            ]
+          ]
+        },
+        "properties": null
+      }
+    },
+    {
       "responses": [
         {
           "value": "Yes"
