@@ -12,6 +12,9 @@ declare global {
       showScale: boolean;
       hideResetControl: boolean;
       geojsonData: string;
+      id?: string;
+      showPrint?: boolean;
+      useScalebarStyle?: boolean;
     }
   }
 }

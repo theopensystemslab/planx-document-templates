@@ -1,12 +1,12 @@
 import React from "react";
 import { renderToPipeableStream } from "react-dom/server";
-import { SubmissionOverviewDocument } from "./overview/SubmissionOverview";
 import { BoundaryMapDocument } from "./map/BoundaryMapDocument";
 import { LDCPTemplate } from "./templates/LDCPTemplate";
 import { LDCETemplate } from "./templates/LDCETemplate";
 import { hasValue, getString, applyRedactions } from "./helpers";
 import { Document, Packer } from "docx";
 import type { Passport, PlanXExportData } from "./types";
+import { OverviewDocument } from "./overview/OverviewDocument";
 
 export type Template = {
   template: (passport: { data: object }) => Document;
@@ -49,7 +49,7 @@ export const TEMPLATES: Record<string, Template> = {
 
 export function generateHTMLOverviewStream(planXExportData: PlanXExportData[]) {
   return renderToPipeableStream(
-    <SubmissionOverviewDocument data={planXExportData} />
+    <OverviewDocument data={planXExportData} />
   );
 }
 
