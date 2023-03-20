@@ -15,6 +15,7 @@ import { buildTestTemplate } from "../src/templates/testTemplate";
 import exampleLDCEData from "../data/exampleLDCE.json";
 import exampleLDCPData from "../data/exampleLDCP.json";
 import exampleData from "../data/example.json";
+import exampleSectionData from "../data/exampleWithSections.json";
 
 (async () => {
   try {
@@ -35,6 +36,7 @@ async function setUpExampleDir() {
 
 async function generateHTMLExamples() {
   const data = exampleData.data;
+  const sectionData = exampleSectionData.data;
   const geojson = exampleData.geojson;
 
   const promises: Promise<void>[] = [];
@@ -42,6 +44,10 @@ async function generateHTMLExamples() {
   const htmlFile = createWriteStream(`./examples/Overview.html`);
   const htmlStream = generateHTMLOverviewStream(data).pipe(htmlFile);
   promises.push(resolveStream(htmlStream));
+
+  const sectionHtmlFile = createWriteStream(`./examples/Overview_with_sections.html`);
+  const sectionHtmlStream = generateHTMLOverviewStream(sectionData).pipe(sectionHtmlFile);
+  promises.push(resolveStream(sectionHtmlStream));
 
   const mapFile = createWriteStream(`./examples/LocationPlan.html`);
   const mapStream = generateHTMLMapStream(geojson).pipe(mapFile);
