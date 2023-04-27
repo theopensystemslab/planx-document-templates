@@ -1,7 +1,7 @@
 {
   "name": "@opensystemslab/planx-document-templates",
   "version": "1.0.0",
-  "license": "OGL-UK-3.0",
+  "license": "MPL-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/theopensystemslab/planx-document-templates.git"
