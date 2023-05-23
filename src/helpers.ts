@@ -7,17 +7,15 @@ export function hasValue(data: object, path: string): boolean {
 }
 
 export function getString(data: object, path: string): string {
-  const value: any = get({ data, path }) ?? "";
-  if (Array.isArray(value)) {
-    return value[0] ? String(value[0]) : "";
-  }
-  return String(value);
+  return getStrings(data, path).join(", ");
 }
 
 export function getStrings(data: object, path: string): string[] {
   const values: any = get({ data, path }) ?? [];
   if (Array.isArray(values)) {
     return values.map((x) => String(x));
+  } else if (values !== null) {
+    return [String(values)];
   }
   return [];
 }
