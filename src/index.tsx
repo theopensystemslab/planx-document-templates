@@ -29,6 +29,7 @@ export const TEMPLATES: Record<string, Template> = {
       "applicant.email",
       "applicant.phone.primary",
       "applicant.phone.secondary",
+      "applicant.sameAddress.form"
     ],
     requirements: [{ key: "application.type", value: "ldc.existing" }],
   },
@@ -42,6 +43,7 @@ export const TEMPLATES: Record<string, Template> = {
       "applicant.email",
       "applicant.phone.primary",
       "applicant.phone.secondary",
+      "applicant.sameAddress.form"
     ],
     requirements: [{ key: "application.type", value: "ldc.proposed" }],
   },
