@@ -25,7 +25,16 @@ export function LDCPTemplate(passport: { data: object }) {
           },
           {
             name: "Address",
-            value: get("applicant.address.singleLine"),
+            value: [
+              get("applicant.address.line1"),
+              get("applicant.address.line2"),
+              get("applicant.address.town"),
+              get("applicant.address.county"),
+              get("applicant.address.postcode"),
+              get("applicant.address.country"),
+            ]
+              .filter(Boolean)
+              .join(", "),
           },
         ],
       },
@@ -44,7 +53,16 @@ export function LDCPTemplate(passport: { data: object }) {
           },
           {
             name: "Agent address",
-            value: get("applicant.agent.address.singleLine"),
+            value: [
+              get("applicant.agent.address.line1"),
+              get("applicant.agent.address.line2"),
+              get("applicant.agent.address.town"),
+              get("applicant.agent.address.county"),
+              get("applicant.agent.address.postcode"),
+              get("applicant.agent.address.country"),
+            ]
+              .filter(Boolean)
+              .join(", "),
           },
         ],
       },
@@ -57,7 +75,7 @@ export function LDCPTemplate(passport: { data: object }) {
           },
           {
             name: "Site address",
-            value: get("property.address.singleLine"),
+            value: get("_address.single_line_address") || get("_address.title"),
           },
         ],
       },
@@ -149,14 +167,6 @@ export function LDCPTemplate(passport: { data: object }) {
             name: "Which of these do you need a lawful application certificate for?",
             value: get("application.about.form"),
           },
-          {
-            name: "If Yes to an existing use, please state which of the Use Classes the use relates to",
-            value: `Use class ${get("property.useClass")}`,
-          },
-          {
-            name: "What is the existing site use(s) for which the certificate of lawfulness is being sought? Please fully describe each use and state which part of the land the use relates to",
-            value: get("proposal.changeOfUse.details"),
-          },
         ],
       },
       {
@@ -167,12 +177,12 @@ export function LDCPTemplate(passport: { data: object }) {
             value: "", // intentionally blank
           },
           {
-            name: "If Yes to a, please give detailed description of all such operations (includes the need to describe any proposal to alter or create a new access, layout any new street, construct any associated hard-standings, means of enclosure or means of draining the land/buildings) and indicate on your plans (in the case of a proposed building the plan should indicate the precise siting and exact dimensions):", 
+            name: "If Yes to a, please give detailed description of all such operations (includes the need to describe any proposal to alter or create a new access, layout any new street, construct any associated hard-standings, means of enclosure or means of draining the land/buildings) and indicate on your plans (in the case of a proposed building the plan should indicate the precise siting and exact dimensions):",
             value: "", // intentionally blank
           },
           {
             name: "b) Does the proposal consist of or include change to use of the land or building(s)?",
-            value: "", // intentionally blank
+            value: getBoolean("property.history.changeUse") ? "Yes" : "No",
           },
           {
             name: "If Yes to b, please give a full description of the scale and nature of the proposed use, including the processes to be carried out, any machinery to be installed and the hours the proposed use will be carried out:",
@@ -185,7 +195,7 @@ export function LDCPTemplate(passport: { data: object }) {
           {
             name: "Has the proposal been started?",
             value: "", // intentionally blank
-          }
+          },
         ],
       },
       {
@@ -301,7 +311,7 @@ export function LDCPTemplate(passport: { data: object }) {
         title: "10. Declaration",
         fields: [
           {
-            name: "I / We hereby apply for Lawful development: Existing use as described in this form and accompanying plans/drawings and additional information. I / We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine options of the persons giving them. I / We also accept that: Once submitted, this information will be transmitted to the Local Planning Authority and, once validated by them, be made available as part of a public register and on the authority's website; our system will automatically generate and send you emails in regard to the submission of this application.",
+            name: "I / We hereby apply for Lawful development: Proposed use as described in this form and accompanying plans/drawings and additional information. I / We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine options of the persons giving them. I / We also accept that: Once submitted, this information will be transmitted to the Local Planning Authority and, once validated by them, be made available as part of a public register and on the authority's website; our system will automatically generate and send you emails in regard to the submission of this application.",
             value: get("application.declaration.accurate.form"),
           },
           { name: "Date", value: new Date().toLocaleDateString("en-GB") },

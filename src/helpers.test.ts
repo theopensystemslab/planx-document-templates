@@ -163,13 +163,15 @@ describe("Passport helper functions", () => {
       };
       expect(getString(data, "a.b.c.d.e.f.g")).toEqual("it works");
     });
-    test("it unwraps array values", () => {
+    test("it unwraps and concatenates array values", () => {
       const data = {
         a: {
-          "b.c": ["it works"],
+          b: ["it", "works"],
+          c: ["Yes"],
         },
       };
-      expect(getString(data, "a.b.c")).toEqual("it works");
+      expect(getString(data, "a.b")).toEqual("it, works");
+      expect(getString(data, "a.c")).toEqual("Yes");
     });
     test("it returns an empty string when accessing empty values", () => {
       const data = {
@@ -220,9 +222,11 @@ describe("Passport helper functions", () => {
       const data = {
         a: {
           b: ["it", "works"],
+          c: ["Yes"],
         },
       };
       expect(getStrings(data, "a.b")).toEqual(["it", "works"]);
+      expect(getStrings(data, "a.c")).toEqual(["Yes"]);
     });
     test("it accesses data from nested keys", () => {
       const data = {

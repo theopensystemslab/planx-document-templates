@@ -25,7 +25,16 @@ export function LDCETemplate(passport: { data: object }) {
           },
           {
             name: "Address",
-            value: get("applicant.address.singleLine"),
+            value: [
+              get("applicant.address.line1"),
+              get("applicant.address.line2"),
+              get("applicant.address.town"),
+              get("applicant.address.county"),
+              get("applicant.address.postcode"),
+              get("applicant.address.country"),
+            ]
+              .filter(Boolean)
+              .join(", "),
           },
         ],
       },
@@ -44,7 +53,16 @@ export function LDCETemplate(passport: { data: object }) {
           },
           {
             name: "Agent address",
-            value: get("applicant.agent.address.singleLine"),
+            value: [
+              get("applicant.agent.address.line1"),
+              get("applicant.agent.address.line2"),
+              get("applicant.agent.address.town"),
+              get("applicant.agent.address.county"),
+              get("applicant.agent.address.postcode"),
+              get("applicant.agent.address.country"),
+            ]
+              .filter(Boolean)
+              .join(", "),
           },
         ],
       },
@@ -57,7 +75,7 @@ export function LDCETemplate(passport: { data: object }) {
           },
           {
             name: "Site address",
-            value: get("property.address.singleLine"),
+            value: get("_address.single_line_address") || get("_address.title"),
           },
         ],
       },
