@@ -163,7 +163,7 @@ describe("Passport helper functions", () => {
       };
       expect(getString(data, "a.b.c.d.e.f.g")).toEqual("it works");
     });
-    test("it unwraps and concatanates array values", () => {
+    test("it unwraps and concatenates array values", () => {
       const data = {
         a: {
           b: ["it", "works"],

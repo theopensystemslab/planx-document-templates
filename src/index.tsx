@@ -29,7 +29,13 @@ export const TEMPLATES: Record<string, Template> = {
       "applicant.email",
       "applicant.phone.primary",
       "applicant.phone.secondary",
-      "applicant.sameAddress.form"
+      "applicant.address.line1",
+      "applicant.address.line2",
+      "applicant.address.town",
+      "applicant.address.county",
+      "applicant.address.postcode",
+      "applicant.address.country",
+      "applicant.sameAddress.form",
     ],
     requirements: [{ key: "application.type", value: "ldc.existing" }],
   },
@@ -43,16 +49,20 @@ export const TEMPLATES: Record<string, Template> = {
       "applicant.email",
       "applicant.phone.primary",
       "applicant.phone.secondary",
-      "applicant.sameAddress.form"
+      "applicant.address.line1",
+      "applicant.address.line2",
+      "applicant.address.town",
+      "applicant.address.county",
+      "applicant.address.postcode",
+      "applicant.address.country",
+      "applicant.sameAddress.form",
     ],
     requirements: [{ key: "application.type", value: "ldc.proposed" }],
   },
 };
 
 export function generateHTMLOverviewStream(planXExportData: PlanXExportData[]) {
-  return renderToPipeableStream(
-    <OverviewDocument data={planXExportData} />
-  );
+  return renderToPipeableStream(<OverviewDocument data={planXExportData} />);
 }
 
 export function generateHTMLMapStream(geojson: object) {
