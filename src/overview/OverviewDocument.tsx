@@ -228,6 +228,7 @@ export function OverviewDocument(props: { data: PlanXExportData[] }) {
               {boundary && (
                 <Box sx={{ marginBottom: 1 }}>
                   <my-map
+                    staticMode={true}
                     showNorthArrow={true}
                     showScale={true}
                     useScalebarStyle={true}
