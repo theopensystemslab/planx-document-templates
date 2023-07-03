@@ -4,3 +4,4 @@ dist/
 prebuild/
 types/
 examples/
+.vscode
