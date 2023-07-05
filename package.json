@@ -32,7 +32,6 @@
     "@emotion/styled": "^11.10.5",
     "@lit-labs/ssr": "^2.2.3",
     "@mui/material": "5.11.9",
-    "@rollup/plugin-commonjs": "^23.0.3",
     "docx": "^7.8.2",
     "lodash.groupby": "^4.6.0",
     "lodash.startcase": "^4.4.0",
