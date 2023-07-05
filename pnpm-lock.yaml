@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@emotion/react':
     specifier: ^11.10.5
@@ -8,8 +12,8 @@ dependencies:
     specifier: ^11.10.5
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.14)(react@18.2.0)
   '@lit-labs/ssr':
-    specifier: ^2.2.3
-    version: 2.3.0
+    specifier: ^3.1.4
+    version: 3.1.4
   '@mui/material':
     specifier: 5.11.9
     version: 5.11.9(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
@@ -1825,11 +1829,12 @@ packages:
     resolution: {integrity: sha512-kXOeFbfCm4fFf2A3WwVEeQj55tMZa8c8/f9AKHMobQMkzNUfUj+antR3fRPaZJawsa1aZiP/Da3ndpZrwEe4rQ==}
     dev: false
 
-  /@lit-labs/ssr@2.3.0:
-    resolution: {integrity: sha512-uPaJoNf5w3t8DOVDpuI4WR6wo552mZwiiE9n9TpIvinh75lDgvl1ki07wvfrFI6VEbDVPRj4jHiCduBr1dVJ7A==}
+  /@lit-labs/ssr@3.1.4:
+    resolution: {integrity: sha512-oxIEjm42Hzl47FFZU/yr8OPYECwfx+Zl6pGXomZhM1byqIVtGEFzVHd/4kLkKhCiHP4Fz786x8j2Qq5ZA2LTBQ==}
     engines: {node: '>=13.9.0'}
     dependencies:
       '@lit-labs/ssr-client': 1.1.2
+      '@lit-labs/ssr-dom-shim': 1.1.1
       '@lit/reactive-element': 1.6.2
       '@parse5/tools': 0.1.0
       '@types/node': 16.18.38
