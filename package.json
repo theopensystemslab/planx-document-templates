@@ -30,7 +30,6 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@lit-labs/ssr": "^2.2.3",
     "@mui/material": "5.11.9",
     "@rollup/plugin-commonjs": "^23.0.3",
     "docx": "^8.2.0",
@@ -59,8 +58,5 @@
     "typescript": "^5.1.6",
     "vite": "^3.2.7",
     "vitest": "^0.33.0"
-  },
-  "engines": {
-    "node": "^18"
   }
 }
